@@ -1843,6 +1843,7 @@ footer {
   transform: translateY(0);
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -2700,51 +2701,53 @@ document.getElementById('adminOverlay').addEventListener('click', e => {
 });
 
 // ─── FORM SUBMIT ───
-function submitForm() {
-  const required = ['f-pseudo','f-age','f-game','f-role','f-rank','f-availability','f-discord','f-email','f-motivation'];
-  let valid = true;
-  required.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el.value.trim()) { el.style.borderColor = 'var(--wlf-red-bright)'; valid = false; }
-    else el.style.borderColor = '';
-  });
-  if (!valid) { showToast('⚠️ Formulaire incomplet', 'Veuillez remplir tous les champs obligatoires'); return; }
+<script>
+// ==================== SUPABASE CONFIG ====================
+const supabaseUrl = 'https://guokausurfoenqtwyrik.supabase.co';
+const supabaseKey = 'sb_publishable_52IsXfOIJMNU8ZWqY11y2A_aRTqHm';   // ← Ta clé
 
-  const newCand = {
-    id: candidatures.length + 1,
-    pseudo: document.getElementById('f-pseudo').value,
-    name: 'Nouveau joueur',
-    age: document.getElementById('f-age').value,
-    game: document.getElementById('f-game').value,
-    role: document.getElementById('f-role').value,
-    rank: document.getElementById('f-rank').value,
-    discord: document.getElementById('f-discord').value,
-    email: document.getElementById('f-email').value,
-    availability: document.getElementById('f-availability').value,
-    exp: document.getElementById('f-exp').value,
-    motivation: document.getElementById('f-motivation').value,
-    date: new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'short',year:'numeric'}),
-    status: 'pending',
-    note: ''
-  };
+const supabase = Supabase.createClient(supabaseUrl, supabaseKey);
 
-  candidatures.unshift(newCand);
+async function submitForm() {
+    const pseudo = document.getElementById('f-pseudo').value.trim();
+    const age = document.getElementById('f-age').value;
+    const game = document.getElementById('f-game').value;
+    const role = document.getElementById('f-role').value;
+    const rank = document.getElementById('f-rank').value;
+    const discord = document.getElementById('f-discord').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const motivation = document.getElementById('f-motivation').value.trim();
 
-  document.getElementById('form-body').style.display = 'none';
-  document.getElementById('form-success').classList.add('show');
+    if (!pseudo || !age || !discord || !motivation) {
+        alert("❌ Veuillez remplir tous les champs obligatoires (*)");
+        return;
+    }
 
-  showToast('🚀 Candidature reçue !', `${newCand.pseudo} — notification envoyée au staff`);
+    const { error } = await supabase
+        .from('candidatures')
+        .insert([{
+            pseudo: pseudo,
+            age: parseInt(age),
+            game: game || 'Valorant',
+            role: role,
+            rank: rank,
+            discord: discord,
+            email: email,
+            motivation: motivation,
+            status: 'en_attente'
+        }]);
+
+    if (error) {
+        console.error(error);
+        alert("Erreur lors de l'envoi : " + error.message);
+    } else {
+        // Affichage succès
+        document.getElementById('form-body').style.display = 'none';
+        document.getElementById('form-success').classList.add('show');
+        
+        showToast('✅ Candidature envoyée !', 'Le staff WLF a bien reçu ton dossier.');
+    }
 }
-
-// Smooth nav active
-window.addEventListener('scroll', () => {
-  const sections = ['hero','about','teams','results','recruit','discord'];
-  sections.forEach(s => {
-    const el = document.getElementById(s);
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-  });
-});
 </script>
 </body>
 </html>
