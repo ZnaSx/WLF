@@ -1,0 +1,2750 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WLF Esport — We Lead the Future</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --wlf-gold: #D4A017;
+  --wlf-gold-bright: #FFD04D;
+  --wlf-gold-dark: #8B6A0C;
+  --wlf-red: #C0392B;
+  --wlf-red-bright: #E74C3C;
+  --wlf-black: #080810;
+  --wlf-dark: #0D0D1A;
+  --wlf-panel: #11111F;
+  --wlf-card: #16162A;
+  --wlf-border: rgba(212,160,23,0.25);
+  --wlf-border-glow: rgba(212,160,23,0.6);
+  --wlf-text: #E8E8F0;
+  --wlf-text-muted: #7A7A9A;
+  --wlf-text-faint: #3A3A5C;
+  --font-display: 'Exo 2', sans-serif;
+  --font-body: 'Rajdhani', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--wlf-black);
+  color: var(--wlf-text);
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--wlf-dark); }
+::-webkit-scrollbar-thumb { background: var(--wlf-gold-dark); border-radius: 2px; }
+
+/* ─── BACKGROUND GRID ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(212,160,23,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,160,23,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 70px;
+  background: rgba(8,8,16,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--wlf-border);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo-emblem {
+  width: 44px;
+  height: 44px;
+  position: relative;
+}
+
+.logo-hex {
+  fill: none;
+  stroke: var(--wlf-gold);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 6px rgba(212,160,23,0.8));
+  animation: hexPulse 3s ease-in-out infinite;
+}
+
+@keyframes hexPulse {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(212,160,23,0.6)); }
+  50% { filter: drop-shadow(0 0 12px rgba(212,160,23,1)); }
+}
+
+.logo-text-nav {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 4px;
+  background: linear-gradient(135deg, var(--wlf-gold-bright), var(--wlf-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--wlf-text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 1px;
+  background: var(--wlf-gold);
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+
+.nav-links a:hover { color: var(--wlf-gold-bright); }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+.btn-nav {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--wlf-black);
+  background: linear-gradient(135deg, var(--wlf-gold-bright), var(--wlf-gold));
+  border: none;
+  padding: 10px 24px;
+  cursor: pointer;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: all 0.2s;
+}
+
+.btn-nav:hover { filter: brightness(1.15); }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 70px;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.hero-bg-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(212,160,23,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 50%, rgba(192,57,43,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 30%, rgba(212,160,23,0.06) 0%, transparent 60%);
+}
+
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--wlf-gold);
+  border-radius: 50%;
+  opacity: 0;
+  animation: particleFloat var(--dur) var(--delay) ease-in-out infinite;
+}
+
+@keyframes particleFloat {
+  0% { opacity: 0; transform: translateY(100vh) scale(0); }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.4; }
+  100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+}
+
+.hero-lines {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.scan-line {
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(212,160,23,0.4) 50%, transparent 100%);
+  animation: scanDown 8s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes scanDown {
+  0% { top: -1px; opacity: 0; }
+  5% { opacity: 0.6; }
+  95% { opacity: 0.6; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 900px;
+  padding: 0 24px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--wlf-gold);
+  border: 1px solid var(--wlf-border);
+  padding: 6px 18px;
+  margin-bottom: 36px;
+  background: rgba(212,160,23,0.05);
+  animation: fadeSlideDown 0.8s ease forwards;
+}
+
+.hero-badge::before {
+  content: '▶';
+  font-size: 8px;
+  animation: blink 1.5s step-end infinite;
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-logo-big {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 36px;
+  animation: fadeSlideDown 0.8s 0.2s ease both;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(60px, 10vw, 120px);
+  line-height: 0.9;
+  letter-spacing: -2px;
+  background: linear-gradient(135deg, #FFFFFF 0%, var(--wlf-gold-bright) 40%, var(--wlf-gold) 70%, var(--wlf-gold-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeSlideDown 0.8s 0.3s ease both;
+}
+
+.hero-subtitle {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(14px, 2vw, 18px);
+  letter-spacing: 8px;
+  color: var(--wlf-text-muted);
+  text-transform: uppercase;
+  margin-top: 16px;
+  margin-bottom: 48px;
+  animation: fadeSlideDown 0.8s 0.5s ease both;
+}
+
+.hero-subtitle span {
+  color: var(--wlf-gold);
+  font-weight: 600;
+}
+
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  animation: fadeSlideDown 0.8s 0.7s ease both;
+}
+
+.btn-primary {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--wlf-black);
+  background: linear-gradient(135deg, var(--wlf-gold-bright), var(--wlf-gold));
+  border: none;
+  padding: 16px 40px;
+  cursor: pointer;
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform 0.4s;
+}
+
+.btn-primary:hover::after { transform: translateX(100%); }
+.btn-primary:hover { filter: brightness(1.15) drop-shadow(0 0 20px rgba(212,160,23,0.6)); }
+
+.btn-secondary {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--wlf-gold);
+  background: transparent;
+  border: 1px solid var(--wlf-border-glow);
+  padding: 15px 36px;
+  cursor: pointer;
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-secondary:hover {
+  background: rgba(212,160,23,0.1);
+  border-color: var(--wlf-gold);
+}
+
+.hero-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 80px;
+  animation: fadeSlideDown 0.8s 0.9s ease both;
+}
+
+.hero-stat {
+  text-align: center;
+}
+
+.hero-stat-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 42px;
+  background: linear-gradient(135deg, var(--wlf-gold-bright), var(--wlf-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--wlf-text-muted);
+  text-transform: uppercase;
+  margin-top: 6px;
+  font-family: var(--font-display);
+}
+
+.hero-divider {
+  width: 1px;
+  height: 50px;
+  background: var(--wlf-border);
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: fadeIn 1s 1.2s ease both;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.scroll-line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--wlf-gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(1); opacity: 0.6; }
+  50% { transform: scaleY(0.5); opacity: 1; }
+}
+
+/* ─── SECTIONS ─── */
+section {
+  position: relative;
+  z-index: 1;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--wlf-gold);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1;
+  color: var(--wlf-text);
+}
+
+.section-title span {
+  background: linear-gradient(135deg, var(--wlf-gold-bright), var(--wlf-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--wlf-gold), transparent);
+  margin: 20px auto 0;
+}
+
+/* ─── ABOUT ─── */
+.about-section {
+  padding: 120px 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.about-visual {
+  position: relative;
+  height: 400px;
+}
+
+.about-hexgrid {
+  position: absolute;
+  inset: 0;
+}
+
+.hex-node {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.hex-node svg { position: absolute; inset: 0; }
+
+.hex-node-icon {
+  position: relative;
+  font-size: 20px;
+  z-index: 1;
+}
+
+.hex-node-label {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--wlf-gold);
+  text-transform: uppercase;
+}
+
+.hex-node:hover { transform: scale(1.1); }
+
+.about-text p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--wlf-text-muted);
+  margin-bottom: 20px;
+}
+
+.about-text p strong {
+  color: var(--wlf-gold);
+  font-weight: 600;
+}
+
+.wlf-values {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.value-card {
+  background: var(--wlf-card);
+  border: 1px solid var(--wlf-border);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.value-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: linear-gradient(to bottom, var(--wlf-gold), transparent);
+}
+
+.value-card-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--wlf-text-faint);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.value-card-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--wlf-gold);
+  letter-spacing: 1px;
+}
+
+/* ─── TEAMS ─── */
+.teams-section {
+  padding: 120px 48px;
+  background: var(--wlf-dark);
+  border-top: 1px solid var(--wlf-border);
+  border-bottom: 1px solid var(--wlf-border);
+}
+
+.teams-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.teams-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 48px;
+  border-bottom: 1px solid var(--wlf-border);
+}
+
+.team-tab {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--wlf-text-muted);
+  background: none;
+  border: none;
+  padding: 14px 32px;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.team-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--wlf-gold), var(--wlf-gold-bright));
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+
+.team-tab.active { color: var(--wlf-gold); }
+.team-tab.active::after { transform: scaleX(1); }
+
+.team-panel { display: none; }
+.team-panel.active { display: block; }
+
+.players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.player-card {
+  background: var(--wlf-panel);
+  border: 1px solid var(--wlf-border);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.player-card:hover {
+  border-color: var(--wlf-gold);
+  transform: translateY(-4px);
+}
+
+.player-card:hover .player-img-bg {
+  transform: scale(1.05);
+}
+
+.player-img-bg {
+  height: 220px;
+  background: linear-gradient(135deg, rgba(212,160,23,0.15), rgba(192,57,43,0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s;
+  font-size: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.player-img-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, var(--wlf-panel) 100%);
+  z-index: 1;
+}
+
+.player-avatar {
+  font-size: 60px;
+  z-index: 2;
+  position: relative;
+}
+
+.player-role-badge {
+  position: absolute;
+  top: 12px; right: 12px;
+  z-index: 3;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--wlf-gold);
+  background: rgba(212,160,23,0.15);
+  border: 1px solid var(--wlf-border);
+  padding: 4px 10px;
+}
+
+.player-info {
+  padding: 20px;
+}
+
+.player-pseudo {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: 1px;
+  color: var(--wlf-text);
+  margin-bottom: 4px;
+}
+
+.player-name {
+  font-size: 13px;
+  color: var(--wlf-text-muted);
+  letter-spacing: 1px;
+}
+
+.player-stats {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--wlf-border);
+}
+
+.player-stat {
+  text-align: center;
+}
+
+.player-stat-val {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--wlf-gold);
+}
+
+.player-stat-key {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--wlf-text-faint);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ─── RESULTS ─── */
+.results-section {
+  padding: 120px 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+}
+
+.match-list { display: flex; flex-direction: column; gap: 12px; }
+
+.match-card {
+  background: var(--wlf-card);
+  border: 1px solid var(--wlf-border);
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.match-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+}
+
+.match-card.win::before { background: #2ECC71; }
+.match-card.loss::before { background: var(--wlf-red-bright); }
+.match-card.pending::before { background: var(--wlf-gold); }
+
+.match-result-badge {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: 2px;
+  padding: 4px 12px;
+  min-width: 50px;
+  text-align: center;
+}
+
+.match-result-badge.win {
+  color: #2ECC71;
+  background: rgba(46,204,113,0.1);
+  border: 1px solid rgba(46,204,113,0.3);
+}
+
+.match-result-badge.loss {
+  color: var(--wlf-red-bright);
+  background: rgba(231,76,60,0.1);
+  border: 1px solid rgba(231,76,60,0.3);
+}
+
+.match-result-badge.pending {
+  color: var(--wlf-gold);
+  background: rgba(212,160,23,0.1);
+  border: 1px solid var(--wlf-border);
+}
+
+.match-info { flex: 1; }
+
+.match-opponent {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--wlf-text);
+}
+
+.match-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--wlf-text-muted);
+  margin-top: 4px;
+}
+
+.match-score {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 22px;
+  color: var(--wlf-gold);
+  min-width: 70px;
+  text-align: right;
+}
+
+.news-list { display: flex; flex-direction: column; gap: 16px; }
+
+.news-card {
+  background: var(--wlf-card);
+  border: 1px solid var(--wlf-border);
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.news-card:hover {
+  border-color: var(--wlf-gold);
+  background: var(--wlf-panel);
+}
+
+.news-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--wlf-gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.news-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--wlf-text);
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.news-date {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--wlf-text-muted);
+}
+
+/* ─── SOCIALS ─── */
+.socials-section {
+  padding: 80px 48px;
+  background: var(--wlf-dark);
+  border-top: 1px solid var(--wlf-border);
+  border-bottom: 1px solid var(--wlf-border);
+}
+
+.socials-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.socials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.social-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 36px 20px;
+  background: var(--wlf-panel);
+  border: 1px solid var(--wlf-border);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.social-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 120%, var(--sc-color, rgba(212,160,23,0.15)) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.social-card:hover::before { opacity: 1; }
+.social-card:hover { border-color: var(--sc-border, var(--wlf-gold)); transform: translateY(-4px); }
+
+.social-icon {
+  font-size: 36px;
+  line-height: 1;
+}
+
+.social-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--wlf-text);
+  text-transform: uppercase;
+}
+
+.social-count {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 24px;
+  color: var(--sc-accent, var(--wlf-gold));
+}
+
+.social-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--wlf-text-muted);
+  text-transform: uppercase;
+}
+
+/* ─── RECRUITMENT ─── */
+.recruit-section {
+  padding: 120px 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.recruit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.recruit-info h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+  color: var(--wlf-text);
+  margin-bottom: 20px;
+}
+
+.recruit-info p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--wlf-text-muted);
+  margin-bottom: 32px;
+}
+
+.open-positions { display: flex; flex-direction: column; gap: 12px; }
+
+.position-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--wlf-card);
+  border: 1px solid var(--wlf-border);
+}
+
+.position-dot {
+  width: 8px; height: 8px;
+  background: var(--wlf-gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(212,160,23,0.6);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 4px rgba(212,160,23,0.4); }
+  50% { box-shadow: 0 0 12px rgba(212,160,23,0.9); }
+}
+
+.position-game {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--wlf-text);
+}
+
+.position-role {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--wlf-gold);
+  letter-spacing: 1px;
+  margin-left: auto;
+}
+
+/* ─── FORM ─── */
+.recruit-form {
+  background: var(--wlf-panel);
+  border: 1px solid var(--wlf-border);
+  padding: 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.recruit-form::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--wlf-gold), var(--wlf-gold-bright), var(--wlf-gold), transparent);
+}
+
+.form-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 24px;
+  color: var(--wlf-text);
+  margin-bottom: 32px;
+  letter-spacing: 1px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--wlf-gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--wlf-border);
+  color: var(--wlf-text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  padding: 12px 16px;
+  outline: none;
+  transition: all 0.2s;
+  appearance: none;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--wlf-gold);
+  background: rgba(212,160,23,0.05);
+  box-shadow: 0 0 0 3px rgba(212,160,23,0.1);
+}
+
+.form-select option {
+  background: var(--wlf-dark);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-upload {
+  border: 2px dashed var(--wlf-border);
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.form-upload:hover {
+  border-color: var(--wlf-gold);
+  background: rgba(212,160,23,0.05);
+}
+
+.form-upload input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.upload-icon { font-size: 32px; margin-bottom: 8px; }
+
+.upload-text {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--wlf-text-muted);
+}
+
+.upload-subtext {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--wlf-text-faint);
+  margin-top: 4px;
+}
+
+.form-submit {
+  width: 100%;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--wlf-black);
+  background: linear-gradient(135deg, var(--wlf-gold-bright), var(--wlf-gold));
+  border: none;
+  padding: 18px;
+  cursor: pointer;
+  clip-path: polygon(16px 0%, 100% 0%, calc(100% - 16px) 100%, 0% 100%);
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.form-submit:hover {
+  filter: brightness(1.1) drop-shadow(0 0 20px rgba(212,160,23,0.5));
+}
+
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 48px;
+}
+
+.form-success.show { display: block; }
+
+.success-icon { font-size: 60px; margin-bottom: 16px; }
+
+.success-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 28px;
+  color: var(--wlf-gold);
+  margin-bottom: 12px;
+}
+
+.success-text {
+  font-size: 16px;
+  color: var(--wlf-text-muted);
+}
+
+/* ─── DISCORD ─── */
+.discord-section {
+  padding: 80px 48px;
+  background: linear-gradient(135deg, rgba(88,101,242,0.1) 0%, rgba(212,160,23,0.05) 100%);
+  border-top: 1px solid var(--wlf-border);
+  border-bottom: 1px solid var(--wlf-border);
+}
+
+.discord-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.discord-cta h2 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 42px;
+  color: var(--wlf-text);
+  margin-bottom: 16px;
+}
+
+.discord-cta p {
+  font-size: 16px;
+  color: var(--wlf-text-muted);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.btn-discord {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: white;
+  background: #5865F2;
+  border: none;
+  padding: 16px 36px;
+  cursor: pointer;
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.btn-discord:hover {
+  filter: brightness(1.15) drop-shadow(0 0 20px rgba(88,101,242,0.5));
+}
+
+.discord-widget-mock {
+  background: #2B2D31;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.discord-widget-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.discord-logo {
+  width: 36px;
+  height: 36px;
+  background: #5865F2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: white;
+}
+
+.discord-server-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: white;
+  font-size: 16px;
+}
+
+.discord-status {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+}
+
+.discord-members {
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.discord-member {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.discord-member:hover { background: rgba(255,255,255,0.06); }
+
+.member-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  background: var(--av-bg, #5865F2);
+  position: relative;
+}
+
+.member-status-dot {
+  position: absolute;
+  bottom: -1px; right: -1px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 2px solid #2B2D31;
+  background: var(--st-color, #23A55A);
+}
+
+.member-name {
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  font-family: var(--font-body);
+}
+
+.member-role {
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  margin-left: auto;
+}
+
+.discord-footer {
+  padding: 12px 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.online-count {
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.online-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #23A55A;
+}
+
+/* ─── ADMIN PANEL ─── */
+.admin-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-overlay.open { display: flex; }
+
+.admin-modal {
+  background: var(--wlf-dark);
+  border: 1px solid var(--wlf-border-glow);
+  width: 90vw;
+  max-width: 1100px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.admin-modal::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--wlf-gold), var(--wlf-red), var(--wlf-gold));
+}
+
+.admin-header {
+  padding: 28px 36px;
+  border-bottom: 1px solid var(--wlf-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 22px;
+  color: var(--wlf-gold);
+  letter-spacing: 2px;
+}
+
+.admin-subtitle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--wlf-text-muted);
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+.btn-close-admin {
+  background: none;
+  border: 1px solid var(--wlf-border);
+  color: var(--wlf-text-muted);
+  font-size: 20px;
+  width: 40px; height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-close-admin:hover { border-color: var(--wlf-red-bright); color: var(--wlf-red-bright); }
+
+/* ─── LOGIN ─── */
+.admin-login {
+  padding: 48px;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.login-form { display: flex; flex-direction: column; gap: 16px; }
+
+.login-icon {
+  font-size: 48px;
+  margin-bottom: 24px;
+  filter: drop-shadow(0 0 20px rgba(212,160,23,0.5));
+}
+
+.login-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+  color: var(--wlf-text);
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--wlf-text-muted);
+  margin-bottom: 32px;
+}
+
+.login-error {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--wlf-red-bright);
+  background: rgba(231,76,60,0.1);
+  border: 1px solid rgba(231,76,60,0.3);
+  padding: 10px;
+  display: none;
+}
+
+.login-error.show { display: block; }
+
+/* ─── DASHBOARD ─── */
+.admin-dashboard { display: none; }
+.admin-dashboard.show { display: block; }
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--wlf-border);
+  border-bottom: 1px solid var(--wlf-border);
+}
+
+.dash-stat {
+  background: var(--wlf-panel);
+  padding: 24px 28px;
+  text-align: center;
+}
+
+.dash-stat-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 36px;
+  color: var(--wlf-gold);
+  line-height: 1;
+}
+
+.dash-stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--wlf-text-muted);
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+.dashboard-content {
+  padding: 28px 36px;
+}
+
+.dash-filter {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--wlf-text-muted);
+  background: none;
+  border: 1px solid var(--wlf-border);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn.active {
+  color: var(--wlf-gold);
+  border-color: var(--wlf-gold);
+  background: rgba(212,160,23,0.08);
+}
+
+.filter-btn:hover { color: var(--wlf-gold); border-color: var(--wlf-border-glow); }
+
+.candidature-table { width: 100%; border-collapse: collapse; }
+
+.candidature-table th {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--wlf-text-muted);
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--wlf-border);
+}
+
+.candidature-table td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(212,160,23,0.08);
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.candidature-table tr:hover td { background: rgba(212,160,23,0.03); }
+
+.status-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 2px;
+}
+
+.status-badge.pending {
+  color: var(--wlf-gold);
+  background: rgba(212,160,23,0.1);
+  border: 1px solid var(--wlf-border);
+}
+
+.status-badge.accepted {
+  color: #2ECC71;
+  background: rgba(46,204,113,0.1);
+  border: 1px solid rgba(46,204,113,0.3);
+}
+
+.status-badge.rejected {
+  color: var(--wlf-red-bright);
+  background: rgba(231,76,60,0.1);
+  border: 1px solid rgba(231,76,60,0.3);
+}
+
+.action-btns {
+  display: flex;
+  gap: 6px;
+}
+
+.action-btn {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 6px 12px;
+  cursor: pointer;
+  border: 1px solid;
+  background: none;
+  transition: all 0.15s;
+}
+
+.action-btn.accept {
+  color: #2ECC71;
+  border-color: rgba(46,204,113,0.4);
+}
+
+.action-btn.accept:hover { background: rgba(46,204,113,0.1); }
+
+.action-btn.reject {
+  color: var(--wlf-red-bright);
+  border-color: rgba(231,76,60,0.4);
+}
+
+.action-btn.reject:hover { background: rgba(231,76,60,0.1); }
+
+.action-btn.note {
+  color: var(--wlf-gold);
+  border-color: var(--wlf-border);
+}
+
+.action-btn.note:hover { background: rgba(212,160,23,0.1); }
+
+.cand-pseudo {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--wlf-text);
+}
+
+.cand-meta { font-size: 12px; color: var(--wlf-text-muted); margin-top: 2px; }
+
+/* ─── DETAIL DRAWER ─── */
+.detail-drawer {
+  display: none;
+  position: fixed;
+  right: 0; top: 0; bottom: 0;
+  width: 420px;
+  background: var(--wlf-dark);
+  border-left: 1px solid var(--wlf-border-glow);
+  z-index: 10001;
+  overflow-y: auto;
+  padding: 28px;
+}
+
+.detail-drawer.open { display: block; }
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.drawer-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 20px;
+  color: var(--wlf-text);
+}
+
+.drawer-field {
+  margin-bottom: 20px;
+}
+
+.drawer-field-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--wlf-gold);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.drawer-field-value {
+  font-size: 15px;
+  color: var(--wlf-text);
+  background: var(--wlf-panel);
+  border: 1px solid var(--wlf-border);
+  padding: 10px 14px;
+}
+
+.drawer-note-area {
+  width: 100%;
+  background: var(--wlf-panel);
+  border: 1px solid var(--wlf-border);
+  color: var(--wlf-text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 12px;
+  resize: vertical;
+  min-height: 80px;
+  outline: none;
+}
+
+.drawer-note-area:focus { border-color: var(--wlf-gold); }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--wlf-dark);
+  border-top: 1px solid var(--wlf-border);
+  padding: 60px 48px 32px;
+}
+
+.footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 48px;
+}
+
+.footer-brand p {
+  font-size: 15px;
+  color: var(--wlf-text-muted);
+  line-height: 1.7;
+  margin-top: 16px;
+  max-width: 280px;
+}
+
+.footer-col h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--wlf-gold);
+  margin-bottom: 20px;
+}
+
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+.footer-col ul li a {
+  font-size: 14px;
+  color: var(--wlf-text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-col ul li a:hover { color: var(--wlf-gold); }
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 32px;
+  border-top: 1px solid var(--wlf-border);
+}
+
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--wlf-text-faint);
+}
+
+.footer-copy span { color: var(--wlf-gold); }
+
+/* ─── NOTIFICATION ─── */
+.notification-toast {
+  position: fixed;
+  top: 90px;
+  right: 24px;
+  z-index: 10002;
+  background: var(--wlf-panel);
+  border: 1px solid var(--wlf-gold);
+  padding: 16px 24px;
+  max-width: 320px;
+  transform: translateX(120%);
+  transition: transform 0.3s ease;
+}
+
+.notification-toast.show { transform: translateX(0); }
+
+.notif-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--wlf-gold);
+  margin-bottom: 4px;
+}
+
+.notif-text { font-size: 13px; color: var(--wlf-text-muted); }
+
+/* ─── MISC ─── */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0; top: 0;
+  background: linear-gradient(135deg, #FFFFFF 0%, var(--wlf-gold-bright) 40%, var(--wlf-gold) 70%, var(--wlf-gold-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  animation: glitch1 4s infinite;
+  clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+  transform: translateX(-2px);
+}
+
+.glitch::after {
+  animation: glitch2 4s infinite;
+  clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+  transform: translateX(2px);
+  color: var(--wlf-red);
+}
+
+@keyframes glitch1 {
+  0%, 90%, 100% { transform: translateX(-2px); opacity: 0; }
+  92%, 96% { transform: translateX(2px); opacity: 0.3; }
+  94% { transform: translateX(-2px); opacity: 0.3; }
+}
+
+@keyframes glitch2 {
+  0%, 88%, 100% { transform: translateX(2px); opacity: 0; }
+  90%, 94% { transform: translateX(-3px); opacity: 0.3; }
+  92% { transform: translateX(3px); opacity: 0.3; }
+}
+
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--wlf-border-glow), transparent);
+  margin: 0 48px;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  .about-grid, .recruit-grid, .results-grid, .discord-inner, .footer-top { grid-template-columns: 1fr; }
+  .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
+  .detail-drawer { width: 100%; }
+  .hero-stats { gap: 32px; }
+  .form-row { grid-template-columns: 1fr; }
+  .recruit-form { padding: 28px; }
+}
+
+/* ─── ANIMATIONS ─── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="logo-emblem">
+      <svg viewBox="0 0 44 44" class="logo-emblem">
+        <polygon class="logo-hex" points="22,2 40,12 40,32 22,42 4,32 4,12"/>
+        <text x="22" y="29" text-anchor="middle" fill="#D4A017" font-family="Exo 2, sans-serif" font-weight="900" font-size="14" letter-spacing="0">WLF</text>
+      </svg>
+    </div>
+    <span class="logo-text-nav">WLF</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#teams">Équipes</a></li>
+    <li><a href="#results">Résultats</a></li>
+    <li><a href="#recruit">Rejoindre</a></li>
+    <li><a href="#discord">Discord</a></li>
+  </ul>
+  <button class="btn-nav" onclick="openAdmin()">PANEL ADMIN</button>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="hero-bg-gradient"></div>
+    <div class="hero-particles" id="particles"></div>
+    <div class="hero-lines">
+      <div class="scan-line" style="animation-delay:0s"></div>
+      <div class="scan-line" style="animation-delay:3s;opacity:0.3"></div>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">ESPORT ORGANISATION — FOUNDED 2023</div>
+
+    <svg class="hero-logo-big" viewBox="0 0 120 120">
+      <defs>
+        <linearGradient id="hexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#FFD04D"/>
+          <stop offset="100%" stop-color="#8B6A0C"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <polygon points="60,4 112,32 112,88 60,116 8,88 8,32" fill="none" stroke="url(#hexGrad)" stroke-width="2" filter="url(#glow)"/>
+      <polygon points="60,16 98,38 98,82 60,104 22,82 22,38" fill="rgba(212,160,23,0.08)" stroke="rgba(212,160,23,0.3)" stroke-width="1"/>
+      <text x="60" y="72" text-anchor="middle" fill="url(#hexGrad)" font-family="Exo 2, sans-serif" font-weight="900" font-size="32" letter-spacing="2">WLF</text>
+    </svg>
+
+    <h1 class="hero-title">
+      <span class="glitch" data-text="WE LEAD">WE LEAD</span><br>
+      THE FUTURE
+    </h1>
+    <p class="hero-subtitle">ESPORT · <span>STRATÉGIE</span> · EXCELLENCE · <span>VICTOIRE</span></p>
+
+    <div class="hero-ctas">
+      <a href="#recruit" class="btn-primary">🎮 REJOINDRE WLF</a>
+      <a href="#teams" class="btn-secondary">VOIR LES ÉQUIPES</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num" id="counter-members">0</div>
+        <div class="hero-stat-label">Membres</div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num" id="counter-wins">0</div>
+        <div class="hero-stat-label">Victoires</div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num" id="counter-tournaments">0</div>
+        <div class="hero-stat-label">Tournois</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ─── ABOUT ─── -->
+<section class="about-section" id="about">
+  <div class="section-header fade-in">
+    <span class="section-eyebrow">// WHO_WE_ARE</span>
+    <h2 class="section-title">L'ADN <span>WLF</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="about-grid fade-in">
+    <div class="about-visual">
+      <svg viewBox="0 0 400 400" width="100%" height="100%">
+        <defs>
+          <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFD04D" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#D4A017" stop-opacity="0.3"/>
+          </linearGradient>
+        </defs>
+        <!-- Central hex -->
+        <polygon points="200,100 260,134 260,202 200,236 140,202 140,134" fill="rgba(212,160,23,0.15)" stroke="#D4A017" stroke-width="1.5"/>
+        <text x="200" y="175" text-anchor="middle" fill="#FFD04D" font-family="Exo 2" font-weight="900" font-size="28">WLF</text>
+        <!-- Orbiting nodes -->
+        <g transform="translate(200,58)">
+          <polygon points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" fill="rgba(212,160,23,0.2)" stroke="rgba(212,160,23,0.5)" stroke-width="1"/>
+          <text y="6" text-anchor="middle" fill="#FFD04D" font-size="18">⚔️</text>
+        </g>
+        <g transform="translate(316,134)">
+          <polygon points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" fill="rgba(192,57,43,0.2)" stroke="rgba(192,57,43,0.5)" stroke-width="1"/>
+          <text y="6" text-anchor="middle" fill="#E74C3C" font-size="18">🏆</text>
+        </g>
+        <g transform="translate(316,236)">
+          <polygon points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" fill="rgba(88,101,242,0.2)" stroke="rgba(88,101,242,0.5)" stroke-width="1"/>
+          <text y="6" text-anchor="middle" fill="#5865F2" font-size="18">🎮</text>
+        </g>
+        <g transform="translate(200,310)">
+          <polygon points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" fill="rgba(46,204,113,0.2)" stroke="rgba(46,204,113,0.5)" stroke-width="1"/>
+          <text y="6" text-anchor="middle" fill="#2ECC71" font-size="18">🌐</text>
+        </g>
+        <g transform="translate(84,236)">
+          <polygon points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" fill="rgba(212,160,23,0.2)" stroke="rgba(212,160,23,0.5)" stroke-width="1"/>
+          <text y="6" text-anchor="middle" fill="#FFD04D" font-size="18">👥</text>
+        </g>
+        <g transform="translate(84,134)">
+          <polygon points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" fill="rgba(212,160,23,0.2)" stroke="rgba(212,160,23,0.5)" stroke-width="1"/>
+          <text y="6" text-anchor="middle" fill="#FFD04D" font-size="18">💡</text>
+        </g>
+        <!-- Connector lines -->
+        <line x1="200" y1="100" x2="200" y2="88" stroke="rgba(212,160,23,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="260" y1="134" x2="290" y2="134" stroke="rgba(212,160,23,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="260" y1="202" x2="290" y2="202" stroke="rgba(212,160,23,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="200" y1="236" x2="200" y2="280" stroke="rgba(212,160,23,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="140" y1="202" x2="110" y2="202" stroke="rgba(212,160,23,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="140" y1="134" x2="110" y2="134" stroke="rgba(212,160,23,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
+      </svg>
+    </div>
+
+    <div class="about-text">
+      <p><strong>WLF Esport</strong> — We Lead The Future — est une organisation esport fondée avec une vision claire : révolutionner la scène compétitive française et internationale.</p>
+      <p>Nous recrutons, formons et propulsons les meilleurs talents du gaming sur des jeux majeurs comme <strong>Valorant, League of Legends, CS2, Fortnite</strong> et bien d'autres. Notre mission : transformer des passionnés en champions.</p>
+      <p>Rejoindre WLF, c'est intégrer une <strong>famille de guerriers numériques</strong> qui partagent la même ambition : dominer les compétitions et repousser les limites.</p>
+
+      <div class="wlf-values">
+        <div class="value-card">
+          <div class="value-card-num">01 //</div>
+          <div class="value-card-title">⚡ PERFORMANCE</div>
+        </div>
+        <div class="value-card">
+          <div class="value-card-num">02 //</div>
+          <div class="value-card-title">🤝 ESPRIT D'ÉQUIPE</div>
+        </div>
+        <div class="value-card">
+          <div class="value-card-num">03 //</div>
+          <div class="value-card-title">🎯 STRATÉGIE</div>
+        </div>
+        <div class="value-card">
+          <div class="value-card-num">04 //</div>
+          <div class="value-card-title">🔥 AMBITION</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TEAMS ─── -->
+<section class="teams-section" id="teams">
+  <div class="teams-inner">
+    <div class="section-header fade-in">
+      <span class="section-eyebrow">// ROSTERS</span>
+      <h2 class="section-title">NOS <span>ÉQUIPES</span></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="teams-tabs">
+      <button class="team-tab active" onclick="switchTeam(this,'valorant')">🎯 VALORANT</button>
+      <button class="team-tab" onclick="switchTeam(this,'lol')">⚔️ LEAGUE OF LEGENDS</button>
+      <button class="team-tab" onclick="switchTeam(this,'cs2')">💥 CS2</button>
+      <button class="team-tab" onclick="switchTeam(this,'fortnite')">🏗️ FORTNITE</button>
+    </div>
+
+    <div class="team-panel active" id="panel-valorant">
+      <div class="players-grid">
+        <div class="player-card">
+          <div class="player-img-bg">
+            <div class="player-avatar">🎯</div>
+            <div class="player-role-badge">IGL</div>
+          </div>
+          <div class="player-info">
+            <div class="player-pseudo">PHANTOM</div>
+            <div class="player-name">Alexandre D.</div>
+            <div class="player-stats">
+              <div class="player-stat"><div class="player-stat-val">2.8</div><div class="player-stat-key">K/D</div></div>
+              <div class="player-stat"><div class="player-stat-val">248</div><div class="player-stat-key">MMR</div></div>
+              <div class="player-stat"><div class="player-stat-val">71%</div><div class="player-stat-key">WR</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="player-card">
+          <div class="player-img-bg" style="background:linear-gradient(135deg,rgba(231,76,60,0.2),rgba(192,57,43,0.1))">
+            <div class="player-avatar">🔥</div>
+            <div class="player-role-badge">DUELIST</div>
+          </div>
+          <div class="player-info">
+            <div class="player-pseudo">NXGHT</div>
+            <div class="player-name">Maxime R.</div>
+            <div class="player-stats">
+              <div class="player-stat"><div class="player-stat-val">3.2</div><div class="player-stat-key">K/D</div></div>
+              <div class="player-stat"><div class="player-stat-val">Rad</div><div class="player-stat-key">RANK</div></div>
+              <div class="player-stat"><div class="player-stat-val">68%</div><div class="player-stat-key">WR</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="player-card">
+          <div class="player-img-bg" style="background:linear-gradient(135deg,rgba(88,101,242,0.2),rgba(88,101,242,0.05))">
+            <div class="player-avatar">🛡️</div>
+            <div class="player-role-badge">SENTINEL</div>
+          </div>
+          <div class="player-info">
+            <div class="player-pseudo">VAULTX</div>
+            <div class="player-name">Thomas M.</div>
+            <div class="player-stats">
+              <div class="player-stat"><div class="player-stat-val">2.1</div><div class="player-stat-key">K/D</div></div>
+              <div class="player-stat"><div class="player-stat-val">Imm</div><div class="player-stat-key">RANK</div></div>
+              <div class="player-stat"><div class="player-stat-val">74%</div><div class="player-stat-key">WR</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="player-card">
+          <div class="player-img-bg" style="background:linear-gradient(135deg,rgba(46,204,113,0.2),rgba(46,204,113,0.05))">
+            <div class="player-avatar">🌿</div>
+            <div class="player-role-badge">CONTROLLER</div>
+          </div>
+          <div class="player-info">
+            <div class="player-pseudo">SMOKE</div>
+            <div class="player-name">Lucas B.</div>
+            <div class="player-stats">
+              <div class="player-stat"><div class="player-stat-val">1.9</div><div class="player-stat-key">K/D</div></div>
+              <div class="player-stat"><div class="player-stat-val">Imm</div><div class="player-stat-key">RANK</div></div>
+              <div class="player-stat"><div class="player-stat-val">76%</div><div class="player-stat-key">WR</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="player-card">
+          <div class="player-img-bg" style="background:linear-gradient(135deg,rgba(212,160,23,0.2),rgba(139,106,12,0.1))">
+            <div class="player-avatar">⚡</div>
+            <div class="player-role-badge">INITIATOR</div>
+          </div>
+          <div class="player-info">
+            <div class="player-pseudo">RAZR</div>
+            <div class="player-name">Noah F.</div>
+            <div class="player-stats">
+              <div class="player-stat"><div class="player-stat-val">2.5</div><div class="player-stat-key">K/D</div></div>
+              <div class="player-stat"><div class="player-stat-val">Rad</div><div class="player-stat-key">RANK</div></div>
+              <div class="player-stat"><div class="player-stat-val">69%</div><div class="player-stat-key">WR</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-panel" id="panel-lol">
+      <div class="players-grid">
+        <div class="player-card"><div class="player-img-bg"><div class="player-avatar">🗡️</div><div class="player-role-badge">TOP</div></div><div class="player-info"><div class="player-pseudo">IRONWALL</div><div class="player-name">Kevin L.</div><div class="player-stats"><div class="player-stat"><div class="player-stat-val">Master</div><div class="player-stat-key">ELO</div></div><div class="player-stat"><div class="player-stat-val">62%</div><div class="player-stat-key">WR</div></div></div></div></div>
+        <div class="player-card"><div class="player-img-bg" style="background:linear-gradient(135deg,rgba(231,76,60,0.2),rgba(192,57,43,0.1))"><div class="player-avatar">🌲</div><div class="player-role-badge">JUNGLE</div></div><div class="player-info"><div class="player-pseudo">SHADOWHUNT</div><div class="player-name">Antoine P.</div><div class="player-stats"><div class="player-stat"><div class="player-stat-val">Challeng</div><div class="player-stat-key">ELO</div></div><div class="player-stat"><div class="player-stat-val">71%</div><div class="player-stat-key">WR</div></div></div></div></div>
+        <div class="player-card"><div class="player-img-bg" style="background:linear-gradient(135deg,rgba(88,101,242,0.2),rgba(88,101,242,0.05))"><div class="player-avatar">🔮</div><div class="player-role-badge">MID</div></div><div class="player-info"><div class="player-pseudo">HEXBOLT</div><div class="player-name">Julien C.</div><div class="player-stats"><div class="player-stat"><div class="player-stat-val">Master</div><div class="player-stat-key">ELO</div></div><div class="player-stat"><div class="player-stat-val">65%</div><div class="player-stat-key">WR</div></div></div></div></div>
+        <div class="player-card"><div class="player-img-bg" style="background:linear-gradient(135deg,rgba(46,204,113,0.2),rgba(46,204,113,0.05))"><div class="player-avatar">🏹</div><div class="player-role-badge">ADC</div></div><div class="player-info"><div class="player-pseudo">CRITSHOT</div><div class="player-name">Pierre G.</div><div class="player-stats"><div class="player-stat"><div class="player-stat-val">Grandm</div><div class="player-stat-key">ELO</div></div><div class="player-stat"><div class="player-stat-val">59%</div><div class="player-stat-key">WR</div></div></div></div></div>
+        <div class="player-card"><div class="player-img-bg" style="background:linear-gradient(135deg,rgba(212,160,23,0.2),rgba(139,106,12,0.1))"><div class="player-avatar">🛡️</div><div class="player-role-badge">SUPPORT</div></div><div class="player-info"><div class="player-pseudo">GUARDIAN</div><div class="player-name">Emma D.</div><div class="player-stats"><div class="player-stat"><div class="player-stat-val">Diamond</div><div class="player-stat-key">ELO</div></div><div class="player-stat"><div class="player-stat-val">68%</div><div class="player-stat-key">WR</div></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="team-panel" id="panel-cs2">
+      <div class="players-grid">
+        <div class="player-card"><div class="player-img-bg"><div class="player-avatar">💥</div><div class="player-role-badge">ENTRY</div></div><div class="player-info"><div class="player-pseudo">BLXST</div><div class="player-name">Ryan K.</div><div class="player-stats"><div class="player-stat"><div class="player-stat-val">3.4</div><div class="player-stat-key">K/D</div></div><div class="player-stat"><div class="player-stat-val">2850</div><div class="player-stat-key">ELO</div></div></div></div></div>
+        <div class="player-card"><div class="player-img-bg" style="background:linear-gradient(135deg,rgba(231,76,60,0.2),rgba(192,57,43,0.1))"><div class="player-avatar">🎯</div><div class="player-role-badge">AWP</div></div><div class="player-info"><div class="player-pseudo">COLDSNAP</div><div class="player-name">Mathis T.</div><div class="player-stats"><div class="player-stat"><div class="player-stat-val">2.9</div><div class="player-stat-key">K/D</div></div><div class="player-stat"><div class="player-stat-val">3100</div><div class="player-stat-key">ELO</div></div></div></div></div>
+        <div class="player-card"><div class="player-img-bg" style="background:linear-gradient(135deg,rgba(88,101,242,0.2),rgba(88,101,242,0.05))"><div class="player-avatar">🧠</div><div class="player-role-badge">IGL</div></div><div class="player-info"><div class="player-pseudo">STRATX</div><div class="player-name">Clément V.</div><div class="player-stats"><div class="player-stat"><div class="player-stat-val">2.1</div><div class="player-stat-key">K/D</div></div><div class="player-stat"><div class="player-stat-val">2700</div><div class="player-stat-key">ELO</div></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="team-panel" id="panel-fortnite">
+      <div class="players-grid">
+        <div class="player-card"><div class="player-img-bg"><div class="player-avatar">🏗️</div><div class="player-role-badge">BUILDER</div></div><div class="player-info"><div class="player-pseudo">SKYFORT</div><div class="player-name">Alexis M.</div><div class="player-stats"><div class="player-stat"><div class="player-stat-val">8.2</div><div class="player-stat-key">K/G</div></div><div class="player-stat"><div class="player-stat-val">23%</div><div class="player-stat-key">TOP1</div></div></div></div></div>
+        <div class="player-card"><div class="player-img-bg" style="background:linear-gradient(135deg,rgba(231,76,60,0.2),rgba(192,57,43,0.1))"><div class="player-avatar">⚡</div><div class="player-role-badge">FRAGGER</div></div><div class="player-info"><div class="player-pseudo">ELIM</div><div class="player-name">Enzo C.</div><div class="player-stats"><div class="player-stat"><div class="player-stat-val">11.4</div><div class="player-stat-key">K/G</div></div><div class="player-stat"><div class="player-stat-val">18%</div><div class="player-stat-key">TOP1</div></div></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RESULTS ─── -->
+<section class="results-section" id="results">
+  <div class="section-header fade-in">
+    <span class="section-eyebrow">// SCOREBOARD</span>
+    <h2 class="section-title">RÉSULTATS & <span>ACTU</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="results-grid fade-in">
+    <div>
+      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:2px;color:var(--wlf-gold);margin-bottom:20px;">DERNIERS MATCHS</div>
+      <div class="match-list">
+        <div class="match-card win"><div class="match-result-badge win">WIN</div><div class="match-info"><div class="match-opponent">vs TEAM AURORA</div><div class="match-meta">VALORANT · Ligue WLF S2 · 12 Mai 2026</div></div><div class="match-score">2–0</div></div>
+        <div class="match-card win"><div class="match-result-badge win">WIN</div><div class="match-info"><div class="match-opponent">vs DIGITAL WOLVES</div><div class="match-meta">CS2 · Open Cup FR · 10 Mai 2026</div></div><div class="match-score">16–8</div></div>
+        <div class="match-card loss"><div class="match-result-badge loss">LOSS</div><div class="match-info"><div class="match-opponent">vs NEXUS ESPORT</div><div class="match-meta">LoL · Tournoi ESL · 8 Mai 2026</div></div><div class="match-score">1–2</div></div>
+        <div class="match-card win"><div class="match-result-badge win">WIN</div><div class="match-info"><div class="match-opponent">vs STORM RIDERS</div><div class="match-meta">VALORANT · Coupe France · 5 Mai 2026</div></div><div class="match-score">2–1</div></div>
+        <div class="match-card pending"><div class="match-result-badge pending">LIVE</div><div class="match-info"><div class="match-opponent">vs APEX GAMING</div><div class="match-meta">CS2 · Season 3 Qualifier · MAINTENANT</div></div><div class="match-score">—</div></div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:2px;color:var(--wlf-gold);margin-bottom:20px;">ACTUALITÉS WLF</div>
+      <div class="news-list">
+        <div class="news-card">
+          <div class="news-tag">🏆 RECRUTEMENT</div>
+          <div class="news-title">WLF ouvre ses auditions pour la saison 3 — places limitées</div>
+          <div class="news-date">14 Mai 2026</div>
+        </div>
+        <div class="news-card">
+          <div class="news-tag">🎯 VALORANT</div>
+          <div class="news-title">PHANTOM élu MVP de la Ligue WLF S2 après 3 semaines consécutives</div>
+          <div class="news-date">11 Mai 2026</div>
+        </div>
+        <div class="news-card">
+          <div class="news-tag">📡 STREAMING</div>
+          <div class="news-title">WLF lance son programme de streamers officiel — rejoignez l'équipe</div>
+          <div class="news-date">9 Mai 2026</div>
+        </div>
+        <div class="news-card">
+          <div class="news-tag">💥 CS2</div>
+          <div class="news-title">Qualification historique pour les finales nationales CS2 Open</div>
+          <div class="news-date">6 Mai 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SOCIALS ─── -->
+<section class="socials-section" id="socials">
+  <div class="socials-inner">
+    <div class="section-header fade-in">
+      <span class="section-eyebrow">// NETWORK</span>
+      <h2 class="section-title">NOUS <span>SUIVRE</span></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="socials-grid fade-in">
+      <a class="social-card" href="#" style="--sc-color:rgba(88,101,242,0.2);--sc-border:#5865F2;--sc-accent:#5865F2">
+        <div class="social-icon">💬</div>
+        <div class="social-name">Discord</div>
+        <div class="social-count">1.2K</div>
+        <div class="social-label">Membres</div>
+      </a>
+      <a class="social-card" href="#" style="--sc-color:rgba(231,76,60,0.2);--sc-border:#E74C3C;--sc-accent:#E74C3C">
+        <div class="social-icon">▶</div>
+        <div class="social-name">YouTube</div>
+        <div class="social-count">8.4K</div>
+        <div class="social-label">Abonnés</div>
+      </a>
+      <a class="social-card" href="#" style="--sc-color:rgba(145,71,255,0.2);--sc-border:#9147FF;--sc-accent:#9147FF">
+        <div class="social-icon">📡</div>
+        <div class="social-name">Twitch</div>
+        <div class="social-count">3.2K</div>
+        <div class="social-label">Followers</div>
+      </a>
+      <a class="social-card" href="#" style="--sc-color:rgba(212,160,23,0.2);--sc-border:#D4A017;--sc-accent:#FFD04D">
+        <div class="social-icon">𝕏</div>
+        <div class="social-name">Twitter/X</div>
+        <div class="social-count">5.1K</div>
+        <div class="social-label">Followers</div>
+      </a>
+      <a class="social-card" href="#" style="--sc-color:rgba(231,56,144,0.2);--sc-border:#E83890;--sc-accent:#E83890">
+        <div class="social-icon">📸</div>
+        <div class="social-name">Instagram</div>
+        <div class="social-count">6.8K</div>
+        <div class="social-label">Abonnés</div>
+      </a>
+      <a class="social-card" href="#" style="--sc-color:rgba(255,0,80,0.2);--sc-border:#FF0050;--sc-accent:#FF0050">
+        <div class="social-icon">🎵</div>
+        <div class="social-name">TikTok</div>
+        <div class="social-count">14K</div>
+        <div class="social-label">Followers</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RECRUIT ─── -->
+<section class="recruit-section" id="recruit">
+  <div class="section-header fade-in">
+    <span class="section-eyebrow">// JOIN_WLF</span>
+    <h2 class="section-title">CANDIDATURE <span>ESPORT</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="recruit-grid fade-in">
+    <div class="recruit-info">
+      <h3>Tu penses avoir le niveau ?</h3>
+      <p>WLF Esport recrute en permanence des talents compétitifs sur toutes nos sections. Que tu sois Diamond, Master ou Radiant, si tu as la mentalité WLF, ta place est ici.</p>
+      <p>Remplis le formulaire de candidature. Notre staff reviendra vers toi sous <strong style="color:var(--wlf-gold)">72h maximum</strong> par email et Discord.</p>
+
+      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:3px;color:var(--wlf-gold);margin:28px 0 16px;">POSTES OUVERTS</div>
+      <div class="open-positions">
+        <div class="position-item"><div class="position-dot"></div><div class="position-game">VALORANT</div><div class="position-role">DUELIST / IGL</div></div>
+        <div class="position-item"><div class="position-dot"></div><div class="position-game">LEAGUE OF LEGENDS</div><div class="position-role">MID / JUNGLE</div></div>
+        <div class="position-item"><div class="position-dot"></div><div class="position-game">CS2</div><div class="position-role">RIFLER / AWP</div></div>
+        <div class="position-item"><div class="position-dot"></div><div class="position-game">FORTNITE</div><div class="position-role">TOUTES POSITIONS</div></div>
+        <div class="position-item"><div class="position-dot" style="background:#5865F2;box-shadow:0 0 8px rgba(88,101,242,0.6)"></div><div class="position-game">CONTENU / STREAMING</div><div class="position-role">STREAMER / CRÉATEUR</div></div>
+      </div>
+    </div>
+
+    <div class="recruit-form">
+      <div id="form-body">
+        <div class="form-title">📋 DOSSIER DE CANDIDATURE</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Pseudo / Gamertag *</label>
+            <input type="text" class="form-input" id="f-pseudo" placeholder="TonPseudo#1234">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Âge *</label>
+            <input type="number" class="form-input" id="f-age" placeholder="16" min="13" max="99">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Jeu principal *</label>
+            <select class="form-select" id="f-game">
+              <option value="">Sélectionner...</option>
+              <option>Valorant</option>
+              <option>League of Legends</option>
+              <option>CS2</option>
+              <option>Fortnite</option>
+              <option>Apex Legends</option>
+              <option>Rocket League</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Rôle / Poste *</label>
+            <input type="text" class="form-input" id="f-role" placeholder="Duelist / IGL / AWP...">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Niveau / Rang *</label>
+            <input type="text" class="form-input" id="f-rank" placeholder="Diamond 3 / Immortal 1...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Disponibilité *</label>
+            <select class="form-select" id="f-availability">
+              <option value="">Sélectionner...</option>
+              <option>Soirs en semaine</option>
+              <option>Week-ends uniquement</option>
+              <option>Flexible (10h+/semaine)</option>
+              <option>Semi-pro (20h+/semaine)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Expérience compétitive</label>
+          <input type="text" class="form-input" id="f-exp" placeholder="Tournois, équipes précédentes...">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Discord ID *</label>
+            <input type="text" class="form-input" id="f-discord" placeholder="pseudo#0000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email *</label>
+            <input type="email" class="form-input" id="f-email" placeholder="ton@email.com">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Motivation (min. 100 caractères) *</label>
+          <textarea class="form-textarea" id="f-motivation" placeholder="Pourquoi rejoindre WLF ? Quels sont tes objectifs ? Qu'est-ce qui te différencie..."></textarea>
+        </div>
+
+        <div class="form-upload">
+          <input type="file" id="f-file" accept="video/*,image/*,.mp4,.mov,.avi">
+          <div class="upload-icon">📁</div>
+          <div class="upload-text">Glisser ou cliquer pour joindre un fichier</div>
+          <div class="upload-subtext">Clip, vidéo de gameplay, screenshot — max 100MB</div>
+        </div>
+
+        <button class="form-submit" onclick="submitForm()">⚡ SOUMETTRE MA CANDIDATURE</button>
+      </div>
+
+      <div class="form-success" id="form-success">
+        <div class="success-icon">✅</div>
+        <div class="success-title">CANDIDATURE ENVOYÉE !</div>
+        <div class="success-text">Ton dossier a bien été reçu par le staff WLF.<br>Tu recevras une réponse sur ton Discord et email sous 72h.<br><br>💬 Rejoins notre Discord pour suivre le statut.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DISCORD ─── -->
+<section class="discord-section" id="discord">
+  <div class="discord-inner">
+    <div class="discord-cta fade-in">
+      <h2>Rejoins la communauté <span style="color:#5865F2">WLF</span></h2>
+      <p>Plus de 1200 membres actifs sur notre serveur Discord. Coach, stratégie, scrim, bonne humeur — tout se passe ici. Ne reste pas seul, rejoins la meute.</p>
+      <a class="btn-discord" href="#" target="_blank">
+        <span style="font-size:20px">💬</span>
+        REJOINDRE LE DISCORD
+      </a>
+    </div>
+
+    <div class="discord-widget-mock fade-in">
+      <div class="discord-widget-header">
+        <div class="discord-logo">💬</div>
+        <div>
+          <div class="discord-server-name">WLF Esport</div>
+          <div class="discord-status">🟢 47 membres en ligne</div>
+        </div>
+      </div>
+      <div class="discord-members">
+        <div style="font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:2px;padding:8px;font-family:var(--font-mono)">STAFF — 3</div>
+        <div class="discord-member"><div class="member-avatar" style="--av-bg:#D4A017">👑</div><div class="member-name">PHANTOM_IGL</div><div class="member-role">Fondateur</div></div>
+        <div class="discord-member"><div class="member-avatar" style="--av-bg:#C0392B">🔥</div><div class="member-name">NXGHT</div><div class="member-role">Co-fondateur</div></div>
+        <div class="discord-member"><div class="member-avatar" style="--av-bg:#5865F2">🛡️</div><div class="member-name">VAULTX</div><div class="member-role">Manager</div></div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:2px;padding:8px;font-family:var(--font-mono)">JOUEURS — 44</div>
+        <div class="discord-member"><div class="member-avatar" style="--av-bg:#2ECC71">⚡</div><div class="member-name">RAZR</div><div class="member-role">Valorant</div></div>
+        <div class="discord-member"><div class="member-avatar" style="--av-bg:#8B6A0C;--st-color:#F0B429">🌿</div><div class="member-name">SMOKE</div><div class="member-role">Valorant</div></div>
+        <div class="discord-member"><div class="member-avatar" style="--av-bg:#3D3D3D;--st-color:#747F8D">🗡️</div><div class="member-name">IRONWALL</div><div class="member-role">LoL</div></div>
+      </div>
+      <div class="discord-footer">
+        <div class="online-count"><div class="online-dot"></div>47 en ligne · 1247 membres</div>
+        <a class="btn-discord" href="#" style="font-size:11px;padding:8px 16px">REJOINDRE</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px">
+          <svg viewBox="0 0 44 44" width="40" height="40">
+            <polygon points="22,2 40,12 40,32 22,42 4,32 4,12" fill="none" stroke="#D4A017" stroke-width="1.5"/>
+            <text x="22" y="27" text-anchor="middle" fill="#D4A017" font-family="Exo 2" font-weight="900" font-size="12">WLF</text>
+          </svg>
+          <span style="font-family:var(--font-display);font-weight:900;font-size:20px;letter-spacing:4px;background:linear-gradient(135deg,#FFD04D,#D4A017);-webkit-background-clip:text;-webkit-text-fill-color:transparent">WLF ESPORT</span>
+        </div>
+        <p>We Lead The Future — Organisation esport française fondée en 2023. Compétition, excellence et passion au service des champions de demain.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#about">À propos</a></li>
+          <li><a href="#teams">Équipes</a></li>
+          <li><a href="#results">Résultats</a></li>
+          <li><a href="#socials">Réseaux</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Organisation</h4>
+        <ul>
+          <li><a href="#recruit">Candidature</a></li>
+          <li><a href="#discord">Discord</a></li>
+          <li><a href="#">Partenaires</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Légal</h4>
+        <ul>
+          <li><a href="#">Mentions légales</a></li>
+          <li><a href="#">CGU</a></li>
+          <li><a href="#">Confidentialité</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 <span>WLF Esport</span>. Tous droits réservés. Made with 🔥 for champions.</div>
+      <div class="footer-copy">Designed for <span>We Lead The Future</span></div>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── ADMIN OVERLAY ─── -->
+<div class="admin-overlay" id="adminOverlay">
+  <div class="admin-modal">
+    <div class="admin-header">
+      <div>
+        <div class="admin-title">⚙️ PANEL ADMINISTRATEUR WLF</div>
+        <div class="admin-subtitle">// ESPACE SÉCURISÉ — STAFF ONLY</div>
+      </div>
+      <button class="btn-close-admin" onclick="closeAdmin()">✕</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="adminLogin">
+      <div class="admin-login">
+        <div class="login-icon">🔒</div>
+        <div class="login-title">Connexion Admin</div>
+        <div class="login-subtitle">ACCÈS RESTREINT AU STAFF WLF</div>
+        <div class="login-error" id="loginError">❌ Identifiants incorrects</div>
+        <div class="login-form">
+          <div class="form-group">
+            <label class="form-label">Identifiant</label>
+            <input type="text" class="form-input" id="adminUser" placeholder="admin">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mot de passe</label>
+            <input type="password" class="form-input" id="adminPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+          </div>
+          <button class="form-submit" onclick="doLogin()" style="clip-path:none;width:100%;margin-top:8px">🔓 CONNEXION</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="admin-dashboard" id="adminDashboard">
+      <div class="dashboard-stats">
+        <div class="dash-stat"><div class="dash-stat-num" id="stat-total">0</div><div class="dash-stat-label">Candidatures</div></div>
+        <div class="dash-stat"><div class="dash-stat-num" id="stat-pending" style="color:var(--wlf-gold)">0</div><div class="dash-stat-label">En attente</div></div>
+        <div class="dash-stat"><div class="dash-stat-num" id="stat-accepted" style="color:#2ECC71">0</div><div class="dash-stat-label">Acceptées</div></div>
+        <div class="dash-stat"><div class="dash-stat-num" id="stat-rejected" style="color:var(--wlf-red-bright)">0</div><div class="dash-stat-label">Refusées</div></div>
+      </div>
+
+      <div class="dashboard-content">
+        <div class="dash-filter">
+          <button class="filter-btn active" onclick="filterCandidatures(this,'all')">Toutes</button>
+          <button class="filter-btn" onclick="filterCandidatures(this,'pending')">En attente</button>
+          <button class="filter-btn" onclick="filterCandidatures(this,'accepted')">Acceptées</button>
+          <button class="filter-btn" onclick="filterCandidatures(this,'rejected')">Refusées</button>
+        </div>
+        <table class="candidature-table">
+          <thead>
+            <tr>
+              <th>CANDIDAT</th>
+              <th>JEU</th>
+              <th>RANG</th>
+              <th>DATE</th>
+              <th>STATUT</th>
+              <th>ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody id="candidaturesBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── DETAIL DRAWER ─── -->
+<div class="detail-drawer" id="detailDrawer">
+  <div class="drawer-header">
+    <div class="drawer-title" id="drawerTitle">Candidature</div>
+    <button class="btn-close-admin" onclick="closeDrawer()">✕</button>
+  </div>
+  <div id="drawerContent"></div>
+</div>
+
+<!-- ─── TOAST ─── -->
+<div class="notification-toast" id="toast">
+  <div class="notif-title" id="toast-title">Notification</div>
+  <div class="notif-text" id="toast-text">Message</div>
+</div>
+
+<script>
+// ─── PARTICLES ───
+const particlesEl = document.getElementById('particles');
+for (let i = 0; i < 40; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.style.cssText = `left:${Math.random()*100}%;--dur:${6+Math.random()*8}s;--delay:${Math.random()*10}s;width:${1+Math.random()*3}px;height:${1+Math.random()*3}px`;
+  particlesEl.appendChild(p);
+}
+
+// ─── COUNTERS ───
+function animCounter(el, target, suffix = '') {
+  let current = 0;
+  const step = target / 60;
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = Math.floor(current) + suffix;
+    if (current >= target) clearInterval(timer);
+  }, 20);
+}
+
+setTimeout(() => {
+  animCounter(document.getElementById('counter-members'), 42);
+  animCounter(document.getElementById('counter-wins'), 87);
+  animCounter(document.getElementById('counter-tournaments'), 12);
+}, 500);
+
+// ─── SCROLL FADE ───
+const faders = document.querySelectorAll('.fade-in');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+faders.forEach(f => io.observe(f));
+
+// ─── TEAM TABS ───
+function switchTeam(btn, game) {
+  document.querySelectorAll('.team-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.team-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + game).classList.add('active');
+}
+
+// ─── TOAST ───
+function showToast(title, text, duration = 4000) {
+  document.getElementById('toast-title').textContent = title;
+  document.getElementById('toast-text').textContent = text;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+// ─── CANDIDATURES DATA ───
+let candidatures = [
+  { id: 1, pseudo: 'SHADOWHUNTER', name: 'Kevin M.', age: 19, game: 'Valorant', role: 'Duelist', rank: 'Immortal 3', discord: 'shadow#1234', email: 'kevin@mail.com', availability: 'Soirs en semaine', exp: 'Équipe amateur 2023-2024', motivation: 'Je veux évoluer dans un environnement professionnel et compétitif...', date: '14 Mai 2026', status: 'pending', note: '' },
+  { id: 2, pseudo: 'FROSTBYTE', name: 'Emma L.', age: 21, game: 'CS2', role: 'AWP', rank: '2900 ELO', discord: 'frost#5678', email: 'emma@mail.com', availability: 'Flexible', exp: 'Tournois régionaux x3', motivation: 'Passionnée de CS depuis 5 ans, je cherche une structure sérieuse...', date: '13 Mai 2026', status: 'pending', note: '' },
+  { id: 3, pseudo: 'HEXLORD', name: 'Théo B.', age: 17, game: 'League of Legends', role: 'Mid', rank: 'Master 200LP', discord: 'hex#9012', email: 'theo@mail.com', availability: 'Week-ends uniquement', exp: 'Stream 500 viewers, scrim régulier', motivation: 'Objectif challenger d\'ici 6 mois avec WLF...', date: '12 Mai 2026', status: 'accepted', note: 'Excellent profil, talent brut. RDV trial jeudi.' },
+  { id: 4, pseudo: 'VOIDSTRIKE', name: 'Nathan P.', age: 23, game: 'Valorant', role: 'IGL', rank: 'Radiant', discord: 'void#3456', email: 'nathan@mail.com', availability: 'Semi-pro', exp: 'Ex-organisation niveau national', motivation: 'Après 2 ans en semi-pro je veux rejoindre une structure ambitieuse...', date: '11 Mai 2026', status: 'rejected', note: 'Profil intéressant mais disponibilités ne correspondent pas.' },
+  { id: 5, pseudo: 'BLAZEKICK', name: 'Yasmin K.', age: 20, game: 'Fortnite', role: 'Builder', rank: 'Top 0.1%', discord: 'blaze#7890', email: 'yasmin@mail.com', availability: 'Flexible', exp: 'Tournois FNCS x5', motivation: 'Je veux porter les couleurs WLF sur Fortnite...', date: '10 Mai 2026', status: 'pending', note: '' },
+];
+
+let currentFilter = 'all';
+
+function updateStats() {
+  const total = candidatures.length;
+  const pending = candidatures.filter(c => c.status === 'pending').length;
+  const accepted = candidatures.filter(c => c.status === 'accepted').length;
+  const rejected = candidatures.filter(c => c.status === 'rejected').length;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-pending').textContent = pending;
+  document.getElementById('stat-accepted').textContent = accepted;
+  document.getElementById('stat-rejected').textContent = rejected;
+}
+
+function renderTable() {
+  const filtered = currentFilter === 'all' ? candidatures : candidatures.filter(c => c.status === currentFilter);
+  const tbody = document.getElementById('candidaturesBody');
+  tbody.innerHTML = filtered.map(c => `
+    <tr>
+      <td><div class="cand-pseudo">${c.pseudo}</div><div class="cand-meta">${c.name} · ${c.age} ans · ${c.discord}</div></td>
+      <td style="color:var(--wlf-text-muted);font-size:13px">${c.game}</td>
+      <td style="font-family:var(--font-mono);font-size:12px;color:var(--wlf-gold)">${c.rank}</td>
+      <td style="font-family:var(--font-mono);font-size:12px;color:var(--wlf-text-muted)">${c.date}</td>
+      <td><span class="status-badge ${c.status}">${c.status === 'pending' ? 'EN ATTENTE' : c.status === 'accepted' ? 'ACCEPTÉ' : 'REFUSÉ'}</span></td>
+      <td>
+        <div class="action-btns">
+          ${c.status !== 'accepted' ? `<button class="action-btn accept" onclick="updateStatus(${c.id},'accepted')">✓ Acc.</button>` : ''}
+          ${c.status !== 'rejected' ? `<button class="action-btn reject" onclick="updateStatus(${c.id},'rejected')">✗ Ref.</button>` : ''}
+          <button class="action-btn note" onclick="openDrawer(${c.id})">📝 Détail</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+  updateStats();
+}
+
+function filterCandidatures(btn, filter) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = filter;
+  renderTable();
+}
+
+function updateStatus(id, status) {
+  const c = candidatures.find(x => x.id === id);
+  c.status = status;
+  renderTable();
+  const emoji = status === 'accepted' ? '✅' : '❌';
+  showToast(`${emoji} Statut mis à jour`, `${c.pseudo} — ${status === 'accepted' ? 'Accepté' : 'Refusé'}. Notification envoyée sur Discord.`);
+}
+
+function openDrawer(id) {
+  const c = candidatures.find(x => x.id === id);
+  document.getElementById('drawerTitle').textContent = c.pseudo;
+  document.getElementById('drawerContent').innerHTML = `
+    <div class="drawer-field"><div class="drawer-field-label">Identité</div><div class="drawer-field-value">${c.name} · ${c.age} ans</div></div>
+    <div class="drawer-field"><div class="drawer-field-label">Jeu & Rôle</div><div class="drawer-field-value">${c.game} — ${c.role}</div></div>
+    <div class="drawer-field"><div class="drawer-field-label">Rang</div><div class="drawer-field-value">${c.rank}</div></div>
+    <div class="drawer-field"><div class="drawer-field-label">Discord</div><div class="drawer-field-value">${c.discord}</div></div>
+    <div class="drawer-field"><div class="drawer-field-label">Email</div><div class="drawer-field-value">${c.email}</div></div>
+    <div class="drawer-field"><div class="drawer-field-label">Disponibilité</div><div class="drawer-field-value">${c.availability}</div></div>
+    <div class="drawer-field"><div class="drawer-field-label">Expérience</div><div class="drawer-field-value">${c.exp || '—'}</div></div>
+    <div class="drawer-field"><div class="drawer-field-label">Motivation</div><div class="drawer-field-value" style="font-size:13px;line-height:1.6">${c.motivation}</div></div>
+    <div class="drawer-field">
+      <div class="drawer-field-label">Notes internes</div>
+      <textarea class="drawer-note-area" id="note-${id}" onchange="saveNote(${id},this.value)">${c.note}</textarea>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      ${c.status !== 'accepted' ? `<button class="action-btn accept" style="flex:1;padding:12px" onclick="updateStatus(${id},'accepted');closeDrawer()">✓ ACCEPTER</button>` : ''}
+      ${c.status !== 'rejected' ? `<button class="action-btn reject" style="flex:1;padding:12px" onclick="updateStatus(${id},'rejected');closeDrawer()">✗ REFUSER</button>` : ''}
+    </div>
+    <div style="margin-top:12px">
+      <button class="action-btn note" style="width:100%;padding:12px;text-align:center" onclick="sendDiscordNotif(${id})">💬 Envoyer notif Discord</button>
+    </div>
+  `;
+  document.getElementById('detailDrawer').classList.add('open');
+}
+
+function saveNote(id, value) {
+  const c = candidatures.find(x => x.id === id);
+  c.note = value;
+  showToast('📝 Note sauvegardée', `Note enregistrée pour ${c.pseudo}`);
+}
+
+function closeDrawer() {
+  document.getElementById('detailDrawer').classList.remove('open');
+}
+
+function sendDiscordNotif(id) {
+  const c = candidatures.find(x => x.id === id);
+  showToast('💬 Discord Webhook', `Notification envoyée dans #candidatures pour ${c.pseudo}`);
+}
+
+// ─── ADMIN ───
+function openAdmin() {
+  document.getElementById('adminOverlay').classList.add('open');
+}
+
+function closeAdmin() {
+  document.getElementById('adminOverlay').classList.remove('open');
+  closeDrawer();
+}
+
+function doLogin() {
+  const u = document.getElementById('adminUser').value;
+  const p = document.getElementById('adminPass').value;
+  if (u === 'admin' && p === 'wlf2026') {
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminDashboard').classList.add('show');
+    renderTable();
+    showToast('🔓 Connexion réussie', 'Bienvenue dans le panel admin WLF');
+  } else {
+    document.getElementById('loginError').classList.add('show');
+    setTimeout(() => document.getElementById('loginError').classList.remove('show'), 3000);
+  }
+}
+
+// Close on backdrop click
+document.getElementById('adminOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('adminOverlay')) closeAdmin();
+});
+
+// ─── FORM SUBMIT ───
+function submitForm() {
+  const required = ['f-pseudo','f-age','f-game','f-role','f-rank','f-availability','f-discord','f-email','f-motivation'];
+  let valid = true;
+  required.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el.value.trim()) { el.style.borderColor = 'var(--wlf-red-bright)'; valid = false; }
+    else el.style.borderColor = '';
+  });
+  if (!valid) { showToast('⚠️ Formulaire incomplet', 'Veuillez remplir tous les champs obligatoires'); return; }
+
+  const newCand = {
+    id: candidatures.length + 1,
+    pseudo: document.getElementById('f-pseudo').value,
+    name: 'Nouveau joueur',
+    age: document.getElementById('f-age').value,
+    game: document.getElementById('f-game').value,
+    role: document.getElementById('f-role').value,
+    rank: document.getElementById('f-rank').value,
+    discord: document.getElementById('f-discord').value,
+    email: document.getElementById('f-email').value,
+    availability: document.getElementById('f-availability').value,
+    exp: document.getElementById('f-exp').value,
+    motivation: document.getElementById('f-motivation').value,
+    date: new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'short',year:'numeric'}),
+    status: 'pending',
+    note: ''
+  };
+
+  candidatures.unshift(newCand);
+
+  document.getElementById('form-body').style.display = 'none';
+  document.getElementById('form-success').classList.add('show');
+
+  showToast('🚀 Candidature reçue !', `${newCand.pseudo} — notification envoyée au staff`);
+}
+
+// Smooth nav active
+window.addEventListener('scroll', () => {
+  const sections = ['hero','about','teams','results','recruit','discord'];
+  sections.forEach(s => {
+    const el = document.getElementById(s);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+  });
+});
+</script>
+</body>
+</html>
