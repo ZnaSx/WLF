@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentions légales — WLF Esport</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --wlf-gold: #D4A017;
+  --wlf-gold-bright: #FFD04D;
+  --wlf-gold-dark: #8B6A0C;
+  --wlf-black: #080810;
+  --wlf-dark: #0D0D1A;
+  --wlf-panel: #11111F;
+  --wlf-card: #16162A;
+  --wlf-border: rgba(212,160,23,0.2);
+  --wlf-text: #E8E8F0;
+  --wlf-text-muted: #7A7A9A;
+  --wlf-text-faint: #3A3A5C;
+  --font-display: 'Exo 2', sans-serif;
+  --font-body: 'Rajdhani', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--wlf-black); color: var(--wlf-text); }
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: linear-gradient(rgba(212,160,23,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(212,160,23,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none; z-index: 0;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--wlf-dark); }
+::-webkit-scrollbar-thumb { background: var(--wlf-gold-dark); }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 70px;
+  background: rgba(8,8,16,0.9); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--wlf-border);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 12px; text-decoration: none;
+  font-family: var(--font-display); font-weight: 900; font-size: 20px;
+  letter-spacing: 4px;
+  background: linear-gradient(135deg, var(--wlf-gold-bright), var(--wlf-gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.back-btn {
+  font-family: var(--font-display); font-weight: 600; font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--wlf-text-muted); text-decoration: none;
+  border: 1px solid var(--wlf-border); padding: 8px 20px;
+  transition: all 0.2s;
+}
+.back-btn:hover { color: var(--wlf-gold); border-color: var(--wlf-gold); }
+
+/* TABS */
+.tabs-bar {
+  position: sticky; top: 70px; z-index: 50;
+  background: rgba(8,8,16,0.95); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--wlf-border);
+  display: flex; overflow-x: auto;
+  padding: 0 48px;
+}
+.tab-btn {
+  font-family: var(--font-display); font-weight: 600; font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--wlf-text-muted); background: none; border: none;
+  padding: 16px 28px; cursor: pointer; white-space: nowrap;
+  position: relative; transition: color 0.2s;
+}
+.tab-btn::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px; background: var(--wlf-gold); transform: scaleX(0); transition: transform 0.2s;
+}
+.tab-btn.active { color: var(--wlf-gold); }
+.tab-btn.active::after { transform: scaleX(1); }
+
+/* CONTENT */
+.legal-wrapper { max-width: 860px; margin: 0 auto; padding: 60px 48px 120px; position: relative; z-index: 1; }
+
+.legal-page { display: none; }
+.legal-page.active { display: block; }
+
+.legal-hero {
+  padding: 48px 0 40px;
+  border-bottom: 1px solid var(--wlf-border);
+  margin-bottom: 48px;
+}
+.legal-eyebrow {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 4px;
+  color: var(--wlf-gold); text-transform: uppercase; margin-bottom: 12px;
+}
+.legal-title {
+  font-family: var(--font-display); font-weight: 900; font-size: 40px;
+  color: var(--wlf-text); line-height: 1; margin-bottom: 12px;
+}
+.legal-date {
+  font-family: var(--font-mono); font-size: 12px; color: var(--wlf-text-faint);
+  letter-spacing: 2px;
+}
+
+.legal-section { margin-bottom: 40px; }
+
+.legal-section h2 {
+  font-family: var(--font-display); font-weight: 800; font-size: 18px;
+  color: var(--wlf-gold); letter-spacing: 1px; margin-bottom: 16px;
+  padding-left: 16px; border-left: 3px solid var(--wlf-gold);
+}
+.legal-section h3 {
+  font-family: var(--font-display); font-weight: 700; font-size: 15px;
+  color: var(--wlf-text); margin-bottom: 10px; margin-top: 20px;
+}
+.legal-section p {
+  font-size: 16px; line-height: 1.8; color: var(--wlf-text-muted); margin-bottom: 14px;
+}
+.legal-section ul {
+  list-style: none; margin: 12px 0 16px; display: flex; flex-direction: column; gap: 8px;
+}
+.legal-section ul li {
+  font-size: 15px; color: var(--wlf-text-muted); line-height: 1.6;
+  padding-left: 20px; position: relative;
+}
+.legal-section ul li::before {
+  content: '▸'; position: absolute; left: 0; color: var(--wlf-gold); font-size: 12px; top: 3px;
+}
+
+.placeholder {
+  display: inline-block;
+  background: rgba(212,160,23,0.15); border: 1px solid rgba(212,160,23,0.4);
+  color: var(--wlf-gold); font-family: var(--font-mono); font-size: 12px;
+  padding: 2px 8px; border-radius: 3px; letter-spacing: 1px;
+}
+
+.info-box {
+  background: var(--wlf-card); border: 1px solid var(--wlf-border);
+  border-left: 3px solid var(--wlf-gold);
+  padding: 20px 24px; margin: 20px 0;
+}
+.info-box p { margin-bottom: 6px; font-size: 15px; }
+.info-box p:last-child { margin-bottom: 0; }
+.info-box strong { color: var(--wlf-text); font-weight: 600; }
+
+.cookie-table {
+  width: 100%; border-collapse: collapse; margin: 16px 0;
+  font-size: 14px;
+}
+.cookie-table th {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--wlf-gold);
+  padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--wlf-border);
+  background: var(--wlf-panel);
+}
+.cookie-table td {
+  padding: 12px 14px; border-bottom: 1px solid rgba(212,160,23,0.06);
+  color: var(--wlf-text-muted); vertical-align: top;
+}
+.cookie-table tr:hover td { background: rgba(212,160,23,0.02); }
+
+.rights-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0;
+}
+.right-card {
+  background: var(--wlf-panel); border: 1px solid var(--wlf-border);
+  padding: 20px; position: relative; overflow: hidden;
+}
+.right-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+  background: linear-gradient(to bottom, var(--wlf-gold), transparent);
+}
+.right-icon { font-size: 24px; margin-bottom: 8px; }
+.right-title {
+  font-family: var(--font-display); font-weight: 700; font-size: 14px;
+  color: var(--wlf-text); margin-bottom: 6px;
+}
+.right-desc { font-size: 13px; color: var(--wlf-text-muted); line-height: 1.5; }
+
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .tabs-bar { padding: 0 20px; }
+  .legal-wrapper { padding: 40px 20px 80px; }
+  .rights-grid { grid-template-columns: 1fr; }
+  .legal-title { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">⬡ WLF</a>
+  <a class="back-btn" href="index.html">← Retour au site</a>
+</nav>
+
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="showTab('mentions')">Mentions légales</button>
+  <button class="tab-btn" onclick="showTab('cgu')">CGU</button>
+  <button class="tab-btn" onclick="showTab('confidentialite')">Confidentialité</button>
+  <button class="tab-btn" onclick="showTab('cookies')">Cookies</button>
+</div>
+
+<div class="legal-wrapper">
+
+  <!-- ─── MENTIONS LÉGALES ─── -->
+  <div class="legal-page active" id="page-mentions">
+    <div class="legal-hero">
+      <div class="legal-eyebrow">// LEGAL_INFO</div>
+      <h1 class="legal-title">Mentions légales</h1>
+      <div class="legal-date">Dernière mise à jour : Mai 2026</div>
+    </div>
+
+    <div class="legal-section">
+      <h2>1. Éditeur du site</h2>
+      <div class="info-box">
+        <p><strong>Nom de l'organisation :</strong> WLF Esport</p>
+        <p><strong>Responsable de la publication :</strong> <span class="placeholder">TON PRÉNOM NOM</span></p>
+        <p><strong>Adresse :</strong> <span class="placeholder">TON ADRESSE</span>, <span class="placeholder">CODE POSTAL</span> <span class="placeholder">VILLE</span>, France</p>
+        <p><strong>Email de contact :</strong> <span class="placeholder">contact@wlf-esport.fr</span></p>
+        <p><strong>Discord :</strong> <span class="placeholder">LIEN DISCORD</span></p>
+        <p><strong>Statut juridique :</strong> Association / Particulier <span class="placeholder">À PRÉCISER</span></p>
+      </div>
+      <p>WLF Esport est une organisation esport créée en 2023, dont l'activité principale est la participation et l'organisation de compétitions de jeux vidéo en ligne.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>2. Hébergement</h2>
+      <div class="info-box">
+        <p><strong>Hébergeur :</strong> Vercel Inc.</p>
+        <p><strong>Adresse :</strong> 340 Pine Street, Suite 701, San Francisco, CA 94104, États-Unis</p>
+        <p><strong>Site web :</strong> vercel.com</p>
+      </div>
+      <p>Le site wlfesport.vercel.app est hébergé sur l'infrastructure de Vercel Inc., société américaine proposant des services d'hébergement cloud.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>3. Propriété intellectuelle</h2>
+      <p>L'ensemble du contenu de ce site (textes, images, logos, charte graphique, design) est la propriété exclusive de WLF Esport, sauf mentions contraires. Toute reproduction, distribution ou utilisation sans autorisation écrite préalable est interdite.</p>
+      <p>Les noms des jeux vidéo référencés (Valorant, Rocket League, etc.) sont la propriété de leurs éditeurs respectifs. WLF Esport n'est affilié à aucun de ces éditeurs.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>4. Limitation de responsabilité</h2>
+      <p>WLF Esport s'efforce d'assurer l'exactitude des informations publiées sur ce site, mais ne peut garantir leur exhaustivité ou leur mise à jour permanente. L'organisation décline toute responsabilité pour les dommages directs ou indirects résultant de l'utilisation du site.</p>
+      <p>Les liens hypertextes présents sur ce site vers des sites tiers n'engagent pas la responsabilité de WLF Esport quant au contenu de ces sites.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>5. Droit applicable</h2>
+      <p>Le présent site et ses mentions légales sont soumis au droit français. En cas de litige, les tribunaux français seront seuls compétents.</p>
+    </div>
+  </div>
+
+  <!-- ─── CGU ─── -->
+  <div class="legal-page" id="page-cgu">
+    <div class="legal-hero">
+      <div class="legal-eyebrow">// TERMS_OF_USE</div>
+      <h1 class="legal-title">Conditions Générales d'Utilisation</h1>
+      <div class="legal-date">En vigueur depuis : Mai 2026</div>
+    </div>
+
+    <div class="legal-section">
+      <h2>1. Objet</h2>
+      <p>Les présentes Conditions Générales d'Utilisation (CGU) définissent les règles d'accès et d'utilisation du site wlfesport.vercel.app et de ses services, notamment le formulaire de candidature esport.</p>
+      <p>En accédant au site, l'utilisateur accepte pleinement et sans réserve les présentes CGU.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>2. Accès au site</h2>
+      <p>L'accès au site WLF Esport est gratuit et ouvert à tout utilisateur disposant d'un accès internet. WLF Esport se réserve le droit de suspendre ou de modifier l'accès au site à tout moment, sans préavis.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>3. Formulaire de candidature</h2>
+      <p>Le formulaire de candidature est destiné aux joueurs souhaitant rejoindre WLF Esport sur les jeux Valorant et Rocket League. En soumettant une candidature, l'utilisateur s'engage à :</p>
+      <ul>
+        <li>Fournir des informations exactes, sincères et à jour</li>
+        <li>Ne pas soumettre plusieurs candidatures simultanées pour le même poste</li>
+        <li>Accepter que ses données soient traitées par le staff WLF Esport</li>
+        <li>Respecter un délai de réponse de 72h ouvrées</li>
+        <li>Ne pas harceler le staff en cas d'absence de réponse</li>
+      </ul>
+      <p>WLF Esport se réserve le droit de refuser toute candidature sans avoir à en justifier les motifs, et de bannir tout utilisateur adoptant un comportement inapproprié.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>4. Comportement des utilisateurs</h2>
+      <p>L'utilisateur s'engage à ne pas utiliser le site à des fins illicites ou contraires aux présentes CGU. Sont notamment interdits :</p>
+      <ul>
+        <li>La soumission de fausses informations ou l'usurpation d'identité</li>
+        <li>Toute tentative d'accès non autorisé au panel administrateur</li>
+        <li>L'envoi de contenus offensants, discriminatoires ou illégaux</li>
+        <li>Le spam ou la soumission automatisée de formulaires</li>
+        <li>Toute action visant à perturber le fonctionnement du site</li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2>5. Propriété des contenus soumis</h2>
+      <p>En soumettant une candidature incluant des vidéos, clips ou images, l'utilisateur garantit être l'auteur ou disposer des droits nécessaires sur ces contenus. WLF Esport ne revendique aucun droit de propriété sur ces contenus, qui sont utilisés uniquement dans le cadre de l'évaluation de la candidature.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>6. Modification des CGU</h2>
+      <p>WLF Esport se réserve le droit de modifier les présentes CGU à tout moment. Les utilisateurs sont invités à les consulter régulièrement. La date de dernière mise à jour est indiquée en haut de cette page.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>7. Contact</h2>
+      <p>Pour toute question relative aux présentes CGU : <span class="placeholder">contact@wlf-esport.fr</span></p>
+    </div>
+  </div>
+
+  <!-- ─── CONFIDENTIALITÉ ─── -->
+  <div class="legal-page" id="page-confidentialite">
+    <div class="legal-hero">
+      <div class="legal-eyebrow">// PRIVACY_POLICY</div>
+      <h1 class="legal-title">Politique de confidentialité</h1>
+      <div class="legal-date">Conforme au RGPD — Mise à jour : Mai 2026</div>
+    </div>
+
+    <div class="legal-section">
+      <h2>1. Responsable du traitement</h2>
+      <div class="info-box">
+        <p><strong>Organisation :</strong> WLF Esport</p>
+        <p><strong>Responsable :</strong> <span class="placeholder">TON PRÉNOM NOM</span></p>
+        <p><strong>Contact DPO :</strong> <span class="placeholder">contact@wlf-esport.fr</span></p>
+      </div>
+    </div>
+
+    <div class="legal-section">
+      <h2>2. Données collectées</h2>
+      <p>Dans le cadre du formulaire de candidature, WLF Esport collecte les données suivantes :</p>
+      <ul>
+        <li><strong style="color:var(--wlf-text)">Pseudo / Gamertag</strong> — identification du joueur</li>
+        <li><strong style="color:var(--wlf-text)">Âge</strong> — vérification des conditions d'éligibilité</li>
+        <li><strong style="color:var(--wlf-text)">Jeu et rôle</strong> — évaluation du profil compétitif</li>
+        <li><strong style="color:var(--wlf-text)">Niveau / Rang</strong> — évaluation des compétences</li>
+        <li><strong style="color:var(--wlf-text)">Discord ID</strong> — communication avec le candidat</li>
+        <li><strong style="color:var(--wlf-text)">Adresse email</strong> — communication officielle</li>
+        <li><strong style="color:var(--wlf-text)">Texte de motivation</strong> — évaluation de la candidature</li>
+        <li><strong style="color:var(--wlf-text)">Fichiers joints (optionnel)</strong> — clips ou vidéos de gameplay</li>
+      </ul>
+      <p>Aucune donnée sensible (santé, opinions politiques, etc.) n'est collectée.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>3. Finalités du traitement</h2>
+      <p>Les données collectées sont utilisées exclusivement pour :</p>
+      <ul>
+        <li>Évaluer les candidatures reçues par le staff WLF Esport</li>
+        <li>Communiquer avec les candidats concernant leur dossier</li>
+        <li>Envoyer des notifications via Discord webhook aux administrateurs</li>
+        <li>Tenir un historique des candidatures traitées</li>
+      </ul>
+      <p>Les données ne sont jamais vendues, louées ou cédées à des tiers à des fins commerciales.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>4. Base légale</h2>
+      <p>Le traitement des données repose sur le <strong style="color:var(--wlf-text)">consentement de l'utilisateur</strong> (article 6.1.a du RGPD), donné au moment de la soumission du formulaire de candidature.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>5. Durée de conservation</h2>
+      <ul>
+        <li><strong style="color:var(--wlf-text)">Candidatures acceptées :</strong> conservées pendant la durée de l'engagement + 1 an</li>
+        <li><strong style="color:var(--wlf-text)">Candidatures refusées :</strong> supprimées dans un délai de 6 mois</li>
+        <li><strong style="color:var(--wlf-text)">Candidatures en attente :</strong> supprimées après 3 mois sans réponse</li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2>6. Vos droits (RGPD)</h2>
+      <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez des droits suivants :</p>
+      <div class="rights-grid">
+        <div class="right-card">
+          <div class="right-icon">👁️</div>
+          <div class="right-title">Droit d'accès</div>
+          <div class="right-desc">Obtenir une copie de vos données personnelles détenues par WLF Esport</div>
+        </div>
+        <div class="right-card">
+          <div class="right-icon">✏️</div>
+          <div class="right-title">Droit de rectification</div>
+          <div class="right-desc">Faire corriger des données inexactes ou incomplètes vous concernant</div>
+        </div>
+        <div class="right-card">
+          <div class="right-icon">🗑️</div>
+          <div class="right-title">Droit à l'effacement</div>
+          <div class="right-desc">Demander la suppression de vos données (droit à l'oubli)</div>
+        </div>
+        <div class="right-card">
+          <div class="right-icon">⛔</div>
+          <div class="right-title">Droit d'opposition</div>
+          <div class="right-desc">Vous opposer au traitement de vos données dans certains cas</div>
+        </div>
+        <div class="right-card">
+          <div class="right-icon">📦</div>
+          <div class="right-title">Droit à la portabilité</div>
+          <div class="right-desc">Recevoir vos données dans un format structuré et lisible</div>
+        </div>
+        <div class="right-card">
+          <div class="right-icon">⏸️</div>
+          <div class="right-title">Droit à la limitation</div>
+          <div class="right-desc">Demander la suspension temporaire du traitement de vos données</div>
+        </div>
+      </div>
+      <p>Pour exercer ces droits, contactez-nous à : <span class="placeholder">contact@wlf-esport.fr</span><br>
+      Délai de réponse : 30 jours maximum. En cas de litige, vous pouvez saisir la <strong style="color:var(--wlf-text)">CNIL</strong> (Commission Nationale de l'Informatique et des Libertés) à l'adresse <span class="placeholder">cnil.fr/fr/plaintes</span>.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>7. Sécurité des données</h2>
+      <p>WLF Esport met en œuvre les mesures techniques et organisationnelles appropriées pour protéger vos données contre tout accès non autorisé, perte ou divulgation :</p>
+      <ul>
+        <li>Données stockées sur Supabase (infrastructure sécurisée, chiffrement en transit et au repos)</li>
+        <li>Accès au panel admin protégé par authentification</li>
+        <li>Communications chiffrées via HTTPS (SSL/TLS)</li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2>8. Services tiers</h2>
+      <p>Ce site utilise les services tiers suivants, chacun disposant de sa propre politique de confidentialité :</p>
+      <ul>
+        <li><strong style="color:var(--wlf-text)">Vercel</strong> — hébergement (vercel.com/legal/privacy-policy)</li>
+        <li><strong style="color:var(--wlf-text)">Supabase</strong> — base de données (supabase.com/privacy)</li>
+        <li><strong style="color:var(--wlf-text)">Discord</strong> — notifications webhook (discord.com/privacy)</li>
+        <li><strong style="color:var(--wlf-text)">Google Fonts</strong> — polices d'écriture (policies.google.com/privacy)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ─── COOKIES ─── -->
+  <div class="legal-page" id="page-cookies">
+    <div class="legal-hero">
+      <div class="legal-eyebrow">// COOKIES_POLICY</div>
+      <h1 class="legal-title">Politique de cookies</h1>
+      <div class="legal-date">Mise à jour : Mai 2026</div>
+    </div>
+
+    <div class="legal-section">
+      <h2>1. Qu'est-ce qu'un cookie ?</h2>
+      <p>Un cookie est un petit fichier texte déposé sur votre appareil lors de la visite d'un site web. Il permet au site de mémoriser des informations sur votre visite, afin d'améliorer votre expérience.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>2. Cookies utilisés par WLF Esport</h2>
+      <p>Le site WLF Esport utilise un nombre minimal de cookies, dans le strict respect de votre vie privée :</p>
+
+      <table class="cookie-table">
+        <thead>
+          <tr>
+            <th>Cookie</th>
+            <th>Type</th>
+            <th>Durée</th>
+            <th>Finalité</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color:var(--wlf-text);font-family:var(--font-mono);font-size:12px">Session navigateur</td>
+            <td><span style="color:#2ECC71;font-size:12px">Technique</span></td>
+            <td>Session</td>
+            <td>Fonctionnement de base du site (navigation, formulaire)</td>
+          </tr>
+          <tr>
+            <td style="color:var(--wlf-text);font-family:var(--font-mono);font-size:12px">Google Fonts</td>
+            <td><span style="color:#E67E22;font-size:12px">Tiers</span></td>
+            <td>1 an</td>
+            <td>Chargement des polices d'écriture (Exo 2, Rajdhani)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-box" style="border-left-color:#2ECC71">
+        <p style="color:#2ECC71">✅ Bonne nouvelle : WLF Esport n'utilise <strong>aucun cookie publicitaire, aucun tracker de comportement, aucun outil d'analyse statistique</strong> (Google Analytics, Facebook Pixel, etc.). Votre navigation reste privée.</p>
+      </div>
+    </div>
+
+    <div class="legal-section">
+      <h2>3. Cookies tiers — Discord</h2>
+      <p>Le bouton "Rejoindre le Discord" redirige vers le site Discord.com. En cliquant sur ce lien, vous quittez wlfesport.vercel.app et êtes soumis à la politique de cookies de Discord (discord.com/privacy).</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>4. Gestion de vos cookies</h2>
+      <p>Vous pouvez à tout moment gérer, désactiver ou supprimer les cookies via les paramètres de votre navigateur :</p>
+      <ul>
+        <li><strong style="color:var(--wlf-text)">Google Chrome :</strong> Paramètres → Confidentialité → Cookies</li>
+        <li><strong style="color:var(--wlf-text)">Firefox :</strong> Options → Vie privée → Cookies</li>
+        <li><strong style="color:var(--wlf-text)">Safari :</strong> Préférences → Confidentialité</li>
+        <li><strong style="color:var(--wlf-text)">Edge :</strong> Paramètres → Confidentialité → Cookies</li>
+      </ul>
+      <p>Attention : la désactivation de certains cookies peut affecter le fonctionnement du formulaire de candidature.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>5. Contact</h2>
+      <p>Pour toute question relative à notre utilisation des cookies : <span class="placeholder">contact@wlf-esport.fr</span></p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.legal-page').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('page-' + tab).classList.add('active');
+  window.scrollTo({ top: 70, behavior: 'smooth' });
+}
+
+// Handle footer links from index.html
+const hash = window.location.hash;
+if (hash === '#cgu') showTabById('cgu');
+else if (hash === '#confidentialite') showTabById('confidentialite');
+else if (hash === '#cookies') showTabById('cookies');
+
+function showTabById(tab) {
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    const tabs = ['mentions','cgu','confidentialite','cookies'];
+    if (tabs[i] === tab) b.classList.add('active');
+    else b.classList.remove('active');
+  });
+  document.querySelectorAll('.legal-page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + tab).classList.add('active');
+}
+</script>
+</body>
+</html>
