@@ -2696,10 +2696,10 @@ function renderTable() {
       <td><span class="status-badge ${c.status}">${c.status === 'pending' ? 'EN ATTENTE' : c.status === 'accepted' ? 'ACCEPTÉ' : 'REFUSÉ'}</span></td>
       <td>
         <div class="action-btns">
-          ${c.status !== 'accepted' ? `<button class="action-btn accept" onclick="updateStatus(${c.id},'accepted')">✓ Acc.</button>` : ''}
-          ${c.status !== 'rejected' ? `<button class="action-btn reject" onclick="updateStatus(${c.id},'rejected')">✗ Ref.</button>` : ''}
-          <button class="action-btn note" onclick="openDrawer(${c.id})">📝 Détail</button>
-          <button class="action-btn delete" onclick="deleteCandidature(${c.id})">🗑️</button>
+          ${c.status !== 'accepted' ? `<button class="action-btn accept" onclick="updateStatus('${c.id}','accepted')">✓ Acc.</button>` : ''}
+          ${c.status !== 'rejected' ? `<button class="action-btn reject" onclick="updateStatus('${c.id}','rejected')">✗ Ref.</button>` : ''}
+          <button class="action-btn note" onclick="openDrawer('${c.id}')">📝 Détail</button>
+          <button class="action-btn delete" onclick="deleteCandidature('${c.id}')">🗑️</button>
         </div>
       </td>
     </tr>
@@ -2742,13 +2742,13 @@ function openDrawer(id) {
       <textarea class="drawer-note-area" id="note-${id}" onchange="saveNote(${id},this.value)">${c.note}</textarea>
     </div>
     <div style="display:flex;gap:10px;margin-top:16px">
-      ${c.status !== 'accepted' ? `<button class="action-btn accept" style="flex:1;padding:12px" onclick="updateStatus(${id},'accepted');closeDrawer()">✓ ACCEPTER</button>` : ''}
-      ${c.status !== 'rejected' ? `<button class="action-btn reject" style="flex:1;padding:12px" onclick="updateStatus(${id},'rejected');closeDrawer()">✗ REFUSER</button>` : ''}
+      ${c.status !== 'accepted' ? `<button class="action-btn accept" style="flex:1;padding:12px" onclick="updateStatus('${id}','accepted');closeDrawer()">✓ ACCEPTER</button>` : ''}
+      ${c.status !== 'rejected' ? `<button class="action-btn reject" style="flex:1;padding:12px" onclick="updateStatus('${id}','rejected');closeDrawer()">✗ REFUSER</button>` : ''}
     </div>
     <div style="margin-top:12px">
-      <button class="action-btn note" style="width:100%;padding:12px;text-align:center" onclick="sendDiscordNotif(${id})">💬 Envoyer notif Discord</button>
+      <button class="action-btn note" style="width:100%;padding:12px;text-align:center" onclick="sendDiscordNotif('${id}')">💬 Envoyer notif Discord</button>
       <div style="margin-top:8px">
-        <button class="action-btn delete" style="width:100%;padding:12px;text-align:center" onclick="deleteCandidature(${id})">🗑️ SUPPRIMER DÉFINITIVEMENT</button>
+        <button class="action-btn delete" style="width:100%;padding:12px;text-align:center" onclick="deleteCandidature('${id}')">🗑️ SUPPRIMER DÉFINITIVEMENT</button>
       </div>
     </div>
   `;
@@ -2854,7 +2854,7 @@ async function submitForm() {
   const discordOk = await sendDiscordWebhook(newCand, 'new');
 
   // 3️⃣ Mise à jour panel local
-  const localCand = { ...newCand, id: candidatures.length + 1, name: newCand.pseudo, date: new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'short',year:'numeric'}) };
+  const localCand = { ...newCand, id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(), name: newCand.pseudo, date: new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'short',year:'numeric'}) };
   candidatures.unshift(localCand);
 
   btn.textContent = '⚡ SOUMETTRE MA CANDIDATURE';
