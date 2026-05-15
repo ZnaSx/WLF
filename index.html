@@ -1607,6 +1607,12 @@ section {
 
 .action-btn.note:hover { background: rgba(212,160,23,0.1); }
 
+.action-btn.delete {
+  color: #ff6b6b;
+  border-color: rgba(255,107,107,0.4);
+}
+.action-btn.delete:hover { background: rgba(255,107,107,0.1); }
+
 .cand-pseudo {
   font-family: var(--font-display);
   font-weight: 700;
@@ -2503,7 +2509,7 @@ const CONFIG = {
   ADMIN_PASS: 'wlf2026'
 };
 
-const SUPABASE_READY = CONFIG.SUPABASE_URL !== 'sb_publishable_52IsXfOIJMNU8ZWqY1iy2A_aRTqH6L_';
+const SUPABASE_READY = CONFIG.SUPABASE_URL !== 'https://guokausurfoenqtwyrik.supabase.co';
 
 // ─── SUPABASE ───
 async function supabaseInsert(data) {
@@ -2560,6 +2566,27 @@ async function supabaseSaveNote(id, note) {
     },
     body: JSON.stringify({ note })
   });
+}
+
+async function supabaseDelete(id) {
+  if (!SUPABASE_READY) return;
+  await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/candidatures?id=eq.${id}`, {
+    method: 'DELETE',
+    headers: {
+      'apikey': CONFIG.SUPABASE_KEY,
+      'Authorization': `Bearer ${CONFIG.SUPABASE_KEY}`
+    }
+  });
+}
+
+function deleteCandidature(id) {
+  const c = candidatures.find(x => x.id === id);
+  if (!confirm(`⚠️ Supprimer la candidature de ${c.pseudo} ? Cette action est irréversible.`)) return;
+  candidatures = candidatures.filter(x => x.id !== id);
+  supabaseDelete(id);
+  closeDrawer();
+  renderTable();
+  showToast('🗑️ Candidature supprimée', `${c.pseudo} a été supprimé définitivement`);
 }
 
 // ─── DISCORD WEBHOOK ───
@@ -2672,6 +2699,7 @@ function renderTable() {
           ${c.status !== 'accepted' ? `<button class="action-btn accept" onclick="updateStatus(${c.id},'accepted')">✓ Acc.</button>` : ''}
           ${c.status !== 'rejected' ? `<button class="action-btn reject" onclick="updateStatus(${c.id},'rejected')">✗ Ref.</button>` : ''}
           <button class="action-btn note" onclick="openDrawer(${c.id})">📝 Détail</button>
+          <button class="action-btn delete" onclick="deleteCandidature(${c.id})">🗑️</button>
         </div>
       </td>
     </tr>
@@ -2719,6 +2747,9 @@ function openDrawer(id) {
     </div>
     <div style="margin-top:12px">
       <button class="action-btn note" style="width:100%;padding:12px;text-align:center" onclick="sendDiscordNotif(${id})">💬 Envoyer notif Discord</button>
+      <div style="margin-top:8px">
+        <button class="action-btn delete" style="width:100%;padding:12px;text-align:center" onclick="deleteCandidature(${id})">🗑️ SUPPRIMER DÉFINITIVEMENT</button>
+      </div>
     </div>
   `;
   document.getElementById('detailDrawer').classList.add('open');
