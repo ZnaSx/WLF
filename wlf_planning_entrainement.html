@@ -1,0 +1,488 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;800;900&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #080810;
+  font-family: 'Rajdhani', sans-serif;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.wrapper {
+  background: #080810;
+  background-image: linear-gradient(rgba(212,160,23,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(212,160,23,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  padding: 32px 28px 40px;
+  min-height: 580px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo-hex {
+  width: 52px;
+  height: 52px;
+}
+
+.logo-text {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: 4px;
+  background: linear-gradient(135deg, #FFD04D, #D4A017);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.logo-sub {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: #7A7A9A;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+.title-area { text-align: center; flex: 1; }
+
+.planning-title {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 900;
+  font-size: 28px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #E8E8F0;
+}
+
+.planning-title span {
+  background: linear-gradient(135deg, #FFD04D, #D4A017);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.planning-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: #3A3A5C;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #D4A017;
+  border: 1px solid rgba(212,160,23,0.3);
+  padding: 6px 14px;
+  background: rgba(212,160,23,0.05);
+}
+
+.top-deco {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #D4A017, #FFD04D, #D4A017, transparent);
+  margin-bottom: 6px;
+  opacity: 0.6;
+}
+
+.bottom-deco {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #D4A017, #FFD04D, #D4A017, transparent);
+  margin-top: 6px;
+  opacity: 0.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.day-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.day-header {
+  background: linear-gradient(135deg, #D4A017, #8B6A0C);
+  padding: 10px 6px;
+  text-align: center;
+  position: relative;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+}
+
+.day-name {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #080810;
+  text-transform: uppercase;
+}
+
+.day-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: rgba(8,8,16,0.6);
+  margin-top: 2px;
+  letter-spacing: 1px;
+}
+
+.slot {
+  background: #11111F;
+  border: 1px solid rgba(212,160,23,0.12);
+  padding: 8px 6px;
+  min-height: 72px;
+  position: relative;
+  transition: border-color 0.2s;
+  cursor: pointer;
+}
+
+.slot:hover { border-color: rgba(212,160,23,0.4); }
+
+.slot.filled {
+  border-color: rgba(212,160,23,0.3);
+  background: #13132A;
+}
+
+.slot.filled:hover { border-color: #D4A017; }
+
+.slot-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  color: #D4A017;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+.slot-title {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  color: #E8E8F0;
+  line-height: 1.3;
+  margin-bottom: 3px;
+}
+
+.slot-detail {
+  font-size: 10px;
+  color: #7A7A9A;
+  line-height: 1.4;
+}
+
+.slot-tag {
+  position: absolute;
+  top: 5px; right: 5px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+}
+
+.slot-tag.scrim { background: #E74C3C; box-shadow: 0 0 4px rgba(231,76,60,0.6); }
+.slot-tag.training { background: #D4A017; box-shadow: 0 0 4px rgba(212,160,23,0.6); }
+.slot-tag.review { background: #5865F2; box-shadow: 0 0 4px rgba(88,101,242,0.6); }
+.slot-tag.rest { background: #2ECC71; box-shadow: 0 0 4px rgba(46,204,113,0.6); }
+.slot-tag.tournament { background: #FF6B6B; box-shadow: 0 0 4px rgba(255,107,107,0.8); animation: tpulse 1.5s ease-in-out infinite; }
+
+@keyframes tpulse {
+  0%, 100% { box-shadow: 0 0 4px rgba(255,107,107,0.6); }
+  50% { box-shadow: 0 0 10px rgba(255,107,107,1); }
+}
+
+.empty-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 56px;
+}
+
+.empty-plus {
+  font-size: 16px;
+  color: #2A2A4A;
+  font-weight: 300;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(212,160,23,0.1);
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #7A7A9A;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.legend-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+
+.footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.footer-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: #2A2A4A;
+  text-transform: uppercase;
+}
+
+.hashtag {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #FFD04D, #D4A017);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="top-deco"></div>
+
+  <div class="header">
+    <div class="logo-area">
+      <svg class="logo-hex" viewBox="0 0 52 52">
+        <defs>
+          <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFD04D"/>
+            <stop offset="100%" stop-color="#8B6A0C"/>
+          </linearGradient>
+        </defs>
+        <polygon points="26,2 48,14 48,38 26,50 4,38 4,14" fill="none" stroke="url(#hg)" stroke-width="1.5"/>
+        <polygon points="26,8 42,17 42,35 26,44 10,35 10,17" fill="rgba(212,160,23,0.08)" stroke="rgba(212,160,23,0.2)" stroke-width="0.8"/>
+        <text x="26" y="32" text-anchor="middle" fill="url(#hg)" font-family="Exo 2, Arial Black" font-weight="900" font-size="14" letter-spacing="1">WLF</text>
+      </svg>
+      <div>
+        <div class="logo-text">WLF</div>
+        <div class="logo-sub">Académie</div>
+      </div>
+    </div>
+
+    <div class="title-area">
+      <div class="planning-title">PLANNING <span>DE LA SEMAINE</span></div>
+      <div class="planning-sub">// Programme d'entraînement académique</div>
+    </div>
+
+    <div class="tag">SAISON 1</div>
+  </div>
+
+  <div class="grid">
+
+    <!-- LUNDI -->
+    <div class="day-col">
+      <div class="day-header">
+        <div class="day-name">Lundi</div>
+      </div>
+      <div class="slot filled">
+        <div class="slot-tag training"></div>
+        <div class="slot-time">18H00 – 19H30</div>
+        <div class="slot-title">Échauffement & Aim Training</div>
+        <div class="slot-detail">Deathmatch · Aim Lab</div>
+      </div>
+      <div class="slot filled">
+        <div class="slot-tag training"></div>
+        <div class="slot-time">19H30 – 21H00</div>
+        <div class="slot-title">Ranked Solo Queue</div>
+        <div class="slot-detail">Objectif : +25 RR min.</div>
+      </div>
+      <div class="slot">
+        <div class="empty-slot"><div class="empty-plus">+</div></div>
+      </div>
+    </div>
+
+    <!-- MARDI -->
+    <div class="day-col">
+      <div class="day-header">
+        <div class="day-name">Mardi</div>
+      </div>
+      <div class="slot filled">
+        <div class="slot-tag review"></div>
+        <div class="slot-time">18H00 – 19H00</div>
+        <div class="slot-title">VOD Review</div>
+        <div class="slot-detail">Analyse des parties · Erreurs</div>
+      </div>
+      <div class="slot filled">
+        <div class="slot-tag training"></div>
+        <div class="slot-time">19H00 – 21H00</div>
+        <div class="slot-title">Entraînement collectif</div>
+        <div class="slot-detail">Synchro équipe · Calls</div>
+      </div>
+      <div class="slot">
+        <div class="empty-slot"><div class="empty-plus">+</div></div>
+      </div>
+    </div>
+
+    <!-- MERCREDI -->
+    <div class="day-col">
+      <div class="day-header">
+        <div class="day-name">Mercredi</div>
+      </div>
+      <div class="slot filled">
+        <div class="slot-tag scrim"></div>
+        <div class="slot-time">18H00 – 20H00</div>
+        <div class="slot-title">Scrim Block #1</div>
+        <div class="slot-detail">vs Team adversaire · BO3</div>
+      </div>
+      <div class="slot filled">
+        <div class="slot-tag review"></div>
+        <div class="slot-time">20H00 – 21H00</div>
+        <div class="slot-title">Debrief Scrim</div>
+        <div class="slot-detail">Points positifs · Axes d'amélio</div>
+      </div>
+      <div class="slot">
+        <div class="empty-slot"><div class="empty-plus">+</div></div>
+      </div>
+    </div>
+
+    <!-- JEUDI -->
+    <div class="day-col">
+      <div class="day-header">
+        <div class="day-name">Jeudi</div>
+      </div>
+      <div class="slot filled">
+        <div class="slot-tag training"></div>
+        <div class="slot-time">18H00 – 19H30</div>
+        <div class="slot-title">Strat Session</div>
+        <div class="slot-detail">Nouvelles stratégies · Exécution</div>
+      </div>
+      <div class="slot filled">
+        <div class="slot-tag training"></div>
+        <div class="slot-time">19H30 – 21H00</div>
+        <div class="slot-title">Ranked Team Queue</div>
+        <div class="slot-detail">Application des strats</div>
+      </div>
+      <div class="slot">
+        <div class="empty-slot"><div class="empty-plus">+</div></div>
+      </div>
+    </div>
+
+    <!-- VENDREDI -->
+    <div class="day-col">
+      <div class="day-header">
+        <div class="day-name">Vendredi</div>
+      </div>
+      <div class="slot filled">
+        <div class="slot-tag scrim"></div>
+        <div class="slot-time">19H00 – 21H00</div>
+        <div class="slot-title">Scrim Block #2</div>
+        <div class="slot-detail">vs Team adversaire · BO5</div>
+      </div>
+      <div class="slot filled">
+        <div class="slot-tag review"></div>
+        <div class="slot-time">21H00 – 21H30</div>
+        <div class="slot-title">Bilan semaine</div>
+        <div class="slot-detail">Objectifs atteints · Suite</div>
+      </div>
+      <div class="slot">
+        <div class="empty-slot"><div class="empty-plus">+</div></div>
+      </div>
+    </div>
+
+    <!-- SAMEDI -->
+    <div class="day-col">
+      <div class="day-header">
+        <div class="day-name">Samedi</div>
+      </div>
+      <div class="slot filled">
+        <div class="slot-tag tournament"></div>
+        <div class="slot-time">14H00 – 18H00</div>
+        <div class="slot-title">Tournoi / Compétition</div>
+        <div class="slot-detail">WLF représente en compét</div>
+      </div>
+      <div class="slot filled">
+        <div class="slot-tag training"></div>
+        <div class="slot-time">18H00 – 20H00</div>
+        <div class="slot-title">Free Ranked</div>
+        <div class="slot-detail">Solo individuel · Grind</div>
+      </div>
+      <div class="slot">
+        <div class="empty-slot"><div class="empty-plus">+</div></div>
+      </div>
+    </div>
+
+    <!-- DIMANCHE -->
+    <div class="day-col">
+      <div class="day-header">
+        <div class="day-name">Dimanche</div>
+      </div>
+      <div class="slot filled">
+        <div class="slot-tag rest"></div>
+        <div class="slot-time">JOURNÉE</div>
+        <div class="slot-title">Repos & Récupération</div>
+        <div class="slot-detail">Mental reset · Hydratation</div>
+      </div>
+      <div class="slot filled">
+        <div class="slot-tag review"></div>
+        <div class="slot-time">20H00 – 21H00</div>
+        <div class="slot-title">Prépa semaine suivante</div>
+        <div class="slot-detail">Objectifs · Scrims à booker</div>
+      </div>
+      <div class="slot">
+        <div class="empty-slot"><div class="empty-plus">+</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#D4A017"></div>Entraînement</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#E74C3C"></div>Scrim</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#5865F2"></div>VOD Review</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FF6B6B"></div>Tournoi</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2ECC71"></div>Repos</div>
+  </div>
+
+  <div class="bottom-deco"></div>
+
+  <div class="footer-row">
+    <div class="footer-tag">WIN · LEARN · FIGHT</div>
+    <div class="hashtag">#WLF</div>
+    <div class="footer-tag">wlfesport.vercel.app</div>
+  </div>
+
+</div>
+</body>
+</html>

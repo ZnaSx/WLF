@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Espace Joueur — WLF Esport</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #D4A017;
+  --gold-bright: #FFD04D;
+  --gold-dark: #8B6A0C;
+  --red: #C0392B;
+  --red-bright: #E74C3C;
+  --black: #080810;
+  --dark: #0D0D1A;
+  --panel: #11111F;
+  --card: #16162A;
+  --border: rgba(212,160,23,0.2);
+  --border-glow: rgba(212,160,23,0.5);
+  --text: #E8E8F0;
+  --text-muted: #7A7A9A;
+  --text-faint: #3A3A5C;
+  --font-d: 'Exo 2', sans-serif;
+  --font-b: 'Rajdhani', sans-serif;
+  --font-m: 'JetBrains Mono', monospace;
+  --coach: #E74C3C;
+  --fondateur: #FFD04D;
+  --admin: #9B59B6;
+  --joueur: #2ECC71;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-b); background: var(--black); color: var(--text); overflow-x: hidden; }
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: linear-gradient(rgba(212,160,23,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(212,160,23,0.025) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none; z-index: 0;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--gold-dark); }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 66px;
+  background: rgba(8,8,16,0.92); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  display: flex; align-items: center; gap: 12px; text-decoration: none;
+}
+
+.nav-logo-text {
+  font-family: var(--font-d); font-weight: 900; font-size: 20px;
+  letter-spacing: 4px;
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.nav-right { display: flex; align-items: center; gap: 16px; }
+
+.nav-user-info {
+  display: none;
+  align-items: center; gap: 10px;
+}
+
+.nav-user-info.show { display: flex; }
+
+.user-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-d); font-weight: 900; font-size: 14px;
+  color: var(--black);
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+}
+
+.user-name {
+  font-family: var(--font-d); font-weight: 700; font-size: 14px;
+  color: var(--text);
+}
+
+.user-role-badge {
+  font-family: var(--font-m); font-size: 10px; letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+
+.role-joueur { color: var(--joueur); background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.3); }
+.role-coach { color: var(--coach); background: rgba(231,76,60,0.1); border: 1px solid rgba(231,76,60,0.3); }
+.role-fondateur { color: var(--fondateur); background: rgba(255,208,77,0.1); border: 1px solid rgba(255,208,77,0.3); }
+.role-admin { color: var(--admin); background: rgba(155,89,182,0.1); border: 1px solid rgba(155,89,182,0.3); }
+
+.btn-logout {
+  font-family: var(--font-d); font-weight: 600; font-size: 11px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text-muted); background: none;
+  border: 1px solid var(--border); padding: 7px 16px;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-logout:hover { color: var(--red-bright); border-color: var(--red-bright); }
+
+.back-btn {
+  font-family: var(--font-d); font-weight: 600; font-size: 11px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text-muted); text-decoration: none;
+  border: 1px solid var(--border); padding: 7px 16px;
+  transition: all 0.2s;
+}
+.back-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+/* PAGES */
+.page { display: none; min-height: 100vh; padding-top: 66px; position: relative; z-index: 1; }
+.page.active { display: block; }
+
+/* ── LOGIN PAGE ── */
+.login-page {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+}
+
+.login-card {
+  background: var(--panel);
+  border: 1px solid var(--border-glow);
+  padding: 56px 48px;
+  width: 100%; max-width: 440px;
+  position: relative; overflow: hidden;
+  text-align: center;
+}
+
+.login-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--gold-bright), var(--gold), transparent);
+}
+
+.login-logo { margin-bottom: 32px; }
+
+.login-title {
+  font-family: var(--font-d); font-weight: 900; font-size: 26px;
+  color: var(--text); margin-bottom: 6px; letter-spacing: 1px;
+}
+
+.login-sub {
+  font-family: var(--font-m); font-size: 10px; letter-spacing: 3px;
+  color: var(--text-muted); text-transform: uppercase; margin-bottom: 36px;
+}
+
+.form-group { margin-bottom: 18px; text-align: left; }
+
+.form-label {
+  display: block; font-family: var(--font-m); font-size: 10px;
+  letter-spacing: 2px; color: var(--gold); text-transform: uppercase;
+  margin-bottom: 7px;
+}
+
+.form-input {
+  width: 100%; background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border); color: var(--text);
+  font-family: var(--font-b); font-size: 15px;
+  padding: 12px 16px; outline: none; transition: all 0.2s;
+}
+
+.form-input:focus {
+  border-color: var(--gold);
+  background: rgba(212,160,23,0.05);
+  box-shadow: 0 0 0 3px rgba(212,160,23,0.08);
+}
+
+.btn-login {
+  width: 100%; font-family: var(--font-d); font-weight: 800;
+  font-size: 13px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--black);
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+  border: none; padding: 16px; cursor: pointer;
+  clip-path: polygon(14px 0%, 100% 0%, calc(100% - 14px) 100%, 0% 100%);
+  transition: all 0.2s; margin-top: 8px;
+}
+
+.btn-login:hover { filter: brightness(1.1); }
+
+.login-error {
+  font-family: var(--font-m); font-size: 12px; color: var(--red-bright);
+  background: rgba(231,76,60,0.08); border: 1px solid rgba(231,76,60,0.3);
+  padding: 10px; margin-bottom: 16px; display: none;
+}
+.login-error.show { display: block; }
+
+.login-demo {
+  margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border);
+  font-family: var(--font-m); font-size: 10px; color: var(--text-faint);
+  letter-spacing: 1px; line-height: 1.8; text-align: left;
+}
+
+.login-demo span { color: var(--gold); }
+
+/* ── DASHBOARD ── */
+.dashboard { padding: 40px; max-width: 1400px; margin: 0 auto; }
+
+.dash-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 36px; flex-wrap: wrap; gap: 16px;
+}
+
+.dash-title {
+  font-family: var(--font-d); font-weight: 900; font-size: 32px;
+  color: var(--text); line-height: 1;
+}
+
+.dash-title span {
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.dash-eyebrow {
+  font-family: var(--font-m); font-size: 10px; letter-spacing: 4px;
+  color: var(--gold); text-transform: uppercase; margin-bottom: 8px;
+}
+
+/* TABS */
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+
+.tab-btn {
+  font-family: var(--font-d); font-weight: 600; font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text-muted); background: none; border: none;
+  padding: 14px 28px; cursor: pointer; position: relative; transition: color 0.2s;
+}
+
+.tab-btn::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 2px; background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+  transform: scaleX(0); transition: transform 0.2s;
+}
+
+.tab-btn.active { color: var(--gold); }
+.tab-btn.active::after { transform: scaleX(1); }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* PLANNING GRID */
+.planning-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+}
+
+.planning-label {
+  font-family: var(--font-m); font-size: 11px; letter-spacing: 3px;
+  color: var(--gold); text-transform: uppercase;
+}
+
+.week-nav {
+  display: flex; align-items: center; gap: 12px;
+}
+
+.week-btn {
+  font-family: var(--font-m); font-size: 12px;
+  color: var(--text-muted); background: none;
+  border: 1px solid var(--border); padding: 6px 14px;
+  cursor: pointer; transition: all 0.2s;
+}
+
+.week-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+.week-label {
+  font-family: var(--font-d); font-weight: 700; font-size: 14px;
+  color: var(--text); min-width: 160px; text-align: center;
+}
+
+.grid-planning {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.day-col { display: flex; flex-direction: column; gap: 5px; }
+
+.day-head {
+  background: linear-gradient(135deg, #1A1A2E, #0D0D20);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--gold);
+  padding: 10px 6px; text-align: center;
+}
+
+.day-name {
+  font-family: var(--font-d); font-weight: 800; font-size: 11px;
+  letter-spacing: 2px; color: var(--gold); text-transform: uppercase;
+}
+
+.day-date {
+  font-family: var(--font-m); font-size: 9px; color: var(--text-faint);
+  margin-top: 2px; letter-spacing: 1px;
+}
+
+.slot {
+  background: var(--panel); border: 1px solid rgba(212,160,23,0.1);
+  padding: 8px 7px; min-height: 80px; position: relative;
+  cursor: default; transition: all 0.2s;
+}
+
+.slot.editable { cursor: pointer; }
+.slot.editable:hover { border-color: rgba(212,160,23,0.4); background: #13132A; }
+
+.slot.has-event {
+  border-color: rgba(212,160,23,0.3);
+  background: #12122A;
+}
+
+.slot-type-bar {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+}
+
+.event-time {
+  font-family: var(--font-m); font-size: 8px; color: var(--gold);
+  letter-spacing: 1px; margin-bottom: 4px; padding-left: 8px;
+}
+
+.event-title {
+  font-family: var(--font-d); font-weight: 700; font-size: 11px;
+  color: var(--text); line-height: 1.3; padding-left: 8px; margin-bottom: 2px;
+}
+
+.event-detail {
+  font-size: 10px; color: var(--text-muted); padding-left: 8px;
+  line-height: 1.4;
+}
+
+.slot-empty {
+  display: flex; align-items: center; justify-content: center;
+  height: 100%; min-height: 60px;
+  font-size: 18px; color: #222238;
+}
+
+.add-event-hint {
+  font-family: var(--font-m); font-size: 9px; color: #2A2A4A;
+  text-align: center; margin-top: 4px; letter-spacing: 1px;
+}
+
+/* EVENT MODAL */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
+  align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--dark);
+  border: 1px solid var(--border-glow);
+  padding: 40px; width: 90vw; max-width: 480px;
+  position: relative;
+}
+
+.modal::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--gold-bright), var(--gold), transparent);
+}
+
+.modal-title {
+  font-family: var(--font-d); font-weight: 900; font-size: 20px;
+  color: var(--text); margin-bottom: 24px; letter-spacing: 1px;
+}
+
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  background: none; border: 1px solid var(--border);
+  color: var(--text-muted); font-size: 18px;
+  width: 36px; height: 36px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.modal-close:hover { border-color: var(--red-bright); color: var(--red-bright); }
+
+.type-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  margin-bottom: 16px;
+}
+
+.type-btn {
+  font-family: var(--font-m); font-size: 10px; letter-spacing: 1px;
+  text-transform: uppercase; background: none; border: 1px solid var(--border);
+  color: var(--text-muted); padding: 10px 6px; cursor: pointer;
+  transition: all 0.2s; text-align: center;
+}
+
+.type-btn.selected, .type-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(212,160,23,0.08); }
+
+.modal-actions {
+  display: flex; gap: 10px; margin-top: 20px;
+}
+
+.btn-save {
+  flex: 1; font-family: var(--font-d); font-weight: 800; font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--black);
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+  border: none; padding: 14px; cursor: pointer;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  transition: all 0.2s;
+}
+
+.btn-save:hover { filter: brightness(1.1); }
+
+.btn-delete-event {
+  font-family: var(--font-d); font-weight: 600; font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--red-bright);
+  background: none; border: 1px solid rgba(231,76,60,0.4);
+  padding: 14px 20px; cursor: pointer; transition: all 0.2s;
+}
+
+.btn-delete-event:hover { background: rgba(231,76,60,0.08); }
+
+/* PROFIL & MEMBRES */
+.members-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.member-card {
+  background: var(--panel); border: 1px solid var(--border);
+  padding: 20px; position: relative; overflow: hidden;
+  transition: all 0.2s;
+}
+
+.member-card:hover { border-color: var(--gold); }
+
+.member-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+}
+
+.member-pseudo {
+  font-family: var(--font-d); font-weight: 900; font-size: 18px;
+  color: var(--text); margin-bottom: 4px;
+}
+
+.member-email {
+  font-family: var(--font-m); font-size: 11px; color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.member-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.member-game-badge {
+  font-family: var(--font-m); font-size: 10px; letter-spacing: 1px;
+  color: var(--gold); background: rgba(212,160,23,0.1);
+  border: 1px solid var(--border); padding: 3px 8px;
+}
+
+/* PROFIL */
+.profile-card {
+  background: var(--panel); border: 1px solid var(--border-glow);
+  padding: 36px; max-width: 600px; position: relative;
+}
+
+.profile-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.profile-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-d); font-weight: 900; font-size: 32px;
+  color: var(--black); margin-bottom: 20px;
+}
+
+.profile-field {
+  display: grid; grid-template-columns: 140px 1fr; gap: 12px;
+  padding: 14px 0; border-bottom: 1px solid rgba(212,160,23,0.08);
+  align-items: center;
+}
+
+.profile-field:last-child { border-bottom: none; }
+
+.profile-field-label {
+  font-family: var(--font-m); font-size: 10px; letter-spacing: 2px;
+  color: var(--gold); text-transform: uppercase;
+}
+
+.profile-field-value {
+  font-family: var(--font-d); font-weight: 600; font-size: 15px;
+  color: var(--text);
+}
+
+/* LEGEND */
+.planning-legend {
+  display: flex; gap: 20px; flex-wrap: wrap;
+  margin-top: 20px; padding-top: 16px;
+  border-top: 1px solid rgba(212,160,23,0.08);
+}
+
+.legend-item {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-m); font-size: 10px;
+  color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase;
+}
+
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* TOAST */
+.toast {
+  position: fixed; top: 80px; right: 20px; z-index: 9999;
+  background: var(--panel); border: 1px solid var(--gold);
+  padding: 14px 20px; transform: translateX(120%);
+  transition: transform 0.3s ease; max-width: 300px;
+}
+.toast.show { transform: translateX(0); }
+.toast-title { font-family: var(--font-d); font-weight: 700; font-size: 14px; color: var(--gold); margin-bottom: 3px; }
+.toast-text { font-size: 13px; color: var(--text-muted); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .dashboard { padding: 24px 16px; }
+  .grid-planning { grid-template-columns: repeat(3, 1fr); }
+  .login-card { padding: 36px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <svg width="38" height="38" viewBox="0 0 38 38">
+      <polygon points="19,2 35,11 35,27 19,36 3,27 3,11" fill="none" stroke="#D4A017" stroke-width="1.5"/>
+      <text x="19" y="24" text-anchor="middle" fill="#D4A017" font-family="Exo 2" font-weight="900" font-size="11" letter-spacing="0.5">WLF</text>
+    </svg>
+    <span class="nav-logo-text">WLF</span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-user-info" id="navUserInfo">
+      <div class="user-avatar" id="navAvatar">?</div>
+      <div>
+        <div class="user-name" id="navName">—</div>
+        <div class="user-role-badge" id="navRole">—</div>
+      </div>
+      <button class="btn-logout" onclick="logout()">DÉCONNEXION</button>
+    </div>
+    <a class="back-btn" href="index.html">← Site principal</a>
+  </div>
+</nav>
+
+<!-- ── PAGE LOGIN ── -->
+<div class="page active login-page" id="pageLogin">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg width="70" height="70" viewBox="0 0 70 70">
+        <defs>
+          <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFD04D"/>
+            <stop offset="100%" stop-color="#8B6A0C"/>
+          </linearGradient>
+        </defs>
+        <polygon points="35,3 64,20 64,50 35,67 6,50 6,20" fill="none" stroke="url(#lg)" stroke-width="2"/>
+        <text x="35" y="43" text-anchor="middle" fill="url(#lg)" font-family="Exo 2" font-weight="900" font-size="20" letter-spacing="1">WLF</text>
+      </svg>
+    </div>
+    <div class="login-title">ESPACE JOUEUR</div>
+    <div class="login-sub">// Accès réservé aux membres WLF</div>
+
+    <div class="login-error" id="loginErr">❌ Email ou mot de passe incorrect</div>
+
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-input" id="loginEmail" placeholder="ton@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Mot de passe</label>
+      <input type="password" class="form-input" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+
+    <button class="btn-login" onclick="doLogin()">🔓 CONNEXION</button>
+
+    <div class="login-demo">
+      <div style="margin-bottom:6px;color:var(--text-faint)">// COMPTES DE DÉMONSTRATION :</div>
+      <div>📧 <span>admin@wlf.fr</span> / pass: <span>admin2026</span> → <span style="color:var(--admin)">Admin</span></div>
+      <div>📧 <span>coach@wlf.fr</span> / pass: <span>coach2026</span> → <span style="color:var(--coach)">Coach</span></div>
+      <div>📧 <span>fondateur@wlf.fr</span> / pass: <span>wlf2026</span> → <span style="color:var(--fondateur)">Fondateur</span></div>
+      <div>📧 <span>joueur@wlf.fr</span> / pass: <span>joueur2026</span> → <span style="color:var(--joueur)">Joueur</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PAGE DASHBOARD ── -->
+<div class="page" id="pageDash">
+  <div class="dashboard">
+
+    <div class="dash-header">
+      <div>
+        <div class="dash-eyebrow">// ESPACE_JOUEUR</div>
+        <h1 class="dash-title">Bienvenue, <span id="dashName">Joueur</span></h1>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'tabPlanning')">📅 Planning</button>
+      <button class="tab-btn" onclick="switchTab(this,'tabProfil')">👤 Mon Profil</button>
+      <button class="tab-btn staff-only" onclick="switchTab(this,'tabMembres')" id="btnMembres">👥 Membres</button>
+    </div>
+
+    <!-- PLANNING TAB -->
+    <div class="tab-content active" id="tabPlanning">
+
+      <!-- Sélecteur équipe -->
+      <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
+        <button class="week-btn active" id="btnValorant" onclick="switchGame('valorant')" style="border-color:rgba(212,160,23,0.5);color:var(--gold)">🎯 VALORANT</button>
+        <button class="week-btn" id="btnRL" onclick="switchGame('rl')">🚀 ROCKET LEAGUE</button>
+      </div>
+
+      <div class="planning-header">
+        <div class="planning-label" id="planningTeamLabel">// PLANNING VALORANT</div>
+        <div class="week-nav">
+          <button class="week-btn" onclick="changeWeek(-1)">← Préc.</button>
+          <div class="week-label" id="weekLabel">—</div>
+          <button class="week-btn" onclick="changeWeek(1)">Suiv. →</button>
+        </div>
+      </div>
+
+      <div class="grid-planning" id="planningGrid"></div>
+
+      <div class="planning-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#D4A017"></div>Entraînement</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#E74C3C"></div>Scrim</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#5865F2"></div>VOD Review</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#FF6B6B"></div>Tournoi</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#2ECC71"></div>Repos</div>
+      </div>
+
+      <div id="editHint" style="display:none;margin-top:12px;font-family:var(--font-m);font-size:10px;color:var(--text-faint);letter-spacing:2px">
+        ✏️ CLIQUEZ SUR UN CRÉNEAU POUR AJOUTER / MODIFIER UN ÉVÉNEMENT
+      </div>
+    </div>
+
+    <!-- PROFIL TAB -->
+    <div class="tab-content" id="tabProfil">
+      <div class="profile-card">
+        <div class="profile-avatar" id="profileAvatar">?</div>
+        <div class="profile-field">
+          <div class="profile-field-label">Pseudo</div>
+          <div class="profile-field-value" id="profilePseudo">—</div>
+        </div>
+        <div class="profile-field">
+          <div class="profile-field-label">Email</div>
+          <div class="profile-field-value" id="profileEmail">—</div>
+        </div>
+        <div class="profile-field">
+          <div class="profile-field-label">Rôle</div>
+          <div class="profile-field-value"><span class="user-role-badge" id="profileRole">—</span></div>
+        </div>
+        <div class="profile-field">
+          <div class="profile-field-label">Équipe</div>
+          <div class="profile-field-value" id="profileTeam">—</div>
+        </div>
+        <div class="profile-field">
+          <div class="profile-field-label">Jeu principal</div>
+          <div class="profile-field-value" id="profileGame">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEMBRES TAB -->
+    <div class="tab-content" id="tabMembres">
+      <div class="members-grid" id="membersGrid"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── MODAL ÉVÉNEMENT ── -->
+<div class="modal-overlay" id="eventModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title" id="modalTitle">Ajouter un événement</div>
+
+    <div class="form-group">
+      <label class="form-label">Heure de début</label>
+      <input type="time" class="form-input" id="evtStart" value="18:00">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Heure de fin</label>
+      <input type="time" class="form-input" id="evtEnd" value="20:00">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Titre</label>
+      <input type="text" class="form-input" id="evtTitle" placeholder="Ex: Scrim vs Team Nova">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Détail (optionnel)</label>
+      <input type="text" class="form-input" id="evtDetail" placeholder="Ex: BO3 · Icebox, Bind">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Type</label>
+      <div class="type-grid">
+        <button class="type-btn selected" onclick="selectType(this,'training')" data-type="training">⚡ Entraîn.</button>
+        <button class="type-btn" onclick="selectType(this,'scrim')" data-type="scrim">🔥 Scrim</button>
+        <button class="type-btn" onclick="selectType(this,'review')" data-type="review">🎬 VOD Review</button>
+        <button class="type-btn" onclick="selectType(this,'tournament')" data-type="tournament">🏆 Tournoi</button>
+        <button class="type-btn" onclick="selectType(this,'rest')" data-type="rest">😴 Repos</button>
+        <button class="type-btn" onclick="selectType(this,'other')" data-type="other">📌 Autre</button>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-save" onclick="saveEvent()">💾 ENREGISTRER</button>
+      <button class="btn-delete-event" id="btnDeleteEvent" onclick="deleteEvent()" style="display:none">🗑️ SUPPRIMER</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-title" id="toastTitle">Notification</div>
+  <div class="toast-text" id="toastText">Message</div>
+</div>
+
+<script>
+// ── USERS DB (en prod → remplacer par Supabase Auth) ──
+const USERS = [
+  { id:1, email:'admin@wlf.fr',      pass:'admin2026',   pseudo:'ADMIN_WLF',   role:'admin',     team:'Staff',         game:'Tous' },
+  { id:2, email:'coach@wlf.fr',      pass:'coach2026',   pseudo:'COACH_WLF',   role:'coach',     team:'Valorant & RL', game:'Tous' },
+  { id:3, email:'fondateur@wlf.fr',  pass:'wlf2026',     pseudo:'FONDATEUR',   role:'fondateur', team:'Staff',         game:'Tous' },
+  { id:4, email:'joueur@wlf.fr',     pass:'joueur2026',  pseudo:'JOUEUR_TEST', role:'joueur',    team:'Valorant',      game:'Valorant' },
+];
+
+const TYPE_COLORS = {
+  training: '#D4A017',
+  scrim: '#E74C3C',
+  review: '#5865F2',
+  tournament: '#FF6B6B',
+  rest: '#2ECC71',
+  other: '#7A7A9A'
+};
+
+const CAN_EDIT_ROLES = ['admin','coach','fondateur'];
+const DAYS = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+
+let currentUser = null;
+let currentGame = 'valorant';
+let currentWeekOffset = 0;
+let editingSlot = null;
+let selectedType = 'training';
+
+// Planning data stocké par jeu + semaine + jour
+let planningData = {
+  valorant: {},
+  rl: {}
+};
+
+// Données exemple pour la démo
+planningData.valorant['0'] = {
+  0: [{ start:'18:00', end:'19:30', title:'Aim Training', detail:'Deathmatch · Aim Lab', type:'training' }],
+  1: [{ start:'18:00', end:'19:00', title:'VOD Review', detail:'Analyse des parties', type:'review' }, { start:'19:00', end:'21:00', title:'Entraînement collectif', detail:'Synchro équipe', type:'training' }],
+  2: [{ start:'18:00', end:'20:00', title:'Scrim Block #1', detail:'BO3 vs Team adversaire', type:'scrim' }],
+  3: [{ start:'19:00', end:'21:00', title:'Ranked Team Queue', detail:'Application des strats', type:'training' }],
+  4: [{ start:'19:00', end:'21:00', title:'Scrim Block #2', detail:'BO5 vs Team adversaire', type:'scrim' }],
+  5: [{ start:'14:00', end:'18:00', title:'Tournoi WLF Cup', detail:'Phase de groupes', type:'tournament' }],
+  6: [{ start:'00:00', end:'23:59', title:'Repos & Récupération', detail:'Mental reset', type:'rest' }],
+};
+
+planningData.rl['0'] = {
+  1: [{ start:'18:00', end:'20:00', title:'Free Play', detail:'Mécanique · Aérien', type:'training' }],
+  3: [{ start:'19:00', end:'21:00', title:'Scrim RL', detail:'3v3 vs Team', type:'scrim' }],
+  6: [{ start:'00:00', end:'23:59', title:'Repos', detail:'', type:'rest' }],
+};
+
+// ── AUTH ──
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pass = document.getElementById('loginPass').value;
+  const user = USERS.find(u => u.email === email && u.pass === pass);
+  if (!user) {
+    document.getElementById('loginErr').classList.add('show');
+    setTimeout(() => document.getElementById('loginErr').classList.remove('show'), 3000);
+    return;
+  }
+  currentUser = user;
+  startSession();
+}
+
+function startSession() {
+  document.getElementById('pageLogin').classList.remove('active');
+  document.getElementById('pageDash').classList.add('active');
+  document.getElementById('navUserInfo').classList.add('show');
+
+  const initials = currentUser.pseudo.substring(0,2).toUpperCase();
+  document.getElementById('navAvatar').textContent = initials;
+  document.getElementById('navName').textContent = currentUser.pseudo;
+  document.getElementById('navRole').textContent = currentUser.role.toUpperCase();
+  document.getElementById('navRole').className = `user-role-badge role-${currentUser.role}`;
+  document.getElementById('dashName').textContent = currentUser.pseudo;
+
+  // Profil
+  document.getElementById('profileAvatar').textContent = initials;
+  document.getElementById('profilePseudo').textContent = currentUser.pseudo;
+  document.getElementById('profileEmail').textContent = currentUser.email;
+  document.getElementById('profileRole').textContent = currentUser.role.toUpperCase();
+  document.getElementById('profileRole').className = `user-role-badge role-${currentUser.role}`;
+  document.getElementById('profileTeam').textContent = currentUser.team;
+  document.getElementById('profileGame').textContent = currentUser.game;
+
+  // Afficher onglet membres pour staff
+  if (CAN_EDIT_ROLES.includes(currentUser.role)) {
+    document.getElementById('btnMembres').style.display = 'block';
+    document.getElementById('editHint').style.display = 'block';
+    renderMembers();
+  }
+
+  renderPlanning();
+  showToast('🔓 Connexion réussie', `Bienvenue ${currentUser.pseudo} !`);
+}
+
+function logout() {
+  currentUser = null;
+  document.getElementById('pageDash').classList.remove('active');
+  document.getElementById('pageLogin').classList.add('active');
+  document.getElementById('navUserInfo').classList.remove('show');
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPass').value = '';
+}
+
+// ── PLANNING ──
+function getWeekDates(offset) {
+  const now = new Date();
+  const day = now.getDay();
+  const diff = now.getDate() - day + (day === 0 ? -6 : 1);
+  const monday = new Date(now.setDate(diff + offset * 7));
+  const dates = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    dates.push(d);
+  }
+  return dates;
+}
+
+function changeWeek(dir) {
+  currentWeekOffset += dir;
+  renderPlanning();
+}
+
+function switchGame(game) {
+  currentGame = game;
+  document.getElementById('btnValorant').style.borderColor = game === 'valorant' ? 'rgba(212,160,23,0.5)' : '';
+  document.getElementById('btnValorant').style.color = game === 'valorant' ? 'var(--gold)' : '';
+  document.getElementById('btnRL').style.borderColor = game === 'rl' ? 'rgba(212,160,23,0.5)' : '';
+  document.getElementById('btnRL').style.color = game === 'rl' ? 'var(--gold)' : '';
+  document.getElementById('planningTeamLabel').textContent = game === 'valorant' ? '// PLANNING VALORANT' : '// PLANNING ROCKET LEAGUE';
+  renderPlanning();
+}
+
+function renderPlanning() {
+  const dates = getWeekDates(currentWeekOffset);
+  const startStr = dates[0].toLocaleDateString('fr-FR', {day:'numeric',month:'short'});
+  const endStr = dates[6].toLocaleDateString('fr-FR', {day:'numeric',month:'short',year:'numeric'});
+  document.getElementById('weekLabel').textContent = `${startStr} – ${endStr}`;
+
+  const weekKey = String(currentWeekOffset);
+  if (!planningData[currentGame][weekKey]) planningData[currentGame][weekKey] = {};
+  const week = planningData[currentGame][weekKey];
+  const canEdit = currentUser && CAN_EDIT_ROLES.includes(currentUser.role);
+
+  const grid = document.getElementById('planningGrid');
+  grid.innerHTML = '';
+
+  DAYS.forEach((dayName, i) => {
+    const col = document.createElement('div');
+    col.className = 'day-col';
+
+    const dateStr = dates[i].toLocaleDateString('fr-FR', {day:'numeric',month:'short'});
+    const isToday = dates[i].toDateString() === new Date().toDateString();
+
+    col.innerHTML = `
+      <div class="day-head" ${isToday ? 'style="border-top-color:#FFD04D;background:#1A1A2E"' : ''}>
+        <div class="day-name" ${isToday ? 'style="color:#FFD04D"' : ''}>${dayName}</div>
+        <div class="day-date">${dateStr}</div>
+      </div>
+    `;
+
+    const events = week[i] || [];
+
+    if (events.length > 0) {
+      events.forEach((evt, evtIdx) => {
+        const slot = document.createElement('div');
+        slot.className = `slot has-event${canEdit ? ' editable' : ''}`;
+        slot.innerHTML = `
+          <div class="slot-type-bar" style="background:${TYPE_COLORS[evt.type] || '#D4A017'}"></div>
+          <div class="event-time">${evt.start} – ${evt.end}</div>
+          <div class="event-title">${evt.title}</div>
+          ${evt.detail ? `<div class="event-detail">${evt.detail}</div>` : ''}
+        `;
+        if (canEdit) slot.onclick = () => openModal(i, evtIdx, evt);
+        col.appendChild(slot);
+      });
+    }
+
+    // Slot vide / ajouter
+    const emptySlot = document.createElement('div');
+    emptySlot.className = `slot${canEdit ? ' editable' : ''}`;
+    if (canEdit) {
+      emptySlot.innerHTML = `<div class="slot-empty">+</div><div class="add-event-hint">AJOUTER</div>`;
+      emptySlot.onclick = () => openModal(i, null, null);
+    } else {
+      emptySlot.innerHTML = `<div class="slot-empty" style="font-size:12px;color:var(--text-faint)">—</div>`;
+    }
+    col.appendChild(emptySlot);
+
+    grid.appendChild(col);
+  });
+}
+
+// ── MODAL ──
+function openModal(dayIdx, evtIdx, evt) {
+  editingSlot = { dayIdx, evtIdx };
+  selectedType = evt ? evt.type : 'training';
+
+  document.getElementById('modalTitle').textContent = evt ? '✏️ Modifier l\'événement' : '➕ Ajouter un événement';
+  document.getElementById('evtStart').value = evt ? evt.start : '18:00';
+  document.getElementById('evtEnd').value = evt ? evt.end : '20:00';
+  document.getElementById('evtTitle').value = evt ? evt.title : '';
+  document.getElementById('evtDetail').value = evt ? evt.detail : '';
+  document.getElementById('btnDeleteEvent').style.display = evt ? 'block' : 'none';
+
+  document.querySelectorAll('.type-btn').forEach(b => {
+    b.classList.toggle('selected', b.dataset.type === selectedType);
+  });
+
+  document.getElementById('eventModal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('eventModal').classList.remove('open');
+  editingSlot = null;
+}
+
+function selectType(btn, type) {
+  selectedType = type;
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function saveEvent() {
+  const start = document.getElementById('evtStart').value;
+  const end = document.getElementById('evtEnd').value;
+  const title = document.getElementById('evtTitle').value.trim();
+  const detail = document.getElementById('evtDetail').value.trim();
+
+  if (!title) { showToast('⚠️ Titre requis', 'Ajoutez un titre à l\'événement'); return; }
+
+  const weekKey = String(currentWeekOffset);
+  if (!planningData[currentGame][weekKey]) planningData[currentGame][weekKey] = {};
+  if (!planningData[currentGame][weekKey][editingSlot.dayIdx]) planningData[currentGame][weekKey][editingSlot.dayIdx] = [];
+
+  const evt = { start, end, title, detail, type: selectedType };
+
+  if (editingSlot.evtIdx !== null) {
+    planningData[currentGame][weekKey][editingSlot.dayIdx][editingSlot.evtIdx] = evt;
+    showToast('✅ Événement modifié', title);
+  } else {
+    planningData[currentGame][weekKey][editingSlot.dayIdx].push(evt);
+    showToast('✅ Événement ajouté', title);
+  }
+
+  closeModal();
+  renderPlanning();
+}
+
+function deleteEvent() {
+  if (!confirm('Supprimer cet événement ?')) return;
+  const weekKey = String(currentWeekOffset);
+  planningData[currentGame][weekKey][editingSlot.dayIdx].splice(editingSlot.evtIdx, 1);
+  closeModal();
+  renderPlanning();
+  showToast('🗑️ Événement supprimé', 'Planning mis à jour');
+}
+
+// ── MEMBRES ──
+function renderMembers() {
+  const grid = document.getElementById('membersGrid');
+  grid.innerHTML = USERS.map(u => `
+    <div class="member-card">
+      <div class="member-pseudo">${u.pseudo}</div>
+      <div class="member-email">${u.email}</div>
+      <div class="member-badges">
+        <span class="user-role-badge role-${u.role}">${u.role.toUpperCase()}</span>
+        <span class="member-game-badge">${u.game}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── UI ──
+function switchTab(btn, tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
+function showToast(title, text) {
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastText').textContent = text;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// Close modal on backdrop click
+document.getElementById('eventModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('eventModal')) closeModal();
+});
+
+// Init
+document.getElementById('btnMembres').style.display = 'none';
+</script>
+</body>
+</html>
