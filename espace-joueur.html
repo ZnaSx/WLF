@@ -121,10 +121,11 @@ nav {
 /* PAGES */
 .page { display: none; min-height: 100vh; padding-top: 66px; position: relative; z-index: 1; }
 .page.active { display: block; }
+.login-page { display: none; align-items: center; justify-content: center; }
+.login-page.active { display: flex; }
 
 /* ── LOGIN PAGE ── */
 .login-page {
-  display: flex; align-items: center; justify-content: center;
   min-height: 100vh;
 }
 
@@ -792,7 +793,9 @@ function doLogin() {
 
 function startSession() {
   document.getElementById('pageLogin').classList.remove('active');
+  document.getElementById('pageLogin').style.display = 'none';
   document.getElementById('pageDash').classList.add('active');
+  document.getElementById('pageDash').style.display = 'block';
   document.getElementById('navUserInfo').classList.add('show');
 
   const initials = currentUser.pseudo.substring(0,2).toUpperCase();
@@ -825,7 +828,9 @@ function startSession() {
 function logout() {
   currentUser = null;
   document.getElementById('pageDash').classList.remove('active');
+  document.getElementById('pageDash').style.display = 'none';
   document.getElementById('pageLogin').classList.add('active');
+  document.getElementById('pageLogin').style.display = 'flex';
   document.getElementById('navUserInfo').classList.remove('show');
   document.getElementById('loginEmail').value = '';
   document.getElementById('loginPass').value = '';
