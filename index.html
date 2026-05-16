@@ -2031,100 +2031,25 @@ footer {
     </div>
 
     <div class="teams-tabs">
-      <button class="team-tab active" onclick="switchTeam(this,'valorant')">🎯 VALORANT</button>
-      <button class="team-tab" onclick="switchTeam(this,'rl')">🚀 ROCKET LEAGUE</button>
+      <button class="team-tab active" onclick="switchTeam(this,'valorant-principal')">🎯 VALORANT — PRINCIPAL</button>
+      <button class="team-tab" onclick="switchTeam(this,'valorant-academie')">🎓 VALORANT — ACADÉMIE</button>
+      <button class="team-tab" onclick="switchTeam(this,'rl-principal')">🚀 ROCKET LEAGUE — PRINCIPAL</button>
+      <button class="team-tab" onclick="switchTeam(this,'rl-academie')">🎓 ROCKET LEAGUE — ACADÉMIE</button>
     </div>
 
-    <div class="team-panel active" id="panel-valorant">
-      <div class="players-grid">
-        <div class="player-card">
-          <div class="player-img-bg">
-            <div class="player-avatar">🎯</div>
-            <div class="player-role-badge">— POSTE</div>
-          </div>
-          <div class="player-info">
-            <div class="player-pseudo">TON PSEUDO</div>
-            <div class="player-name">Prénom N. — À compléter</div>
-            <div class="player-stats">
-              <div class="player-stat"><div class="player-stat-val">—</div><div class="player-stat-key">K/D</div></div>
-              <div class="player-stat"><div class="player-stat-val">—</div><div class="player-stat-key">RANK</div></div>
-              <div class="player-stat"><div class="player-stat-val">—</div><div class="player-stat-key">WR</div></div>
-            </div>
-          </div>
-        </div>
-        <div class="player-card">
-          <div class="player-img-bg" style="background:linear-gradient(135deg,rgba(231,76,60,0.15),rgba(192,57,43,0.08))">
-            <div class="player-avatar">🎯</div>
-            <div class="player-role-badge">— POSTE</div>
-          </div>
-          <div class="player-info">
-            <div class="player-pseudo">TON PSEUDO</div>
-            <div class="player-name">Prénom N. — À compléter</div>
-            <div class="player-stats">
-              <div class="player-stat"><div class="player-stat-val">—</div><div class="player-stat-key">K/D</div></div>
-              <div class="player-stat"><div class="player-stat-val">—</div><div class="player-stat-key">RANK</div></div>
-              <div class="player-stat"><div class="player-stat-val">—</div><div class="player-stat-key">WR</div></div>
-            </div>
-          </div>
-        </div>
-        <div class="player-card" style="border-style:dashed;opacity:0.5;cursor:default">
-          <div class="player-img-bg" style="background:rgba(212,160,23,0.05)">
-            <div class="player-avatar" style="font-size:40px">➕</div>
-            <div class="player-role-badge">RECRUTEMENT</div>
-          </div>
-          <div class="player-info">
-            <div class="player-pseudo" style="color:var(--wlf-text-muted)">PLACE LIBRE</div>
-            <div class="player-name">Candidature ouverte</div>
-          </div>
-        </div>
+    <div class="team-panel active" id="panel-valorant-principal">
+      <div class="players-grid" id="grid-valorant-principal">
+        <div style="color:var(--wlf-text-faint);font-family:var(--font-mono);font-size:12px;letter-spacing:2px;padding:40px 0">// CHARGEMENT...</div>
       </div>
     </div>
-
-    <div class="team-panel" id="panel-rl">
-      <div class="players-grid">
-        <div class="player-card">
-          <div class="player-img-bg" style="background:linear-gradient(135deg,rgba(88,101,242,0.2),rgba(212,160,23,0.1))">
-            <div class="player-avatar">🚀</div>
-            <div class="player-role-badge">ATTAQUANT</div>
-          </div>
-          <div class="player-info">
-            <div class="player-pseudo">TON PSEUDO</div>
-            <div class="player-name">Prénom N. — À compléter</div>
-            <div class="player-stats">
-              <div class="player-stat"><div class="player-stat-val">?</div><div class="player-stat-key">RANG</div></div>
-              <div class="player-stat"><div class="player-stat-val">?%</div><div class="player-stat-key">WR</div></div>
-            </div>
-          </div>
-        </div>
-        <div class="player-card">
-          <div class="player-img-bg" style="background:linear-gradient(135deg,rgba(212,160,23,0.2),rgba(139,106,12,0.1))">
-            <div class="player-avatar">🛡️</div>
-            <div class="player-role-badge">DÉFENSEUR</div>
-          </div>
-          <div class="player-info">
-            <div class="player-pseudo">TON PSEUDO</div>
-            <div class="player-name">Prénom N. — À compléter</div>
-            <div class="player-stats">
-              <div class="player-stat"><div class="player-stat-val">?</div><div class="player-stat-key">RANG</div></div>
-              <div class="player-stat"><div class="player-stat-val">?%</div><div class="player-stat-key">WR</div></div>
-            </div>
-          </div>
-        </div>
-        <div class="player-card">
-          <div class="player-img-bg" style="background:linear-gradient(135deg,rgba(46,204,113,0.2),rgba(46,204,113,0.05))">
-            <div class="player-avatar">⚡</div>
-            <div class="player-role-badge">BOOST</div>
-          </div>
-          <div class="player-info">
-            <div class="player-pseudo">TON PSEUDO</div>
-            <div class="player-name">Prénom N. — À compléter</div>
-            <div class="player-stats">
-              <div class="player-stat"><div class="player-stat-val">?</div><div class="player-stat-key">RANG</div></div>
-              <div class="player-stat"><div class="player-stat-val">?%</div><div class="player-stat-key">WR</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="team-panel" id="panel-valorant-academie">
+      <div class="players-grid" id="grid-valorant-academie"></div>
+    </div>
+    <div class="team-panel" id="panel-rl-principal">
+      <div class="players-grid" id="grid-rl-principal"></div>
+    </div>
+    <div class="team-panel" id="panel-rl-academie">
+      <div class="players-grid" id="grid-rl-academie"></div>
     </div>
   </div>
 </section>
