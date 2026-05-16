@@ -207,9 +207,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
     <!-- PLANNING -->
     <div class="tab-content active" id="tabPlanning">
       <div class="planning-controls">
-        <div class="game-btns">
-          <button class="game-btn active" id="btnVAL" onclick="switchGame('valorant')">🎯 VALORANT</button>
-          <button class="game-btn" id="btnRL" onclick="switchGame('rl')">🚀 ROCKET LEAGUE</button>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="game-btns">
+            <button class="game-btn active" id="btnVAL" onclick="switchGame('valorant')">🎯 VALORANT</button>
+            <button class="game-btn" id="btnRL" onclick="switchGame('rl')">🚀 ROCKET LEAGUE</button>
+          </div>
+          <!-- Sélecteur équipe visible uniquement pour staff -->
+          <div class="game-btns" id="teamSelector" style="display:none">
+            <button class="game-btn active" id="btnPrincipal" onclick="switchTeam('Principal')">⭐ PRINCIPAL</button>
+            <button class="game-btn" id="btnAcademie" onclick="switchTeam('Académie')">🎓 ACADÉMIE</button>
+          </div>
         </div>
         <div class="week-nav">
           <button class="week-btn" onclick="changeWeek(-1)">← Préc.</button>
@@ -218,6 +225,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
         </div>
       </div>
       <div style="font-family:var(--font-m);font-size:11px;letter-spacing:3px;color:var(--gold);margin-bottom:12px" id="planningLabel">// PLANNING VALORANT</div>
+      <div style="font-family:var(--font-m);font-size:10px;letter-spacing:2px;color:var(--text-faint);margin-bottom:12px" id="teamLabel"></div>
       <div class="grid-planning" id="planningGrid"></div>
       <div class="legend">
         <div class="legend-item"><div class="legend-dot" style="background:#D4A017"></div>Entraînement</div>
@@ -303,7 +311,7 @@ const sb=supabase.createClient(SURL,SKEY);
 const CAN_EDIT=['admin','coach','fondateur'];
 const TYPE_COLORS={training:'#D4A017',scrim:'#E74C3C',review:'#5865F2',tournament:'#FF6B6B',rest:'#2ECC71',other:'#7A7A9A'};
 const DAYS=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
-let currentUser=null,currentProfile=null,currentGame='valorant',currentWeekOffset=0,editingSlot=null,selectedType='training',planningCache={};
+let currentUser=null,currentProfile=null,currentGame='valorant',currentTeam='Principal',currentWeekOffset=0,editingSlot=null,selectedType='training',planningCache={};
 
 async function init(){
   const{data:{session}}=await sb.auth.getSession();
@@ -379,9 +387,28 @@ async function loadProfile(){
   document.getElementById('pfGame').textContent=currentProfile.game||'—';
   document.getElementById('pfTeam').textContent=currentProfile.team||'—';
   document.getElementById('pfDate').textContent=new Date(currentProfile.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+
+  // Afficher seulement les boutons de jeu autorisés
+  const isAdmin=CAN_EDIT.includes(currentProfile.role);
+  const playerGame=(currentProfile.game||'').toLowerCase();
+  const showVAL=isAdmin||playerGame.includes('valorant')||playerGame.includes('tous');
+  const showRL=isAdmin||playerGame.includes('rocket')||playerGame.includes('tous');
+  document.getElementById('btnVAL').style.display=showVAL?'block':'none';
+  document.getElementById('btnRL').style.display=showRL?'block':'none';
+
+  // Définir le jeu par défaut selon le joueur
+  if(!showVAL&&showRL){currentGame='rl';document.getElementById('btnRL').classList.add('active');document.getElementById('btnVAL').classList.remove('active');document.getElementById('planningLabel').textContent='// PLANNING ROCKET LEAGUE';}
+
+  // Afficher le filtre équipe (Principal / Académie)
+  const team=currentProfile.team||'Principal';
+  const teamLabel=document.getElementById('teamLabel');
+  if(teamLabel)teamLabel.textContent=`// ÉQUIPE ${team.toUpperCase()}`;
+
   if(CAN_EDIT.includes(currentProfile.role)){
     document.getElementById('btnTabAdmin').style.display='block';
     document.getElementById('editHint').style.display='block';
+    // Admin voit les deux équipes → ajouter sélecteur
+    document.getElementById('teamSelector').style.display='flex';
     loadAdminData();
   }
 }
@@ -403,17 +430,34 @@ function switchGame(game){
   renderPlanning();
 }
 
+function switchTeam(team){
+  currentTeam=team;
+  document.getElementById('btnPrincipal').classList.toggle('active',team==='Principal');
+  document.getElementById('btnAcademie').classList.toggle('active',team==='Académie');
+  document.getElementById('teamLabel').textContent=`// ÉQUIPE ${team.toUpperCase()}`;
+  renderPlanning();
+}
+
 async function renderPlanning(){
   const dates=getWeekDates(currentWeekOffset);
   const s=dates[0].toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
   const e=dates[6].toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
   document.getElementById('weekLabel').textContent=`${s} – ${e}`;
-  const weekKey=`${currentGame}_${currentWeekOffset}`;
+
+  // Equipe du joueur (ou equipe sélectionnée pour admin)
+  const isAdmin=CAN_EDIT.includes(currentProfile?.role);
+  const team=isAdmin?currentTeam:(currentProfile?.team||'Principal');
+
+  const weekKey=`${currentGame}_${team}_${currentWeekOffset}`;
   if(!planningCache[weekKey]){
     const startISO=dates[0].toISOString().split('T')[0];
     const endISO=dates[6].toISOString().split('T')[0];
-    const{data}=await sb.from('planning').select('*').eq('game',currentGame).gte('date',startISO).lte('date',endISO);
+    const{data}=await sb.from('planning').select('*').eq('game',currentGame).eq('team',team).gte('date',startISO).lte('date',endISO);
     planningCache[weekKey]=data||[];
+  }
+  // Mettre à jour le label équipe pour les joueurs
+  if(!isAdmin){
+    document.getElementById('teamLabel').textContent=`// ÉQUIPE ${team.toUpperCase()}`;
   }
   const events=planningCache[weekKey];
   const canEdit=currentProfile&&CAN_EDIT.includes(currentProfile.role);
@@ -457,16 +501,22 @@ function selType(btn,type){selectedType=type;document.querySelectorAll('.type-bt
 async function saveEvent(){
   const title=document.getElementById('evtTitle').value.trim();
   if(!title){showToast('⚠️ Titre requis','Ajoutez un titre');return;}
-  const payload={game:currentGame,date:editingSlot.date,start_time:document.getElementById('evtStart').value,end_time:document.getElementById('evtEnd').value,title,detail:document.getElementById('evtDetail').value.trim(),type:selectedType,created_by:currentUser.id};
+  const isAdmin=CAN_EDIT.includes(currentProfile?.role);
+  const team=isAdmin?currentTeam:(currentProfile?.team||'Principal');
+  const payload={game:currentGame,team,date:editingSlot.date,start_time:document.getElementById('evtStart').value,end_time:document.getElementById('evtEnd').value,title,detail:document.getElementById('evtDetail').value.trim(),type:selectedType,created_by:currentUser.id};
   if(editingSlot.evt){await sb.from('planning').update(payload).eq('id',editingSlot.evt.id);showToast('✅ Modifié',title);}
   else{await sb.from('planning').insert(payload);showToast('✅ Ajouté',title);}
-  delete planningCache[`${currentGame}_${currentWeekOffset}`];closeModal();await renderPlanning();
+  const isAdminD=CAN_EDIT.includes(currentProfile?.role);
+  const teamD=isAdminD?currentTeam:(currentProfile?.team||'Principal');
+  delete planningCache[`${currentGame}_${teamD}_${currentWeekOffset}`];closeModal();await renderPlanning();
 }
 
 async function deleteEvent(){
   if(!confirm('Supprimer ?'))return;
   await sb.from('planning').delete().eq('id',editingSlot.evt.id);
-  delete planningCache[`${currentGame}_${currentWeekOffset}`];closeModal();await renderPlanning();
+  const isAdminDel=CAN_EDIT.includes(currentProfile?.role);
+  const teamDel=isAdminDel?currentTeam:(currentProfile?.team||'Principal');
+  delete planningCache[`${currentGame}_${teamDel}_${currentWeekOffset}`];closeModal();await renderPlanning();
   showToast('🗑️ Supprimé','Événement retiré');
 }
 
