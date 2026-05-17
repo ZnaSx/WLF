@@ -2046,34 +2046,19 @@ footer {
 
   <div class="results-grid fade-in">
     <div>
-      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:2px;color:var(--wlf-gold);margin-bottom:20px;">DERNIERS MATCHS</div>
-      <div class="match-list">
+      <div style="font-family:var(--wlf-font-mono,var(--font-mono));font-size:11px;letter-spacing:2px;color:var(--wlf-gold);margin-bottom:20px;">DERNIERS MATCHS</div>
+      <div class="match-list" id="matchListPublic">
         <div style="background:var(--wlf-card);border:1px dashed var(--wlf-border);padding:40px;text-align:center;">
-          <div style="font-size:36px;margin-bottom:12px">🎮</div>
-          <div style="font-family:var(--font-display);font-weight:700;font-size:16px;color:var(--wlf-text-muted)">Aucun match joué pour l'instant</div>
-          <div style="font-family:var(--font-mono);font-size:11px;color:var(--wlf-text-faint);margin-top:8px;letter-spacing:2px">LES RÉSULTATS APPARAÎTRONT ICI</div>
+          <div style="font-size:36px;margin-bottom:12px">⏳</div>
+          <div style="font-family:var(--font-display);font-weight:700;font-size:16px;color:var(--wlf-text-muted)">Chargement des résultats...</div>
         </div>
       </div>
     </div>
 
     <div>
       <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:2px;color:var(--wlf-gold);margin-bottom:20px;">ACTUALITÉS WLF</div>
-      <div class="news-list">
-        <div class="news-card">
-          <div class="news-tag">🚀 LANCEMENT</div>
-          <div class="news-title">WLF Esport est officiellement lancé — rejoins l'aventure !</div>
-          <div class="news-date">Mai 2026</div>
-        </div>
-        <div class="news-card">
-          <div class="news-tag">🎯 RECRUTEMENT</div>
-          <div class="news-title">Les candidatures sont ouvertes sur Valorant et Rocket League</div>
-          <div class="news-date">Mai 2026</div>
-        </div>
-        <div class="news-card" style="border-style:dashed;opacity:0.5">
-          <div class="news-tag">📰 PROCHAINEMENT</div>
-          <div class="news-title">Vos actualités apparaîtront ici...</div>
-          <div class="news-date">—</div>
-        </div>
+      <div class="news-list" id="newsListPublic">
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--wlf-text-faint);padding:20px 0;letter-spacing:2px">Chargement...</div>
       </div>
     </div>
   </div>
@@ -2697,8 +2682,64 @@ async function loadPlayersFromSupabase() {
   }
 }
 
-// Charger les joueurs au démarrage
-loadPlayersFromSupabase();
+// ─── LOAD RESULTS & NEWS FROM SUPABASE ───
+async function loadResultsAndNews() {
+  try {
+    // Charger matchs
+    const mRes = await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/matchs?order=date_match.desc&limit=6`, {
+      headers: { 'apikey': CONFIG.SUPABASE_KEY, 'Authorization': `Bearer ${CONFIG.SUPABASE_KEY}` }
+    });
+    const matchs = await mRes.json();
+    const matchList = document.getElementById('matchListPublic');
+    if (matchList) {
+      if (!matchs || matchs.length === 0) {
+        matchList.innerHTML = `<div style="background:var(--wlf-card);border:1px dashed var(--wlf-border);padding:40px;text-align:center"><div style="font-size:36px;margin-bottom:12px">🎮</div><div style="font-family:var(--font-display);font-weight:700;font-size:16px;color:var(--wlf-text-muted)">Aucun match joué pour l'instant</div><div style="font-family:var(--font-mono);font-size:11px;color:var(--wlf-text-faint);margin-top:8px;letter-spacing:2px">LES RÉSULTATS APPARAÎTRONT ICI</div></div>`;
+      } else {
+        matchList.innerHTML = matchs.map(m => {
+          const score = m.resultat === 'pending' ? '—' : `${m.score_wlf}–${m.score_adv}`;
+          const label = m.resultat === 'win' ? 'WIN' : m.resultat === 'loss' ? 'LOSS' : 'LIVE';
+          const date = new Date(m.date_match).toLocaleDateString('fr-FR', {day:'numeric', month:'short', year:'numeric'});
+          return `<div class="match-card ${m.resultat}">
+            <div class="match-result-badge ${m.resultat}">${label}</div>
+            <div class="match-info">
+              <div class="match-opponent">vs ${m.adversaire}</div>
+              <div class="match-meta">${m.jeu} · ${m.tournoi||'—'} · ${date}</div>
+            </div>
+            <div class="match-score">${score}</div>
+          </div>`;
+        }).join('');
+      }
+    }
+
+    // Charger actus
+    const aRes = await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/actualites?order=date_pub.desc&limit=4`, {
+      headers: { 'apikey': CONFIG.SUPABASE_KEY, 'Authorization': `Bearer ${CONFIG.SUPABASE_KEY}` }
+    });
+    const actus = await aRes.json();
+    const newsList = document.getElementById('newsListPublic');
+    if (newsList) {
+      if (!actus || actus.length === 0) {
+        newsList.innerHTML = `
+          <div class="news-card"><div class="news-tag">🚀 LANCEMENT</div><div class="news-title">WLF Esport est officiellement lancé — rejoins l'aventure !</div><div class="news-date">Mai 2026</div></div>
+          <div class="news-card"><div class="news-tag">🎯 RECRUTEMENT</div><div class="news-title">Les candidatures sont ouvertes sur Valorant et Rocket League</div><div class="news-date">Mai 2026</div></div>`;
+      } else {
+        newsList.innerHTML = actus.map(a => {
+          const date = new Date(a.date_pub).toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
+          return `<div class="news-card">
+            <div class="news-tag">${a.tag||'📰 ANNONCE'}</div>
+            <div class="news-title">${a.titre}</div>
+            ${a.contenu ? `<div style="font-size:13px;color:var(--wlf-text-muted);margin-top:4px;line-height:1.5">${a.contenu}</div>` : ''}
+            <div class="news-date">${date}</div>
+          </div>`;
+        }).join('');
+      }
+    }
+  } catch(e) {
+    console.error('Erreur chargement résultats/actus:', e);
+  }
+}
+
+loadResultsAndNews();
 
 // ─── TOAST ───
 function showToast(title, text, duration = 4000) {
