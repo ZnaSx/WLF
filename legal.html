@@ -7,14 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --wlf-gold: #D4A017;
-  --wlf-gold-bright: #FFD04D;
-  --wlf-gold-dark: #8B6A0C;
+  --wlf-gold: #8B5CF6;
+  --wlf-gold-bright: #C084FC;
+  --wlf-gold-dark: #5B21B6;
   --wlf-black: #080810;
   --wlf-dark: #0D0D1A;
   --wlf-panel: #11111F;
   --wlf-card: #16162A;
-  --wlf-border: rgba(212,160,23,0.2);
+  --wlf-border: rgba(139,92,246,0.2);
   --wlf-text: #E8E8F0;
   --wlf-text-muted: #7A7A9A;
   --wlf-text-faint: #3A3A5C;
@@ -29,7 +29,7 @@ body { font-family: var(--font-body); background: var(--wlf-black); color: var(-
 body::before {
   content: '';
   position: fixed; inset: 0;
-  background-image: linear-gradient(rgba(212,160,23,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(212,160,23,0.02) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(139,92,246,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,0.02) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none; z-index: 0;
 }
@@ -135,7 +135,7 @@ nav {
 
 .placeholder {
   display: inline-block;
-  background: rgba(212,160,23,0.15); border: 1px solid rgba(212,160,23,0.4);
+  background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.4);
   color: var(--wlf-gold); font-family: var(--font-mono); font-size: 12px;
   padding: 2px 8px; border-radius: 3px; letter-spacing: 1px;
 }
@@ -160,10 +160,10 @@ nav {
   background: var(--wlf-panel);
 }
 .cookie-table td {
-  padding: 12px 14px; border-bottom: 1px solid rgba(212,160,23,0.06);
+  padding: 12px 14px; border-bottom: 1px solid rgba(139,92,246,0.06);
   color: var(--wlf-text-muted); vertical-align: top;
 }
-.cookie-table tr:hover td { background: rgba(212,160,23,0.02); }
+.cookie-table tr:hover td { background: rgba(139,92,246,0.02); }
 
 .rights-grid {
   display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0;
@@ -195,7 +195,7 @@ nav {
 <body>
 
 <nav>
-  <a class="nav-logo" href="index.html">⬡ WLF</a>
+  <a class="nav-logo" href="index.html"><img src="logo_wlf.png" alt="WLF" style="width:36px;height:36px;object-fit:contain"> WLF</a>
   <a class="back-btn" href="index.html">← Retour au site</a>
 </nav>
 
@@ -226,7 +226,7 @@ nav {
         <p><strong>Discord :</strong> <span class="placeholder">LIEN DISCORD</span></p>
         <p><strong>Statut juridique :</strong> Association / Particulier <span class="placeholder">À PRÉCISER</span></p>
       </div>
-      <p>WLF Esport est une organisation esport créée en 2026, dont l'activité principale est la participation et l'organisation de compétitions de jeux vidéo en ligne.</p>
+      <p>WLF Esport est une organisation esport créée en 2023, dont l'activité principale est la participation et l'organisation de compétitions de jeux vidéo en ligne.</p>
     </div>
 
     <div class="legal-section">
