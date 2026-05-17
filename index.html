@@ -6,6 +6,7 @@
 <title>WLF Esport — We Lead the Future</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23080810'/><polygon points='50,2 95,26 95,74 50,98 5,74 5,26' fill='none' stroke='%23D4A017' stroke-width='4'/><text x='50' y='67' text-anchor='middle' font-family='Arial Black' font-weight='900' font-size='38' fill='%23D4A017'>WLF</text></svg>">
 <style>
 :root {
@@ -2630,12 +2631,96 @@ const io = new IntersectionObserver(entries => {
 faders.forEach(f => io.observe(f));
 
 // ─── TEAM TABS ───
-function switchTeam(btn, game) {
+function switchTeam(btn, panelId) {
   document.querySelectorAll('.team-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.team-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('panel-' + game).classList.add('active');
+  document.getElementById('panel-' + panelId).classList.add('active');
 }
+
+// ─── LOAD PLAYERS FROM SUPABASE ───
+const GAME_EMOJIS = { 'Valorant': '🎯', 'Rocket League': '🚀' };
+const GAME_COLORS = {
+  'Valorant': ['rgba(212,160,23,0.15)','rgba(231,76,60,0.12)','rgba(88,101,242,0.12)','rgba(46,204,113,0.12)','rgba(212,160,23,0.12)'],
+  'Rocket League': ['rgba(88,101,242,0.15)','rgba(212,160,23,0.12)','rgba(46,204,113,0.12)']
+};
+
+function buildPlayerCard(player, index, game) {
+  const colors = GAME_COLORS[game] || GAME_COLORS['Valorant'];
+  const bg = colors[index % colors.length];
+  const emoji = GAME_EMOJIS[game] || '🎮';
+  const pseudo = player.pseudo || '—';
+  const poste = player.poste || '—';
+  const rang = player.rang || '—';
+  return `
+    <div class="player-card">
+      <div class="player-img-bg" style="background:linear-gradient(135deg,${bg},rgba(8,8,16,0.1))">
+        <div class="player-avatar">${emoji}</div>
+        <div class="player-role-badge">${poste}</div>
+      </div>
+      <div class="player-info">
+        <div class="player-pseudo">${pseudo}</div>
+        <div class="player-name">${game}</div>
+        <div class="player-stats">
+          <div class="player-stat"><div class="player-stat-val" style="font-size:13px">${rang}</div><div class="player-stat-key">RANG</div></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function buildEmptyCard() {
+  return `
+    <div class="player-card" style="border-style:dashed;opacity:0.4;cursor:default">
+      <div class="player-img-bg" style="background:rgba(212,160,23,0.03)">
+        <div class="player-avatar" style="font-size:36px">➕</div>
+        <div class="player-role-badge">RECRUTEMENT</div>
+      </div>
+      <div class="player-info">
+        <div class="player-pseudo" style="color:var(--wlf-text-muted)">PLACE LIBRE</div>
+        <div class="player-name">Candidature ouverte</div>
+      </div>
+    </div>`;
+}
+
+async function loadPlayersFromSupabase() {
+  try {
+    const res = await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/profiles?select=*&role=neq.admin&role=neq.coach&role=neq.fondateur&order=created_at.asc`, {
+      headers: { 'apikey': CONFIG.SUPABASE_KEY, 'Authorization': `Bearer ${CONFIG.SUPABASE_KEY}` }
+    });
+    if (!res.ok) throw new Error('Erreur Supabase');
+    const players = await res.json();
+
+    const sections = [
+      { gridId: 'grid-valorant-principal', game: 'Valorant', team: 'Principal' },
+      { gridId: 'grid-valorant-academie',  game: 'Valorant', team: 'Académie' },
+      { gridId: 'grid-rl-principal',       game: 'Rocket League', team: 'Principal' },
+      { gridId: 'grid-rl-academie',        game: 'Rocket League', team: 'Académie' },
+    ];
+
+    sections.forEach(({ gridId, game, team }) => {
+      const grid = document.getElementById(gridId);
+      if (!grid) return;
+      const filtered = players.filter(p =>
+        (p.game || '').toLowerCase().includes(game.toLowerCase().split(' ')[0].toLowerCase()) &&
+        (p.team || '').toLowerCase() === team.toLowerCase()
+      );
+      if (filtered.length === 0) {
+        grid.innerHTML = buildEmptyCard() + buildEmptyCard() + buildEmptyCard();
+      } else {
+        grid.innerHTML = filtered.map((p, i) => buildPlayerCard(p, i, game)).join('') + buildEmptyCard();
+      }
+    });
+  } catch(e) {
+    console.error('Erreur chargement joueurs:', e);
+    ['grid-valorant-principal','grid-valorant-academie','grid-rl-principal','grid-rl-academie'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = buildEmptyCard() + buildEmptyCard();
+    });
+  }
+}
+
+// Charger les joueurs au démarrage
+loadPlayersFromSupabase();
 
 // ─── TOAST ───
 function showToast(title, text, duration = 4000) {
