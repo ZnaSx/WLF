@@ -135,7 +135,27 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .member-pseudo{font-family:var(--font-d);font-weight:900;font-size:16px;color:var(--text);margin-bottom:3px;}
 .member-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
 .member-tag{font-family:var(--font-m);font-size:10px;color:var(--gold);background:rgba(139,92,246,0.1);border:1px solid var(--border);padding:3px 8px;}
-.toast{position:fixed;top:78px;right:18px;z-index:9999;background:var(--panel);border:1px solid var(--gold);padding:13px 18px;max-width:280px;transform:translateX(120%);transition:transform 0.3s ease;}
+.match-card{background:var(--panel);border:1px solid rgba(139,92,246,0.15);padding:18px 22px;display:flex;align-items:center;gap:18px;margin-bottom:8px;position:relative;overflow:hidden;cursor:pointer;transition:all 0.2s;}
+.match-card:hover{border-color:rgba(139,92,246,0.4);background:#13132A;}
+.match-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
+.match-card.win::before{background:#2ECC71;}
+.match-card.loss::before{background:#E74C3C;}
+.match-card.pending::before{background:#8B5CF6;}
+.match-result{font-family:var(--font-m);font-size:11px;letter-spacing:1px;padding:5px 12px;min-width:60px;text-align:center;border-radius:2px;}
+.match-result.win{color:#2ECC71;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);}
+.match-result.loss{color:#E74C3C;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);}
+.match-result.pending{color:#8B5CF6;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);}
+.match-info{flex:1;}
+.match-opp{font-family:var(--font-d);font-weight:800;font-size:16px;color:var(--text);}
+.match-meta{font-family:var(--font-m);font-size:11px;color:var(--text-muted);margin-top:3px;}
+.match-score{font-family:var(--font-d);font-weight:900;font-size:22px;color:#8B5CF6;}
+.actu-card{background:var(--panel);border:1px solid rgba(139,92,246,0.15);padding:18px 22px;margin-bottom:8px;cursor:pointer;transition:all 0.2s;}
+.actu-card:hover{border-color:rgba(139,92,246,0.4);background:#13132A;}
+.actu-tag{font-family:var(--font-m);font-size:10px;letter-spacing:2px;color:#8B5CF6;text-transform:uppercase;margin-bottom:6px;}
+.actu-titre{font-family:var(--font-d);font-weight:700;font-size:15px;color:var(--text);margin-bottom:6px;line-height:1.4;}
+.actu-contenu{font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:8px;}
+.actu-date{font-family:var(--font-m);font-size:11px;color:var(--text-faint);}
+textarea.form-input{font-family:var(--font-b);}top:78px;right:18px;z-index:9999;background:var(--panel);border:1px solid var(--gold);padding:13px 18px;max-width:280px;transform:translateX(120%);transition:transform 0.3s ease;}
 .toast.show{transform:translateX(0);}
 .toast-title{font-family:var(--font-d);font-weight:700;font-size:14px;color:var(--gold);margin-bottom:3px;}
 .toast-text{font-size:13px;color:var(--text-muted);}
@@ -201,6 +221,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
     <div class="tabs">
       <button class="tab-btn active" onclick="switchTab(this,'tabPlanning')">📅 Planning</button>
       <button class="tab-btn" onclick="switchTab(this,'tabProfil')">👤 Profil</button>
+      <button class="tab-btn" id="btnTabActu" style="display:none" onclick="switchTab(this,'tabActu')">📰 Actus & Matchs</button>
       <button class="tab-btn" id="btnTabAdmin" style="display:none" onclick="switchTab(this,'tabAdmin')">⚙️ Admin</button>
     </div>
 
@@ -261,6 +282,29 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
       </div>
     </div>
 
+    <!-- ACTUS & MATCHS -->
+    <div class="tab-content" id="tabActu">
+
+      <!-- MATCHS -->
+      <div class="admin-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+          <div class="admin-section-title" style="margin:0">// RÉSULTATS DE MATCHS</div>
+          <button class="btn-main" onclick="openMatchModal(null)" style="clip-path:none;padding:10px 20px;width:auto">➕ AJOUTER UN MATCH</button>
+        </div>
+        <div id="matchsList"><div style="color:var(--text-faint);font-family:var(--font-m);font-size:12px;letter-spacing:2px">Chargement...</div></div>
+      </div>
+
+      <!-- ACTUALITÉS -->
+      <div class="admin-section" style="margin-top:32px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+          <div class="admin-section-title" style="margin:0">// ACTUALITÉS WLF</div>
+          <button class="btn-main" onclick="openActuModal(null)" style="clip-path:none;padding:10px 20px;width:auto">➕ AJOUTER UNE ACTU</button>
+        </div>
+        <div id="actusList"><div style="color:var(--text-faint);font-family:var(--font-m);font-size:12px;letter-spacing:2px">Chargement...</div></div>
+      </div>
+
+    </div>
+
     <!-- ADMIN -->
     <div class="tab-content" id="tabAdmin">
       <div class="admin-section">
@@ -287,8 +331,64 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
   </div>
 </div>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="eventModal">
+<!-- MODAL MATCH -->
+<div class="modal-overlay" id="matchModal">
+  <div class="modal" style="max-width:500px">
+    <button class="modal-close" onclick="closeMatchModal()">✕</button>
+    <div class="modal-title" id="matchModalTitle">➕ Ajouter un match</div>
+    <div class="form-group"><label class="form-label">Adversaire *</label><input type="text" class="form-input" id="mAdv" placeholder="Ex: Team Nova"></div>
+    <div class="form-group"><label class="form-label">Jeu *</label>
+      <select class="form-select" id="mJeu">
+        <option value="Valorant">🎯 Valorant</option>
+        <option value="Rocket League">🚀 Rocket League</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Tournoi / Contexte</label><input type="text" class="form-input" id="mTournoi" placeholder="Ex: ESL Open Cup · Scrim"></div>
+    <div class="form-group"><label class="form-label">Résultat</label>
+      <select class="form-select" id="mResultat">
+        <option value="win">✅ Victoire</option>
+        <option value="loss">❌ Défaite</option>
+        <option value="pending">⏳ À venir / En cours</option>
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label class="form-label">Score WLF</label><input type="number" class="form-input" id="mScoreWLF" min="0" value="0"></div>
+      <div class="form-group"><label class="form-label">Score Adversaire</label><input type="number" class="form-input" id="mScoreAdv" min="0" value="0"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Date du match</label><input type="date" class="form-input" id="mDate"></div>
+    <div class="modal-actions">
+      <button class="btn-save" onclick="saveMatch()">💾 ENREGISTRER</button>
+      <button class="btn-del-evt" id="btnDelMatch" onclick="deleteMatch()" style="display:none">🗑️</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ACTU -->
+<div class="modal-overlay" id="actuModal">
+  <div class="modal" style="max-width:500px">
+    <button class="modal-close" onclick="closeActuModal()">✕</button>
+    <div class="modal-title" id="actuModalTitle">➕ Ajouter une actualité</div>
+    <div class="form-group"><label class="form-label">Tag / Catégorie</label>
+      <select class="form-select" id="aTag">
+        <option value="🏆 RECRUTEMENT">🏆 Recrutement</option>
+        <option value="🎯 VALORANT">🎯 Valorant</option>
+        <option value="🚀 ROCKET LEAGUE">🚀 Rocket League</option>
+        <option value="📡 STREAMING">📡 Streaming</option>
+        <option value="🚀 LANCEMENT">🚀 Lancement</option>
+        <option value="📰 ANNONCE">📰 Annonce</option>
+        <option value="🏆 TOURNOI">🏆 Tournoi</option>
+        <option value="👥 ÉQUIPE">👥 Équipe</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Titre *</label><input type="text" class="form-input" id="aTitre" placeholder="Ex: WLF remporte la WLF Cup !"></div>
+    <div class="form-group"><label class="form-label">Contenu / Description</label><textarea class="form-input" id="aContenu" rows="3" placeholder="Détails de l'actualité..." style="resize:vertical"></textarea></div>
+    <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="aDate"></div>
+    <div class="modal-actions">
+      <button class="btn-save" onclick="saveActu()">💾 PUBLIER</button>
+      <button class="btn-del-evt" id="btnDelActu" onclick="deleteActu()" style="display:none">🗑️</button>
+    </div>
+  </div>
+</div>
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="modal-title" id="modalTitle">Ajouter</div>
@@ -422,10 +522,12 @@ async function loadProfile(){
 
   if(CAN_EDIT.includes(currentProfile.role)){
     document.getElementById('btnTabAdmin').style.display='block';
+    document.getElementById('btnTabActu').style.display='block';
     document.getElementById('editHint').style.display='block';
-    // Admin voit les deux équipes → ajouter sélecteur
     document.getElementById('teamSelector').style.display='flex';
     loadAdminData();
+    loadMatchs();
+    loadActus();
   }
 }
 
@@ -580,6 +682,135 @@ function showToast(title,text){
 }
 
 document.getElementById('eventModal').addEventListener('click',e=>{if(e.target===document.getElementById('eventModal'))closeModal();});
+document.getElementById('matchModal').addEventListener('click',e=>{if(e.target===document.getElementById('matchModal'))closeMatchModal();});
+document.getElementById('actuModal').addEventListener('click',e=>{if(e.target===document.getElementById('actuModal'))closeActuModal();});
+// ── MATCHS ──
+let editingMatch=null;
+let editingActu=null;
+
+async function loadMatchs(){
+  const{data}=await sb.from('matchs').select('*').order('date_match',{ascending:false}).limit(20);
+  const el=document.getElementById('matchsList');
+  if(!el)return;
+  if(!data||data.length===0){el.innerHTML='<div style="color:var(--text-faint);font-family:var(--font-m);font-size:12px;letter-spacing:2px;padding:20px 0">AUCUN MATCH ENREGISTRÉ</div>';return;}
+  el.innerHTML=data.map(m=>`
+    <div class="match-card ${m.resultat}" onclick="openMatchModal(${JSON.stringify(m).replace(/"/g,'&quot;')})">
+      <div class="match-result ${m.resultat}">${m.resultat==='win'?'WIN':m.resultat==='loss'?'LOSS':'LIVE'}</div>
+      <div class="match-info">
+        <div class="match-opp">vs ${m.adversaire}</div>
+        <div class="match-meta">${m.jeu} · ${m.tournoi||'—'} · ${new Date(m.date_match).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'})}</div>
+      </div>
+      <div class="match-score">${m.resultat==='pending'?'—':`${m.score_wlf}–${m.score_adv}`}</div>
+    </div>`).join('');
+}
+
+function openMatchModal(match){
+  editingMatch=match;
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('matchModalTitle').textContent=match?'✏️ Modifier le match':'➕ Ajouter un match';
+  document.getElementById('mAdv').value=match?.adversaire||'';
+  document.getElementById('mJeu').value=match?.jeu||'Valorant';
+  document.getElementById('mTournoi').value=match?.tournoi||'';
+  document.getElementById('mResultat').value=match?.resultat||'pending';
+  document.getElementById('mScoreWLF').value=match?.score_wlf??0;
+  document.getElementById('mScoreAdv').value=match?.score_adv??0;
+  document.getElementById('mDate').value=match?.date_match||today;
+  document.getElementById('btnDelMatch').style.display=match?'block':'none';
+  document.getElementById('matchModal').classList.add('open');
+}
+
+function closeMatchModal(){document.getElementById('matchModal').classList.remove('open');editingMatch=null;}
+
+async function saveMatch(){
+  const adversaire=document.getElementById('mAdv').value.trim();
+  if(!adversaire){showToast('⚠️ Champ requis','Entrez le nom de l\'adversaire');return;}
+  const payload={
+    adversaire,
+    jeu:document.getElementById('mJeu').value,
+    tournoi:document.getElementById('mTournoi').value.trim(),
+    resultat:document.getElementById('mResultat').value,
+    score_wlf:parseInt(document.getElementById('mScoreWLF').value)||0,
+    score_adv:parseInt(document.getElementById('mScoreAdv').value)||0,
+    date_match:document.getElementById('mDate').value,
+    created_by:currentUser.id
+  };
+  if(editingMatch){
+    await sb.from('matchs').update(payload).eq('id',editingMatch.id);
+    showToast('✅ Match modifié','Résultat mis à jour sur le site !');
+  } else {
+    await sb.from('matchs').insert(payload);
+    showToast('✅ Match ajouté','Visible sur le site principal !');
+  }
+  closeMatchModal();
+  await loadMatchs();
+}
+
+async function deleteMatch(){
+  if(!confirm('Supprimer ce match ?'))return;
+  await sb.from('matchs').delete().eq('id',editingMatch.id);
+  closeMatchModal();
+  await loadMatchs();
+  showToast('🗑️ Match supprimé','');
+}
+
+// ── ACTUALITÉS ──
+async function loadActus(){
+  const{data}=await sb.from('actualites').select('*').order('date_pub',{ascending:false}).limit(20);
+  const el=document.getElementById('actusList');
+  if(!el)return;
+  if(!data||data.length===0){el.innerHTML='<div style="color:var(--text-faint);font-family:var(--font-m);font-size:12px;letter-spacing:2px;padding:20px 0">AUCUNE ACTUALITÉ PUBLIÉE</div>';return;}
+  el.innerHTML=data.map(a=>`
+    <div class="actu-card" onclick="openActuModal(${JSON.stringify(a).replace(/"/g,'&quot;')})">
+      <div class="actu-tag">${a.tag||'📰 ANNONCE'}</div>
+      <div class="actu-titre">${a.titre}</div>
+      ${a.contenu?`<div class="actu-contenu">${a.contenu}</div>`:''}
+      <div class="actu-date">${new Date(a.date_pub).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}</div>
+    </div>`).join('');
+}
+
+function openActuModal(actu){
+  editingActu=actu;
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('actuModalTitle').textContent=actu?'✏️ Modifier l\'actualité':'➕ Ajouter une actualité';
+  document.getElementById('aTag').value=actu?.tag||'📰 ANNONCE';
+  document.getElementById('aTitre').value=actu?.titre||'';
+  document.getElementById('aContenu').value=actu?.contenu||'';
+  document.getElementById('aDate').value=actu?.date_pub||today;
+  document.getElementById('btnDelActu').style.display=actu?'block':'none';
+  document.getElementById('actuModal').classList.add('open');
+}
+
+function closeActuModal(){document.getElementById('actuModal').classList.remove('open');editingActu=null;}
+
+async function saveActu(){
+  const titre=document.getElementById('aTitre').value.trim();
+  if(!titre){showToast('⚠️ Titre requis','');return;}
+  const payload={
+    tag:document.getElementById('aTag').value,
+    titre,
+    contenu:document.getElementById('aContenu').value.trim(),
+    date_pub:document.getElementById('aDate').value,
+    created_by:currentUser.id
+  };
+  if(editingActu){
+    await sb.from('actualites').update(payload).eq('id',editingActu.id);
+    showToast('✅ Actualité modifiée','Visible sur le site principal !');
+  } else {
+    await sb.from('actualites').insert(payload);
+    showToast('✅ Actualité publiée','Visible sur le site principal !');
+  }
+  closeActuModal();
+  await loadActus();
+}
+
+async function deleteActu(){
+  if(!confirm('Supprimer cette actualité ?'))return;
+  await sb.from('actualites').delete().eq('id',editingActu.id);
+  closeActuModal();
+  await loadActus();
+  showToast('🗑️ Actualité supprimée','');
+}
+
 init();
 </script>
 </body>
