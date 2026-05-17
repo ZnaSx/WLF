@@ -247,6 +247,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
         <div class="pf"><div class="pf-label">Jeu</div><div class="pf-value" id="pfGame">—</div></div>
         <div class="pf"><div class="pf-label">Équipe</div><div class="pf-value" id="pfTeam">—</div></div>
         <div class="pf"><div class="pf-label">Membre depuis</div><div class="pf-value" id="pfDate">—</div></div>
+        <div class="pf" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+          <div class="pf-label">Mon Rang</div>
+          <input type="text" class="form-input" id="pfRangInput" placeholder="Ex: Immortal 2 / Diamond" style="font-size:13px;padding:8px 12px">
+        </div>
+        <div class="pf">
+          <div class="pf-label">Mon Poste</div>
+          <input type="text" class="form-input" id="pfPosteInput" placeholder="Ex: Duelist / IGL / Attaquant" style="font-size:13px;padding:8px 12px">
+        </div>
+        <div style="margin-top:14px">
+          <button class="btn-main" onclick="saveProfileExtra()" style="clip-path:none;padding:12px;width:auto;min-width:200px">💾 SAUVEGARDER</button>
+        </div>
       </div>
     </div>
 
@@ -387,6 +398,11 @@ async function loadProfile(){
   document.getElementById('pfGame').textContent=currentProfile.game||'—';
   document.getElementById('pfTeam').textContent=currentProfile.team||'—';
   document.getElementById('pfDate').textContent=new Date(currentProfile.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+  // Pré-remplir rang et poste
+  const rangInput=document.getElementById('pfRangInput');
+  const posteInput=document.getElementById('pfPosteInput');
+  if(rangInput)rangInput.value=currentProfile.rang||'';
+  if(posteInput)posteInput.value=currentProfile.poste||'';
 
   // Afficher seulement les boutons de jeu autorisés
   const isAdmin=CAN_EDIT.includes(currentProfile.role);
@@ -545,6 +561,15 @@ function switchTab(btn,tabId){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');document.getElementById(tabId).classList.add('active');
+}
+
+async function saveProfileExtra(){
+  const rang=document.getElementById('pfRangInput').value.trim();
+  const poste=document.getElementById('pfPosteInput').value.trim();
+  const{error}=await sb.from('profiles').update({rang,poste}).eq('id',currentUser.id);
+  if(error){showToast('❌ Erreur','Impossible de sauvegarder');return;}
+  currentProfile.rang=rang;currentProfile.poste=poste;
+  showToast('✅ Profil mis à jour','Rang et poste sauvegardés — visible sur le site !');
 }
 
 function showAlert(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),5000);}
