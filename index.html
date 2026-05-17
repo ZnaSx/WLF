@@ -7,20 +7,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23080810'/><polygon points='50,2 95,26 95,74 50,98 5,74 5,26' fill='none' stroke='%23D4A017' stroke-width='4'/><text x='50' y='67' text-anchor='middle' font-family='Arial Black' font-weight='900' font-size='38' fill='%23D4A017'>WLF</text></svg>">
+<link rel="icon" type="image/png" href="logo_wlf.png">
 <style>
 :root {
-  --wlf-gold: #D4A017;
-  --wlf-gold-bright: #FFD04D;
-  --wlf-gold-dark: #8B6A0C;
+  --wlf-gold: #8B5CF6;
+  --wlf-gold-bright: #C084FC;
+  --wlf-gold-dark: #5B21B6;
   --wlf-red: #C0392B;
   --wlf-red-bright: #E74C3C;
   --wlf-black: #080810;
   --wlf-dark: #0D0D1A;
   --wlf-panel: #11111F;
   --wlf-card: #16162A;
-  --wlf-border: rgba(212,160,23,0.25);
-  --wlf-border-glow: rgba(212,160,23,0.6);
+  --wlf-border: rgba(139,92,246,0.25);
+  --wlf-border-glow: rgba(139,92,246,0.6);
   --wlf-text: #E8E8F0;
   --wlf-text-muted: #7A7A9A;
   --wlf-text-faint: #3A3A5C;
@@ -52,8 +52,8 @@ body::before {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(212,160,23,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212,160,23,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(139,92,246,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139,92,246,0.03) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none;
   z-index: 0;
@@ -91,13 +91,13 @@ nav {
   fill: none;
   stroke: var(--wlf-gold);
   stroke-width: 2;
-  filter: drop-shadow(0 0 6px rgba(212,160,23,0.8));
+  filter: drop-shadow(0 0 6px rgba(139,92,246,0.8));
   animation: hexPulse 3s ease-in-out infinite;
 }
 
 @keyframes hexPulse {
-  0%, 100% { filter: drop-shadow(0 0 4px rgba(212,160,23,0.6)); }
-  50% { filter: drop-shadow(0 0 12px rgba(212,160,23,1)); }
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(139,92,246,0.6)); }
+  50% { filter: drop-shadow(0 0 12px rgba(139,92,246,1)); }
 }
 
 .logo-text-nav {
@@ -180,9 +180,9 @@ nav {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(212,160,23,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(139,92,246,0.12) 0%, transparent 70%),
     radial-gradient(ellipse 40% 40% at 20% 50%, rgba(192,57,43,0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 40% at 80% 30%, rgba(212,160,23,0.06) 0%, transparent 60%);
+    radial-gradient(ellipse 40% 40% at 80% 30%, rgba(139,92,246,0.06) 0%, transparent 60%);
 }
 
 .hero-particles {
@@ -218,7 +218,7 @@ nav {
   position: absolute;
   left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(212,160,23,0.4) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(139,92,246,0.4) 50%, transparent 100%);
   animation: scanDown 8s linear infinite;
   opacity: 0.6;
 }
@@ -249,7 +249,7 @@ nav {
   border: 1px solid var(--wlf-border);
   padding: 6px 18px;
   margin-bottom: 36px;
-  background: rgba(212,160,23,0.05);
+  background: rgba(139,92,246,0.05);
   animation: fadeSlideDown 0.8s ease forwards;
 }
 
@@ -340,7 +340,7 @@ nav {
 }
 
 .btn-primary:hover::after { transform: translateX(100%); }
-.btn-primary:hover { filter: brightness(1.15) drop-shadow(0 0 20px rgba(212,160,23,0.6)); }
+.btn-primary:hover { filter: brightness(1.15) drop-shadow(0 0 20px rgba(139,92,246,0.6)); }
 
 .btn-secondary {
   font-family: var(--font-display);
@@ -360,7 +360,7 @@ nav {
 }
 
 .btn-secondary:hover {
-  background: rgba(212,160,23,0.1);
+  background: rgba(139,92,246,0.1);
   border-color: var(--wlf-gold);
 }
 
@@ -656,7 +656,7 @@ section {
 
 .player-img-bg {
   height: 220px;
-  background: linear-gradient(135deg, rgba(212,160,23,0.15), rgba(192,57,43,0.1));
+  background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(192,57,43,0.1));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -688,7 +688,7 @@ section {
   font-size: 9px;
   letter-spacing: 2px;
   color: var(--wlf-gold);
-  background: rgba(212,160,23,0.15);
+  background: rgba(139,92,246,0.15);
   border: 1px solid var(--wlf-border);
   padding: 4px 10px;
 }
@@ -801,7 +801,7 @@ section {
 
 .match-result-badge.pending {
   color: var(--wlf-gold);
-  background: rgba(212,160,23,0.1);
+  background: rgba(139,92,246,0.1);
   border: 1px solid var(--wlf-border);
 }
 
@@ -907,7 +907,7 @@ section {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 120%, var(--sc-color, rgba(212,160,23,0.15)) 0%, transparent 70%);
+  background: radial-gradient(ellipse at 50% 120%, var(--sc-color, rgba(139,92,246,0.15)) 0%, transparent 70%);
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -989,13 +989,13 @@ section {
   background: var(--wlf-gold);
   border-radius: 50%;
   flex-shrink: 0;
-  box-shadow: 0 0 8px rgba(212,160,23,0.6);
+  box-shadow: 0 0 8px rgba(139,92,246,0.6);
   animation: dotPulse 2s ease-in-out infinite;
 }
 
 @keyframes dotPulse {
-  0%, 100% { box-shadow: 0 0 4px rgba(212,160,23,0.4); }
-  50% { box-shadow: 0 0 12px rgba(212,160,23,0.9); }
+  0%, 100% { box-shadow: 0 0 4px rgba(139,92,246,0.4); }
+  50% { box-shadow: 0 0 12px rgba(139,92,246,0.9); }
 }
 
 .position-game {
@@ -1078,8 +1078,8 @@ section {
 .form-select:focus,
 .form-textarea:focus {
   border-color: var(--wlf-gold);
-  background: rgba(212,160,23,0.05);
-  box-shadow: 0 0 0 3px rgba(212,160,23,0.1);
+  background: rgba(139,92,246,0.05);
+  box-shadow: 0 0 0 3px rgba(139,92,246,0.1);
 }
 
 .form-select option {
@@ -1103,7 +1103,7 @@ section {
 
 .form-upload:hover {
   border-color: var(--wlf-gold);
-  background: rgba(212,160,23,0.05);
+  background: rgba(139,92,246,0.05);
 }
 
 .form-upload input[type="file"] {
@@ -1149,7 +1149,7 @@ section {
 }
 
 .form-submit:hover {
-  filter: brightness(1.1) drop-shadow(0 0 20px rgba(212,160,23,0.5));
+  filter: brightness(1.1) drop-shadow(0 0 20px rgba(139,92,246,0.5));
 }
 
 .form-success {
@@ -1178,7 +1178,7 @@ section {
 /* ─── DISCORD ─── */
 .discord-section {
   padding: 80px 48px;
-  background: linear-gradient(135deg, rgba(88,101,242,0.1) 0%, rgba(212,160,23,0.05) 100%);
+  background: linear-gradient(135deg, rgba(88,101,242,0.1) 0%, rgba(139,92,246,0.05) 100%);
   border-top: 1px solid var(--wlf-border);
   border-bottom: 1px solid var(--wlf-border);
 }
@@ -1426,7 +1426,7 @@ section {
 .login-icon {
   font-size: 48px;
   margin-bottom: 24px;
-  filter: drop-shadow(0 0 20px rgba(212,160,23,0.5));
+  filter: drop-shadow(0 0 20px rgba(139,92,246,0.5));
 }
 
 .login-title {
@@ -1519,7 +1519,7 @@ section {
 .filter-btn.active {
   color: var(--wlf-gold);
   border-color: var(--wlf-gold);
-  background: rgba(212,160,23,0.08);
+  background: rgba(139,92,246,0.08);
 }
 
 .filter-btn:hover { color: var(--wlf-gold); border-color: var(--wlf-border-glow); }
@@ -1539,12 +1539,12 @@ section {
 
 .candidature-table td {
   padding: 14px;
-  border-bottom: 1px solid rgba(212,160,23,0.08);
+  border-bottom: 1px solid rgba(139,92,246,0.08);
   font-size: 14px;
   vertical-align: middle;
 }
 
-.candidature-table tr:hover td { background: rgba(212,160,23,0.03); }
+.candidature-table tr:hover td { background: rgba(139,92,246,0.03); }
 
 .status-badge {
   font-family: var(--font-mono);
@@ -1556,7 +1556,7 @@ section {
 
 .status-badge.pending {
   color: var(--wlf-gold);
-  background: rgba(212,160,23,0.1);
+  background: rgba(139,92,246,0.1);
   border: 1px solid var(--wlf-border);
 }
 
@@ -1607,7 +1607,7 @@ section {
   border-color: var(--wlf-border);
 }
 
-.action-btn.note:hover { background: rgba(212,160,23,0.1); }
+.action-btn.note:hover { background: rgba(139,92,246,0.1); }
 
 .action-btn.delete {
   color: #ff6b6b;
@@ -1857,12 +1857,7 @@ footer {
 <!-- ─── NAV ─── -->
 <nav>
   <a class="nav-logo" href="#">
-    <div class="logo-emblem">
-      <svg viewBox="0 0 44 44" class="logo-emblem">
-        <polygon class="logo-hex" points="22,2 40,12 40,32 22,42 4,32 4,12"/>
-        <text x="22" y="29" text-anchor="middle" fill="#D4A017" font-family="Exo 2, sans-serif" font-weight="900" font-size="14" letter-spacing="0">WLF</text>
-      </svg>
-    </div>
+    <img src="logo_wlf.png" alt="WLF Esport" style="width:46px;height:46px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(139,92,246,0.8))">
     <span class="logo-text-nav">WLF</span>
   </a>
   <ul class="nav-links">
@@ -1890,21 +1885,7 @@ footer {
   <div class="hero-content">
     <div class="hero-badge">ESPORT ORGANISATION — FOUNDED 2026</div>
 
-    <svg class="hero-logo-big" viewBox="0 0 120 120">
-      <defs>
-        <linearGradient id="hexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#FFD04D"/>
-          <stop offset="100%" stop-color="#8B6A0C"/>
-        </linearGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="3" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-      <polygon points="60,4 112,32 112,88 60,116 8,88 8,32" fill="none" stroke="url(#hexGrad)" stroke-width="2" filter="url(#glow)"/>
-      <polygon points="60,16 98,38 98,82 60,104 22,82 22,38" fill="rgba(212,160,23,0.08)" stroke="rgba(212,160,23,0.3)" stroke-width="1"/>
-      <text x="60" y="72" text-anchor="middle" fill="url(#hexGrad)" font-family="Exo 2, sans-serif" font-weight="900" font-size="32" letter-spacing="2">WLF</text>
-    </svg>
+    <img src="logo_wlf.png" alt="WLF Esport" class="hero-logo-big" style="object-fit:contain;filter:drop-shadow(0 0 30px rgba(139,92,246,0.8)) drop-shadow(0 0 60px rgba(139,92,246,0.4))">
 
     <h1 class="hero-title">
       <span class="glitch" data-text="WE LEAD">WE LEAD</span><br>
@@ -1953,17 +1934,17 @@ footer {
       <svg viewBox="0 0 400 400" width="100%" height="100%">
         <defs>
           <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#FFD04D" stop-opacity="0.8"/>
-            <stop offset="100%" stop-color="#D4A017" stop-opacity="0.3"/>
+            <stop offset="0%" stop-color="#A855F7" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.3"/>
           </linearGradient>
         </defs>
         <!-- Central hex -->
-        <polygon points="200,100 260,134 260,202 200,236 140,202 140,134" fill="rgba(212,160,23,0.15)" stroke="#D4A017" stroke-width="1.5"/>
-        <text x="200" y="175" text-anchor="middle" fill="#FFD04D" font-family="Exo 2" font-weight="900" font-size="28">WLF</text>
+        <polygon points="200,100 260,134 260,202 200,236 140,202 140,134" fill="rgba(139,92,246,0.15)" stroke="#8B5CF6" stroke-width="1.5"/>
+        <text x="200" y="175" text-anchor="middle" fill="#A855F7" font-family="Exo 2" font-weight="900" font-size="28">WLF</text>
         <!-- Orbiting nodes -->
         <g transform="translate(200,58)">
-          <polygon points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" fill="rgba(212,160,23,0.2)" stroke="rgba(212,160,23,0.5)" stroke-width="1"/>
-          <text y="6" text-anchor="middle" fill="#FFD04D" font-size="18">⚔️</text>
+          <polygon points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" fill="rgba(139,92,246,0.2)" stroke="rgba(139,92,246,0.5)" stroke-width="1"/>
+          <text y="6" text-anchor="middle" fill="#A855F7" font-size="18">⚔️</text>
         </g>
         <g transform="translate(316,134)">
           <polygon points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" fill="rgba(192,57,43,0.2)" stroke="rgba(192,57,43,0.5)" stroke-width="1"/>
@@ -1978,20 +1959,20 @@ footer {
           <text y="6" text-anchor="middle" fill="#2ECC71" font-size="18">🌐</text>
         </g>
         <g transform="translate(84,236)">
-          <polygon points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" fill="rgba(212,160,23,0.2)" stroke="rgba(212,160,23,0.5)" stroke-width="1"/>
-          <text y="6" text-anchor="middle" fill="#FFD04D" font-size="18">👥</text>
+          <polygon points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" fill="rgba(139,92,246,0.2)" stroke="rgba(139,92,246,0.5)" stroke-width="1"/>
+          <text y="6" text-anchor="middle" fill="#A855F7" font-size="18">👥</text>
         </g>
         <g transform="translate(84,134)">
-          <polygon points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" fill="rgba(212,160,23,0.2)" stroke="rgba(212,160,23,0.5)" stroke-width="1"/>
-          <text y="6" text-anchor="middle" fill="#FFD04D" font-size="18">💡</text>
+          <polygon points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" fill="rgba(139,92,246,0.2)" stroke="rgba(139,92,246,0.5)" stroke-width="1"/>
+          <text y="6" text-anchor="middle" fill="#A855F7" font-size="18">💡</text>
         </g>
         <!-- Connector lines -->
-        <line x1="200" y1="100" x2="200" y2="88" stroke="rgba(212,160,23,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="260" y1="134" x2="290" y2="134" stroke="rgba(212,160,23,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="260" y1="202" x2="290" y2="202" stroke="rgba(212,160,23,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="200" y1="236" x2="200" y2="280" stroke="rgba(212,160,23,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="140" y1="202" x2="110" y2="202" stroke="rgba(212,160,23,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="140" y1="134" x2="110" y2="134" stroke="rgba(212,160,23,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="200" y1="100" x2="200" y2="88" stroke="rgba(139,92,246,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="260" y1="134" x2="290" y2="134" stroke="rgba(139,92,246,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="260" y1="202" x2="290" y2="202" stroke="rgba(139,92,246,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="200" y1="236" x2="200" y2="280" stroke="rgba(139,92,246,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="140" y1="202" x2="110" y2="202" stroke="rgba(139,92,246,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="140" y1="134" x2="110" y2="134" stroke="rgba(139,92,246,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
       </svg>
     </div>
 
@@ -2126,7 +2107,7 @@ footer {
         <div class="social-count">—</div>
         <div class="social-label">Followers</div>
       </a>
-      <a class="social-card" href="#" target="_blank" style="--sc-color:rgba(212,160,23,0.2);--sc-border:#D4A017;--sc-accent:#FFD04D">
+      <a class="social-card" href="#" target="_blank" style="--sc-color:rgba(139,92,246,0.2);--sc-border:#8B5CF6;--sc-accent:#A855F7">
         <div class="social-icon">𝕏</div>
         <div class="social-name">Twitter/X</div>
         <div class="social-count">—</div>
@@ -2277,7 +2258,7 @@ footer {
     <div class="fade-in" style="display:flex;flex-direction:column;gap:14px">
 
       <div style="background:var(--wlf-panel);border:1px solid var(--wlf-border);padding:24px 28px;position:relative;overflow:hidden;display:flex;align-items:center;gap:20px">
-        <div style="width:48px;height:48px;background:rgba(212,160,23,0.1);border:1px solid var(--wlf-border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">📅</div>
+        <div style="width:48px;height:48px;background:rgba(139,92,246,0.1);border:1px solid var(--wlf-border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">📅</div>
         <div>
           <div style="font-family:var(--font-display);font-weight:800;font-size:16px;color:var(--wlf-text);margin-bottom:4px">Planning hebdomadaire</div>
           <div style="font-size:14px;color:var(--wlf-text-muted)">Scrims, entraînements, tournois et VOD Review organisés semaine par semaine</div>
@@ -2286,7 +2267,7 @@ footer {
       </div>
 
       <div style="background:var(--wlf-panel);border:1px solid var(--wlf-border);padding:24px 28px;position:relative;overflow:hidden;display:flex;align-items:center;gap:20px">
-        <div style="width:48px;height:48px;background:rgba(212,160,23,0.1);border:1px solid var(--wlf-border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">👥</div>
+        <div style="width:48px;height:48px;background:rgba(139,92,246,0.1);border:1px solid var(--wlf-border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">👥</div>
         <div>
           <div style="font-family:var(--font-display);font-weight:800;font-size:16px;color:var(--wlf-text);margin-bottom:4px">Roster Principal & Académie</div>
           <div style="font-size:14px;color:var(--wlf-text-muted)">Deux rosters distincts sur Valorant et Rocket League avec leur propre planning</div>
@@ -2295,7 +2276,7 @@ footer {
       </div>
 
       <div style="background:var(--wlf-panel);border:1px solid var(--wlf-border);padding:24px 28px;position:relative;overflow:hidden;display:flex;align-items:center;gap:20px">
-        <div style="width:48px;height:48px;background:rgba(212,160,23,0.1);border:1px solid var(--wlf-border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🔒</div>
+        <div style="width:48px;height:48px;background:rgba(139,92,246,0.1);border:1px solid var(--wlf-border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🔒</div>
         <div>
           <div style="font-family:var(--font-display);font-weight:800;font-size:16px;color:var(--wlf-text);margin-bottom:4px">Accès sécurisé</div>
           <div style="font-size:14px;color:var(--wlf-text-muted)">Connexion email + mot de passe · Rôles Coach, Fondateur, Admin et Joueur</div>
@@ -2304,7 +2285,7 @@ footer {
       </div>
 
       <div style="background:var(--wlf-panel);border:1px solid var(--wlf-border);padding:24px 28px;position:relative;overflow:hidden;display:flex;align-items:center;gap:20px">
-        <div style="width:48px;height:48px;background:rgba(212,160,23,0.1);border:1px solid var(--wlf-border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">✏️</div>
+        <div style="width:48px;height:48px;background:rgba(139,92,246,0.1);border:1px solid var(--wlf-border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">✏️</div>
         <div>
           <div style="font-family:var(--font-display);font-weight:800;font-size:16px;color:var(--wlf-text);margin-bottom:4px">Gestion du planning</div>
           <div style="font-size:14px;color:var(--wlf-text-muted)">Coach et Fondateur peuvent modifier le planning en temps réel</div>
@@ -2338,7 +2319,7 @@ footer {
       </div>
       <div class="discord-members">
         <div style="font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:2px;padding:8px;font-family:var(--font-mono)">STAFF</div>
-        <div class="discord-member"><div class="member-avatar" style="--av-bg:#D4A017">👑</div><div class="member-name">Fondateur WLF</div><div class="member-role">Staff</div></div>
+        <div class="discord-member"><div class="member-avatar" style="--av-bg:#8B5CF6">👑</div><div class="member-name">Fondateur WLF</div><div class="member-role">Staff</div></div>
         <div class="discord-member"><div class="member-avatar" style="--av-bg:#C0392B">⚡</div><div class="member-name">Manager WLF</div><div class="member-role">Staff</div></div>
         <div style="font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:2px;padding:8px;font-family:var(--font-mono)">MEMBRES</div>
         <div class="discord-member" style="opacity:0.4;font-style:italic"><div class="member-avatar" style="--av-bg:#333;--st-color:#747F8D">?</div><div class="member-name">En attente de membres...</div></div>
@@ -2357,11 +2338,8 @@ footer {
     <div class="footer-top">
       <div class="footer-brand">
         <div style="display:flex;align-items:center;gap:12px">
-          <svg viewBox="0 0 44 44" width="40" height="40">
-            <polygon points="22,2 40,12 40,32 22,42 4,32 4,12" fill="none" stroke="#D4A017" stroke-width="1.5"/>
-            <text x="22" y="27" text-anchor="middle" fill="#D4A017" font-family="Exo 2" font-weight="900" font-size="12">WLF</text>
-          </svg>
-          <span style="font-family:var(--font-display);font-weight:900;font-size:20px;letter-spacing:4px;background:linear-gradient(135deg,#FFD04D,#D4A017);-webkit-background-clip:text;-webkit-text-fill-color:transparent">WLF ESPORT</span>
+          <img src="logo_wlf.png" alt="WLF Esport" style="width:50px;height:50px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(139,92,246,0.7))">
+          <span style="font-family:var(--font-display);font-weight:900;font-size:20px;letter-spacing:4px;background:linear-gradient(135deg,#C084FC,#8B5CF6);-webkit-background-clip:text;-webkit-text-fill-color:transparent">WLF ESPORT</span>
         </div>
         <p>We Lead The Future — Organisation esport française fondée en 2026. Compétition, excellence et passion au service des champions de demain.</p>
       </div>
@@ -2577,7 +2555,7 @@ function deleteCandidature(id) {
 
 // ─── DISCORD WEBHOOK ───
 async function sendDiscordWebhook(cand, type = 'new') {
-  const colors = { new: 0xD4A017, accepted: 0x2ECC71, rejected: 0xE74C3C };
+  const colors = { new: 0x8B5CF6, accepted: 0x2ECC71, rejected: 0xE74C3C };
   const titles = {
     new: '🎮 Nouvelle candidature WLF !',
     accepted: '✅ Candidature ACCEPTÉE',
@@ -2641,8 +2619,8 @@ function switchTeam(btn, panelId) {
 // ─── LOAD PLAYERS FROM SUPABASE ───
 const GAME_EMOJIS = { 'Valorant': '🎯', 'Rocket League': '🚀' };
 const GAME_COLORS = {
-  'Valorant': ['rgba(212,160,23,0.15)','rgba(231,76,60,0.12)','rgba(88,101,242,0.12)','rgba(46,204,113,0.12)','rgba(212,160,23,0.12)'],
-  'Rocket League': ['rgba(88,101,242,0.15)','rgba(212,160,23,0.12)','rgba(46,204,113,0.12)']
+  'Valorant': ['rgba(139,92,246,0.15)','rgba(231,76,60,0.12)','rgba(88,101,242,0.12)','rgba(46,204,113,0.12)','rgba(139,92,246,0.12)'],
+  'Rocket League': ['rgba(88,101,242,0.15)','rgba(139,92,246,0.12)','rgba(46,204,113,0.12)']
 };
 
 function buildPlayerCard(player, index, game) {
@@ -2671,7 +2649,7 @@ function buildPlayerCard(player, index, game) {
 function buildEmptyCard() {
   return `
     <div class="player-card" style="border-style:dashed;opacity:0.4;cursor:default">
-      <div class="player-img-bg" style="background:rgba(212,160,23,0.03)">
+      <div class="player-img-bg" style="background:rgba(139,92,246,0.03)">
         <div class="player-avatar" style="font-size:36px">➕</div>
         <div class="player-role-badge">RECRUTEMENT</div>
       </div>
