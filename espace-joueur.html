@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Espace Joueur — WLF Esport</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
 :root{--gold:#8B5CF6;--gold-bright:#C084FC;--gold-dark:#5B21B6;--red-bright:#E74C3C;--black:#080810;--dark:#0D0D1A;--panel:#11111F;--card:#16162A;--border:rgba(139,92,246,0.2);--border-glow:rgba(139,92,246,0.5);--text:#E8E8F0;--text-muted:#7A7A9A;--text-faint:#3A3A5C;--font-d:'Exo 2',sans-serif;--font-b:'Rajdhani',sans-serif;--font-m:'JetBrains Mono',monospace;--coach:#E74C3C;--fondateur:#C084FC;--admin:#9B59B6;--joueur:#2ECC71;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -425,9 +425,14 @@ const DAYS=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
 let currentUser=null,currentProfile=null,currentGame='valorant',currentTeam='Principal',currentWeekOffset=0,editingSlot=null,selectedType='training',planningCache={};
 
 async function init(){
-  const{data:{session}}=await sb.auth.getSession();
-  if(session){currentUser=session.user;await loadProfile();showDash();}
-  else showAuth();
+  try {
+    const{data:{session}}=await sb.auth.getSession();
+    if(session){currentUser=session.user;await loadProfile();showDash();}
+    else showAuth();
+  } catch(e) {
+    console.error('Erreur init:', e);
+    showAuth();
+  }
   document.getElementById('pageLoading').style.display='none';
 }
 
