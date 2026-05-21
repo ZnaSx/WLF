@@ -686,9 +686,14 @@ function showToast(title,text){
   const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),4000);
 }
 
-document.getElementById('eventModal').addEventListener('click',e=>{if(e.target===document.getElementById('eventModal'))closeModal();});
-document.getElementById('matchModal').addEventListener('click',e=>{if(e.target===document.getElementById('matchModal'))closeMatchModal();});
-document.getElementById('actuModal').addEventListener('click',e=>{if(e.target===document.getElementById('actuModal'))closeActuModal();});
+document.addEventListener('DOMContentLoaded', () => {
+  const em = document.getElementById('eventModal');
+  const mm = document.getElementById('matchModal');
+  const am = document.getElementById('actuModal');
+  if(em) em.addEventListener('click',e=>{if(e.target===em)closeModal();});
+  if(mm) mm.addEventListener('click',e=>{if(e.target===mm)closeMatchModal();});
+  if(am) am.addEventListener('click',e=>{if(e.target===am)closeActuModal();});
+});
 // ── MATCHS ──
 let editingMatch=null;
 let editingActu=null;
